@@ -1,4 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="true" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Day" representedClassName=".Day" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="628861620" usesScalarValueType="NO"/>
+        <relationship name="plannedMeals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="day" inverseEntity="PlannedMeal"/>
+    </entity>
+    <entity name="Food" representedClassName=".Food" syncable="YES" codeGenerationType="class">
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FoodGroup" inverseName="foods" inverseEntity="FoodGroup"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="food" inverseEntity="Ingredient"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="foods" inverseEntity="Season"/>
+        <relationship name="serveSizes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ServeSize" inverseName="food" inverseEntity="ServeSize"/>
+    </entity>
+    <entity name="FoodGroup" representedClassName=".FoodGroup" syncable="YES" codeGenerationType="class">
+        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="foods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Food" inverseName="categories" inverseEntity="Food"/>
+    </entity>
+    <entity name="Ingredient" representedClassName=".Ingredient" syncable="YES" codeGenerationType="class">
+        <attribute name="optional" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="quantity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="serves" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Food" inverseName="ingredients" inverseEntity="Food"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="ingredients" inverseEntity="Recipe"/>
+        <relationship name="serveSize" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ServeSize" inverseName="ingredients" inverseEntity="ServeSize"/>
+    </entity>
+    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="628989720" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+    </entity>
+    <entity name="Meal" representedClassName=".Meal" syncable="YES" codeGenerationType="class">
+        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="plannedMeals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="meal" inverseEntity="PlannedMeal"/>
+        <relationship name="recipes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="meals" inverseEntity="Recipe"/>
+    </entity>
+    <entity name="PlannedMeal" representedClassName=".CurrentMenu" syncable="YES" codeGenerationType="class">
+        <attribute name="portions" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="plannedMeals" inverseEntity="Day"/>
+        <relationship name="meal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Meal" inverseName="plannedMeals" inverseEntity="Meal"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="currentMenu" inverseEntity="Recipe"/>
+        <relationship name="savedPlan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SavedPlan" inverseName="plannedMeals" inverseEntity="SavedPlan"/>
+    </entity>
+    <entity name="Recipe" representedClassName=".Recipe" syncable="YES" codeGenerationType="class">
+        <attribute name="featuredIngredients" attributeType="String" defaultValueString=""/>
+        <attribute name="method" optional="YES" attributeType="String"/>
+        <attribute name="methodImg" optional="YES" attributeType="String"/>
+        <attribute name="portion" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="currentMenu" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="recipe" inverseEntity="PlannedMeal"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Ingredient" inverseName="recipe" inverseEntity="Ingredient"/>
+        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meal" inverseName="recipes" inverseEntity="Meal"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="recipes" inverseEntity="Season"/>
+    </entity>
+    <entity name="SavedPlan" representedClassName=".SavedMenu" syncable="YES" codeGenerationType="class">
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="plannedMeals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="savedPlan" inverseEntity="PlannedMeal"/>
+    </entity>
+    <entity name="Season" representedClassName=".Season" syncable="YES" codeGenerationType="class">
+        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="foods" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Food" inverseName="seasons" inverseEntity="Food"/>
+        <relationship name="recipes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="seasons" inverseEntity="Recipe"/>
+    </entity>
+    <entity name="ServeSize" representedClassName=".ServeSize" syncable="YES" codeGenerationType="class">
+        <attribute name="quantity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="unit" attributeType="String" defaultValueString=""/>
+        <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Food" inverseName="serveSizes" inverseEntity="Food"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="serveSize" inverseEntity="Ingredient"/>
+    </entity>
+    <elements>
+        <element name="Day" positionX="245.171875" positionY="1.81640625" width="128" height="73"/>
+        <element name="Food" positionX="-110.0859375" positionY="-362.62109375" width="128" height="118"/>
+        <element name="FoodGroup" positionX="96.94921875" positionY="-443.80859375" width="128" height="88"/>
+        <element name="Ingredient" positionX="-282.58984375" positionY="-277.3671875" width="128" height="133"/>
+        <element name="Item" positionX="206.796875" positionY="161.84375" width="128" height="73"/>
+        <element name="Meal" positionX="-210.9765625" positionY="113.890625" width="128" height="103"/>
+        <element name="PlannedMeal" positionX="72.9609375" positionY="1.87109375" width="128" height="118"/>
+        <element name="Recipe" positionX="-243.625" positionY="-105.6328125" width="128" height="178"/>
+        <element name="SavedPlan" positionX="11.6484375" positionY="173.01953125" width="128" height="73"/>
+        <element name="Season" positionX="136.00390625" positionY="-300.13671875" width="128" height="103"/>
+        <element name="ServeSize" positionX="113.96875" positionY="-171.53515625" width="128" height="103"/>
+    </elements>
 </model>
