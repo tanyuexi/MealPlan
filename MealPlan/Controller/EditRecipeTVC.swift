@@ -49,7 +49,15 @@ class EditRecipeTVC: UITableViewController {
         } else {
             setBarButton(deleteButton, false)
         }
+    }
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        ingredientCollectionView.reloadData()
+        seasons = Array(self.updateRecipeSeason(from: ingredientsByTitle)).sorted(by: {$0.order < $1.order})
+        updateSeasonLabel()
         verifyData()
     }
     
@@ -198,7 +206,7 @@ extension EditRecipeTVC: UICollectionViewDataSource {
         
         let ingredient = ingredientsByTitle[indexPath.row]
         cell.titleLabel.text = ingredient.food!.title
-        cell.detailLabel.text = "\(limitDigits(ingredient.quantity)) \(ingredient.serveSize!.unit!)"
+        cell.detailLabel.text = "\(limitDigits(ingredient.quantity)) \(ingredient.unit!)"
         
         return cell
     }
@@ -246,9 +254,7 @@ extension EditRecipeTVC {
                 default:
                     print("operationString: \(operationString)")
                 }
-                self.ingredientCollectionView.reloadData()
-                self.seasons = Array(self.updateRecipeSeason(from: self.ingredientsByTitle)).sorted(by: {$0.order < $1.order})
-                self.updateSeasonLabel()
+
             }
         }
      }

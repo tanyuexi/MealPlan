@@ -14,14 +14,14 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     var selectedIngredient: Ingredient?
     var selectedFood: Food?
     var completionHandler: ((Ingredient, String) -> Void)?
-    var unitArray: [ServeSize] = []
+    var unitArray: [String] = []
 
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var foodEditButton: UIButton!
     @IBOutlet weak var confirmLabel: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var foodGroupLabel: UILabel!
     @IBOutlet weak var seasonLabel: UILabel!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var unitCollectionView: UICollectionView!
@@ -66,25 +66,25 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     func verifyData(){
         var valid = true
         confirmLabel.text = ""
-        categoryLabel.text = ""
+        foodGroupLabel.text = ""
         seasonLabel.text = ""
         
         if let food = selectedFood {
             foodEditButton.setTitle(food.title, for: .normal)
-            categoryLabel.text = (food.categories!.allObjects as! [FoodGroup]).map({$0.title!}).joined(separator: ", ")
-            seasonLabel.text = (food.seasons!.allObjects as! [Season]).map({$0.title!}).joined(separator: ", ")
-            unitArray = food.serveSizes?.allObjects as! [ServeSize]
-            unitArray.sort(by: {$0.unit! < $1.unit!})
+            let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
+            foodGroupLabel.text = getFoodGroupInfo(from: serveSizes)
+            seasonLabel.text = getSeasonInfo(from: food.seasons!.allObjects as! [Season])
+            unitArray = Array(Set(serveSizes.map({$0.unit!})))
+            unitArray.sort()
         } else {
             confirmLabel.text! += NSLocalizedString("Unchosen food. ", comment: "confirm")
             valid = false
         }
 
         if let q = Double(quantityTextField.text!),
-            let i = unitCollectionView.indexPathsForSelectedItems?.first,
-            let u = unitArray[i.row].unit {
+            let i = unitCollectionView.indexPathsForSelectedItems?.first {
 
-            confirmLabel.text! += "\(limitDigits(q)) \(u). "
+            confirmLabel.text! += "\(limitDigits(q)) \(unitArray[i.row]). "
 
         } else if Double(quantityTextField.text!) == nil {
             confirmLabel.text! += NSLocalizedString("Invalid quantity. ", comment: "confirm")
@@ -98,32 +98,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             confirmLabel.text! += NSLocalizedString("Optional. ", comment: "confirm")
         }
 
-        if valid {
-            saveButton.isEnabled = true
-        } else {
-            saveButton.isEnabled = false
-        }
-    }
-
-
-    func getFoodByTitle(_ title: String) -> Food? {
-        var foodByTitle: [Food] = []
-        let request : NSFetchRequest<Food> = Food.fetchRequest()
-        request.predicate = NSPredicate(format: "title == %@", title)
-
-        do{
-            foodByTitle = try K.context.fetch(request)
-        } catch {
-            print("Error loading Food \(error)")
-        }
-        return foodByTitle.first
-    }
-
-    func selectUnit(_ indexPath: IndexPath){
-        unitCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
-        let cell = unitCollectionView.cellForItem(at: indexPath) as! CollectionCell
-        cell.isSelected = true
-        unitCollectionView.delegate?.collectionView?(unitCollectionView, didSelectItemAt: indexPath)
+        saveButton.isEnabled = valid
     }
 
     
@@ -159,7 +134,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
 
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
 
-        let serveSize = unitArray[unitCollectionView.indexPathsForSelectedItems!.first!.row]
+        let unit = unitArray[unitCollectionView.indexPathsForSelectedItems!.first!.row]
         let optional = (optionalSegControl.selectedSegmentIndex == 0)
         let ingredientQuantity = Double(quantityTextField.text!) ?? 0
         var operationString = ""
@@ -176,10 +151,12 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             operationString = K.operationAdd
         }
         ingredient.food = selectedFood
-        ingredient.serveSize = serveSize
+        ingredient.unit = unit
         ingredient.optional = optional
         ingredient.quantity = ingredientQuantity
-        ingredient.serves = ingredientQuantity / serveSize.quantity
+        let serveSizes = selectedFood?.serveSizes?.allObjects as! [ServeSize]
+        let minServeSize = serveSizes.filter({$0.unit! == unit}).sorted(by: {$0.quantity < $1.quantity}).first!
+        ingredient.maxServes = ingredientQuantity / minServeSize.quantity
 
         completionHandler?(ingredient, operationString)
         saveContext()
@@ -209,10 +186,10 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = unitCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
-        let serveSize = unitArray[indexPath.row]
-        cell.titleLabel.text = serveSize.unit
+        let unit = unitArray[indexPath.row]
+        cell.titleLabel.text = unit
         cell.detailLabel.text = ""
-        if serveSize == selectedIngredient?.serveSize {
+        if unit == selectedIngredient?.unit {
             unitCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
             cell.isSelected = true
             unitCollectionView.delegate?.collectionView?(unitCollectionView, didSelectItemAt: indexPath)

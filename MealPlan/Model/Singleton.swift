@@ -12,7 +12,7 @@ class S {
     static let dt = S()
     var mealArray: [Meal] = []
     var seasonArray: [Season] = []
-    var foodgroupArray: [FoodGroup] = []
+    var foodGroupArray: [FoodGroup] = []
     var northHemisphere: Bool = true
     var days: Double = 0
 }

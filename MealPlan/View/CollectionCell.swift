@@ -19,8 +19,8 @@ class CollectionCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             self.bgView.backgroundColor = isSelected ? UIColor.link : UIColor.clear
-            self.detailLabel.textColor = isSelected ? UIColor.white : UIColor.label
-            self.titleLabel.textColor = isSelected ? UIColor.white : UIColor.label
+            self.detailLabel.textColor = isSelected ? UIColor.white : UIColor.link
+            self.titleLabel.textColor = isSelected ? UIColor.white : UIColor.link
         }
     }
     

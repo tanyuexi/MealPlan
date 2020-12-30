@@ -14,7 +14,6 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     var selectedFood: Food?
     var completionHandler: ((Food, String) -> Void)?
     
-    var categoryButtons: [UIButton] = []
     var seasonButtons: [UIButton] = []
     var serveSizeArray: [ServeSize] = []
     
@@ -23,18 +22,12 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     @IBOutlet weak var confirmLabel: UILabel!
     @IBOutlet weak var quickFillButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var vegetableButton: UIButton!
-    @IBOutlet weak var fruitButton: UIButton!
-    @IBOutlet weak var proteinButton: UIButton!
-    @IBOutlet weak var grainButton: UIButton!
-    @IBOutlet weak var calciumButton: UIButton!
-    @IBOutlet weak var oilButton: UIButton!
-    @IBOutlet weak var otherButton: UIButton!
     @IBOutlet weak var springButton: UIButton!
     @IBOutlet weak var summerButton: UIButton!
     @IBOutlet weak var autumnButton: UIButton!
     @IBOutlet weak var winterButton: UIButton!
     @IBOutlet weak var serveSizeCollectionView: UICollectionView!
+    @IBOutlet weak var foodGroupLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +36,6 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         serveSizeCollectionView.dataSource = self
         serveSizeCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
         
-        categoryButtons = [vegetableButton, fruitButton, proteinButton, grainButton, calciumButton, oilButton, otherButton]
         seasonButtons = [springButton, summerButton, autumnButton, winterButton]
         
         if let food = selectedFood {
@@ -58,27 +50,19 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         verifyData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        verifyData()
+        onServeSizeUpdated()
+    }
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    //MARK: - IBAction
     
     @IBAction func quickFillButtonPressed(_ sender: UIButton) {
     }
     
     @IBAction func textFieldEditingDidEnd(_ sender: UITextField) {
-        verifyData()
-    }
-    
-    @IBAction func categoryButtonPressed(_ sender: UIButton) {
-        sender.isSelected.toggle()
         verifyData()
     }
     
@@ -88,13 +72,12 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     }
     
     @IBAction func addServeSizeButtonPressed(_ sender: UIButton) {
-        editServeSize(nil)
+        performSegue(withIdentifier: "GoToEditServeSize", sender: nil)
     }
     
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         
-        let categories = NSSet(array: categoryButtons.filter({$0.isSelected}).map({$0.tag}).map({S.dt.foodgroupArray[$0]}))
         let seasons = NSSet(array: seasonButtons.filter({$0.isSelected}).map({$0.tag}).map({S.dt.seasonArray[$0]}))
         var operationString = ""
 
@@ -103,6 +86,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         if selectedFood == nil {
             food = Food(context: K.context)
             food.seasons = seasons
+            food.title = titleTextField.text
             operationString = K.operationAdd
         } else {
             food = selectedFood
@@ -136,7 +120,6 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             
         }
         
-        food.categories = categories
         food.serveSizes = NSSet(array: serveSizeArray)
         completionHandler?(food, operationString)
         saveContext()
@@ -167,9 +150,8 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         let cell = serveSizeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
         
         let serveSize = serveSizeArray[indexPath.row]
-        cell.titleLabel.text = serveSize.unit
+        cell.titleLabel.text = serveSize.unit! + " (\(serveSize.foodGroup!.title!))"
         cell.detailLabel.text = limitDigits(serveSize.quantity)
-        
         
         return cell
     }
@@ -177,98 +159,28 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        editServeSize(indexPath.row)
+        performSegue(withIdentifier: "GoToEditServeSize", sender: nil)
         serveSizeCollectionView.deselectItem(at: indexPath, animated: true)
     }
     
     //MARK: - Custom functions
-    
-    func editServeSize(_ row: Int?){
-        var quantityTextField = UITextField()
-        var unitTextField = UITextField()
-        
-        let alert = UIAlertController(title: NSLocalizedString("Edit Unit", comment: "alert"), message: NSLocalizedString("Specify serve size (quantity and unit for 1 serve) for this unit. If having trouble, try 'Quick Fill'.", comment: "alert"), preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel )
-        
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive ) { (action) in
-            
-            let serveSize = self.serveSizeArray[row!]
-            if serveSize.ingredients?.count == 0 {
-                self.serveSizeArray.remove(at: row!)
-                self.serveSizeCollectionView.reloadData()
-                K.context.delete(serveSize)
-                self.saveContext()
-                
-            } else {
-                self.notifyMessage(NSLocalizedString("Failed to delete serve size. There are ingredients depending on it.", comment: "alert"))
-            }
-        }
-        
-        let confirmAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            
-            if Double(quantityTextField.text!) != nil,
-                unitTextField.text != "" {
-                
-                let serveSize: ServeSize!
-                if row == nil {
-                    serveSize = ServeSize(context: K.context)
-                    self.serveSizeArray.append(serveSize)
-                } else {
-                    serveSize = self.serveSizeArray[row!]
-                }
-                serveSize.quantity = Double(quantityTextField.text!) ?? 0
-                serveSize.unit = unitTextField.text!
-                self.serveSizeArray.sort{$0.unit! < $1.unit!}
-                self.serveSizeCollectionView.reloadData()
-                self.saveContext()
-                
-            } else {
-                self.notifyMessage(NSLocalizedString("Failed to add new unit. Invalid quantity/unit.", comment: "alert"))
-            }
-        }
-        
-        alert.addTextField { (alertTextField) in
-            if row != nil {
-                alertTextField.text = self.limitDigits(self.serveSizeArray[row!].quantity)
-            }
-            alertTextField.placeholder = "quantity"
-            alertTextField.keyboardType = .decimalPad
-            quantityTextField = alertTextField
-        }
-        
-        alert.addTextField { (alertTextField) in
-            if row != nil {
-                alertTextField.text = self.serveSizeArray[row!].unit
-            }
-            alertTextField.placeholder = "unit"
-            unitTextField = alertTextField
-        }
-        
-        
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        if row != nil {
-            alert.addAction(deleteAction)
-        }
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
+
     
     func loadDataToForm(_ data: Food){
         titleTextField.text = data.title
-        for i in data.categories!.allObjects as! [FoodGroup] {
-            categoryButtons[Int(i.order)].isSelected = true
-        }
         for i in data.seasons!.allObjects as! [Season] {
             seasonButtons[Int(i.order)].isSelected = true
         }
         serveSizeArray = data.serveSizes?.allObjects as! [ServeSize]
         serveSizeArray.sort{$0.unit! < $1.unit!}
-        serveSizeCollectionView.reloadData()
+        onServeSizeUpdated()
     }
     
+    
+    func onServeSizeUpdated(){
+        serveSizeCollectionView.reloadData()
+        foodGroupLabel.text = getFoodGroupInfo(from: serveSizeArray)
+    }
     
     func verifyData(){
         var valid = true
@@ -279,20 +191,47 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             valid = false
         }
         
-        if categoryButtons.allSatisfy({$0.isSelected == false}) {
-            confirmLabel.text! += NSLocalizedString("Missing category(ies). ", comment: "confirm")
+        if serveSizeArray.count == 0 {
+            confirmLabel.text! += NSLocalizedString("Missing serve size(s). ", comment: "confirm")
             valid = false
         }
         
-        if seasonButtons.allSatisfy({$0.isSelected == false}) {
-            confirmLabel.text! += NSLocalizedString("Missing season(s). ", comment: "confirm")
-            valid = false
+            if seasonButtons.allSatisfy({$0.isSelected == false}) {
+                confirmLabel.text! += NSLocalizedString("Missing season(s). ", comment: "confirm")
+                valid = false
+            }
+            
+            saveButton.isEnabled = valid
         }
         
-        if valid {
-            saveButton.isEnabled = true
-        } else {
-            saveButton.isEnabled = false
+        
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "GoToEditServeSize",
+            let vc = segue.destination as? EditServeSizeTVC {
+            
+            if let indexPath = serveSizeCollectionView.indexPathsForSelectedItems?.first {
+                vc.selectedServeSize = serveSizeArray[indexPath.row]
+            }
+            vc.completionHandler = {serveSize, operationString in
+                switch operationString {
+                case K.operationDelete:
+                    self.serveSizeArray.remove(at: self.serveSizeCollectionView.indexPathsForSelectedItems!.first!.row)
+                case K.operationAdd:
+                    self.serveSizeArray.append(serveSize)
+                    self.serveSizeArray.sort{$0.unit! < $1.unit!}
+                case K.operationUpdate:
+                    self.serveSizeArray.sort{$0.unit! < $1.unit!}
+                default:
+                    print(operationString)
+                }
+            }
         }
     }
+    
 }
+
+

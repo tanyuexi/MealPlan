@@ -106,7 +106,7 @@ extension UIViewController {
     func updateRecipeFeaturedIngredients(of recipe: Recipe){
         if let ingredients = recipe.ingredients?.allObjects as? [Ingredient] {
             
-            let ingredientByServes = ingredients.sorted{$0.serves > $1.serves}
+            let ingredientByServes = ingredients.sorted{$0.maxServes > $1.maxServes}
             recipe.featuredIngredients = ingredientByServes.map{$0.food!.title!}.joined(separator: ", ")
         }
     }
@@ -135,8 +135,8 @@ extension UIViewController {
         }
         
         // foodgroup
-        loadFoodGroup(to: &S.dt.foodgroupArray)
-        if S.dt.foodgroupArray.count == 0 {
+        loadFoodGroup(to: &S.dt.foodGroupArray)
+        if S.dt.foodGroupArray.count == 0 {
             let filePath = Bundle.main.path(forResource: "FoodGroup", ofType: "tsv")
             
             if freopen(filePath, "r", stdin) == nil {
@@ -148,7 +148,7 @@ extension UIViewController {
                 let newData = FoodGroup(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
-                S.dt.foodgroupArray.append(newData)
+                S.dt.foodGroupArray.append(newData)
             }
             fclose(stdin)
             saveContext()
@@ -189,8 +189,8 @@ extension UIViewController {
     
     func loadMeal(to array: inout [Meal]) {
         let request : NSFetchRequest<Meal> = Meal.fetchRequest()
-        let sortByTag = NSSortDescriptor(key: "order", ascending: true)
-        request.sortDescriptors = [sortByTag]
+        let sortBy = NSSortDescriptor(key: "order", ascending: true)
+        request.sortDescriptors = [sortBy]
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -200,8 +200,8 @@ extension UIViewController {
     
     func loadFoodGroup(to array: inout [FoodGroup]) {
         let request : NSFetchRequest<FoodGroup> = FoodGroup.fetchRequest()
-        let sortByTag = NSSortDescriptor(key: "order", ascending: true)
-        request.sortDescriptors = [sortByTag]
+        let sortBy = NSSortDescriptor(key: "order", ascending: true)
+        request.sortDescriptors = [sortBy]
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -211,8 +211,8 @@ extension UIViewController {
     
     func loadSeason(to array: inout [Season]) {
         let request : NSFetchRequest<Season> = Season.fetchRequest()
-        let sortByTag = NSSortDescriptor(key: "order", ascending: true)
-        request.sortDescriptors = [sortByTag]
+        let sortBy = NSSortDescriptor(key: "order", ascending: true)
+        request.sortDescriptors = [sortBy]
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -222,8 +222,8 @@ extension UIViewController {
     
     func loadRecipe(to array: inout [Recipe]) {
         let request : NSFetchRequest<Recipe> = Recipe.fetchRequest()
-        let sortByTitle = NSSortDescriptor(key: "title", ascending: true)
-        request.sortDescriptors = [sortByTitle]
+        let sortBy = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [sortBy]
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -240,8 +240,14 @@ extension UIViewController {
         }
     }
     
-    func loadServeSize(to array: inout [ServeSize]) {
+
+    func loadServeSize(to array: inout [ServeSize], predicates: [NSPredicate] = []) {
         let request : NSFetchRequest<ServeSize> = ServeSize.fetchRequest()
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        //let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        //let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        let sortBy = NSSortDescriptor(key: "quantity", ascending: true)
+        request.sortDescriptors = [sortBy]
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -422,6 +428,19 @@ extension UIViewController {
         }
         
     }
+    
+    //MARK: - undefined
+    
+    func getFoodGroupInfo(from serveSizes: [ServeSize]) -> String {
+        let foodGroups = Array(Set(serveSizes.map({$0.foodGroup!})))
+        return foodGroups.sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: ", ")
+    }
+    
+    func getSeasonInfo(from seasons: [Season]) -> String {
+        let seasonStrings = seasons.sorted(by: {$0.order < $1.order}).map({$0.title!})
+        return seasonStrings.joined(separator: ", ")
+    }
+    
     //
     //
     //    //MARK: - UI handling

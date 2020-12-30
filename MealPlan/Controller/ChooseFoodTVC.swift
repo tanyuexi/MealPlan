@@ -53,8 +53,8 @@ class ChooseFoodTVC: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell", for: indexPath)
             let food = foodArray[indexPath.row]
             cell.textLabel?.text = food.title
-            let foodGroups = (food.categories!.allObjects as! [FoodGroup]).map({$0.title!})
-            cell.detailTextLabel?.text = foodGroups.joined(separator: ", ")
+            let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
+            cell.detailTextLabel?.text = getFoodGroupInfo(from: serveSizes)
             
             return cell
         }
