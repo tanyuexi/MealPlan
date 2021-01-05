@@ -20,16 +20,16 @@ struct K {
     
     static let foodGroup = ["Vegetable", "Fruit", "Protein", "Grain", "Calcium", "Oil", "Other"]
     static let meals = [
-        "1 breakfast": NSLocalizedString("🥣Breakfast", comment: "meals"),
-        "2 morningTea": NSLocalizedString("☕️Morning Tea", comment: "meals"),
-        "3 lunch": NSLocalizedString("🥪Lunch", comment: "meals"),
-        "4 afternoonTea": NSLocalizedString("🍺Afternoon Tea", comment: "meals"),
-        "5 dinner": NSLocalizedString("🍽Dinner", comment: "meals")
+        "1 breakfast": NSLocalizedString("Breakfast", comment: "meals"),
+        "2 morningTea": NSLocalizedString("Morning Tea", comment: "meals"),
+        "3 lunch": NSLocalizedString("Lunch", comment: "meals"),
+        "4 afternoonTea": NSLocalizedString("Afternoon Tea", comment: "meals"),
+        "5 dinner": NSLocalizedString("Dinner", comment: "meals")
     ]
     
     static let tagColor = UIColor.systemYellow
     
-    static let fieldSeparator = "\t"
+    static let outputFieldSeparator = "\t"
     static let propertyFieldSeparator = "##"
     static let propertyRecordSeparator = "^^"
     

@@ -45,6 +45,7 @@ class SettingsTVC: UITableViewController {
         case [1,2]:
             performSegue(withIdentifier: "GoToChooseFood", sender: self)
         case [2,0]:
+            exportToCsv()
             notifyMessage("Database exported")
         default:
             print()
@@ -67,6 +68,16 @@ class SettingsTVC: UITableViewController {
             }
             vc.existingFoodSeclectedHandler = { food in
                 vc.performSegue(withIdentifier: "GoToEditFood", sender: nil)
+            }
+        } else if segue.identifier == "GoToChooseRecipe",
+            let vc = segue.destination as? ChooseRecipeTVC {
+            
+            vc.newRecipeSelectedHandler = {
+                vc.performSegue(withIdentifier: "GoToEditRecipe", sender: self)
+            }
+            
+            vc.existingRecipeSeclectedHandler = { recipe in
+                vc.performSegue(withIdentifier: "GoToViewRecipe", sender: self)
             }
         }
     }

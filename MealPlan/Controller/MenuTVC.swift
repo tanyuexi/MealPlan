@@ -19,6 +19,13 @@ class MenuTVC: UITableViewController {
         print(getFilePath(directory: true)!)
         initDatabase()
         
+        var foodArray: [Food] = []
+        loadFood(to: &foodArray)
+        if foodArray.count == 0 {
+            importDemoDatabase()
+        }
+        foodArray = []
+        
     }
 
     @IBAction func settingsButtonPressed(_ sender: Any) {

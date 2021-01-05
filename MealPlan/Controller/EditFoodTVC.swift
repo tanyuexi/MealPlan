@@ -47,7 +47,6 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         } else {
             deleteButton.isEnabled = false
         }
-        verifyData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +59,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     //MARK: - IBAction
     
     @IBAction func quickFillButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "GoToChooseFood", sender: nil)
     }
     
     @IBAction func textFieldEditingDidEnd(_ sender: UITextField) {
@@ -80,16 +80,22 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         
         let seasons = NSSet(array: seasonButtons.filter({$0.isSelected}).map({$0.tag}).map({S.dt.seasonArray[$0]}))
         var operationString = ""
-
-        let food: Food!
+        
+        let food = (selectedFood == nil) ? Food(context: K.context) : selectedFood!
+        
+        //modify title if same food exists
+        var foodOfSameTitle: [Food] = []
+        loadFood(to: &foodOfSameTitle, predicate: NSPredicate(format: "title MATCHES[cd] %@", titleTextField.text!))
+        foodOfSameTitle = foodOfSameTitle.filter({$0 != food})
+        if foodOfSameTitle.count > 0 {
+            titleTextField.text! += " - \(foodOfSameTitle.count + 1)"
+        }
         
         if selectedFood == nil {
-            food = Food(context: K.context)
             food.seasons = seasons
             food.title = titleTextField.text
             operationString = K.operationAdd
         } else {
-            food = selectedFood
             operationString = K.operationUpdate
             
             //update related recipe featuredIngredients
@@ -106,23 +112,23 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             
             //update related recipe seasons
             if !food.seasons!.isEqual(to: seasons as! Set<AnyHashable>) {
-                askToConfirmMessage(NSLocalizedString("Change available seasons of this food might affect other recipes. Still want the change?", comment: "alert"), confirmHandler: {action in
-                    
-                    food.seasons = seasons
-                    self.saveContext()
-                    for i in food.ingredients?.allObjects as! [Ingredient] {
-                        if let recipe = i.recipe {
-                            self.updateRecipeSeason(of: recipe)
-                        }
+                
+                food.seasons = seasons
+                saveContext()
+                for i in food.ingredients?.allObjects as! [Ingredient] {
+                    if let recipe = i.recipe {
+                        updateRecipeSeason(of: recipe)
                     }
-                })
+                }
             }
             
         }
         
         food.serveSizes = NSSet(array: serveSizeArray)
-        completionHandler?(food, operationString)
+        
+        cleanUp()
         saveContext()
+        completionHandler?(food, operationString)
         navigationController?.popViewController(animated: true)
     }
     
@@ -173,7 +179,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         }
         serveSizeArray = data.serveSizes?.allObjects as! [ServeSize]
         serveSizeArray.sort{$0.unit! < $1.unit!}
-        onServeSizeUpdated()
+//        onServeSizeUpdated()
     }
     
     
@@ -219,7 +225,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             vc.completionHandler = {serveSize, operationString in
                 switch operationString {
                 case K.operationDelete:
-                    self.serveSizeArray.remove(at: self.serveSizeCollectionView.indexPathsForSelectedItems!.first!.row)
+                    self.serveSizeArray.remove(at: self.serveSizeArray.firstIndex(of: serveSize)!)
                 case K.operationAdd:
                     self.serveSizeArray.append(serveSize)
                     self.serveSizeArray.sort{$0.unit! < $1.unit!}
@@ -229,9 +235,25 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
                     print(operationString)
                 }
             }
+        } else if segue.identifier == "GoToChooseFood",
+            let vc = segue.destination as? ChooseFoodTVC {
+            vc.newFoodSelectedHandler = {
+                vc.notifyMessage(NSLocalizedString("Please choose an existing food.", comment: "alert"))
+            }
+            vc.existingFoodSeclectedHandler = { food in
+//                self.selectedFood = self.deepCopy(from: food)
+                self.titleTextField.text = food.title
+                for i in food.seasons!.allObjects as! [Season] {
+                    self.seasonButtons[Int(i.order)].isSelected = true
+                }
+                self.serveSizeArray = (food.serveSizes?.allObjects as! [ServeSize]).map({self.deepCopy(from: $0)})
+                self.serveSizeArray.sort{$0.unit! < $1.unit!}
+                vc.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
 }
+
 
 

@@ -84,6 +84,107 @@ extension UIViewController {
     
     //MARK: - Core Data
     
+    func exportToCsv(){
+        var foodArray: [Food] = []
+        let fileUrl = getFilePath("Food.tsv")
+        do {
+            try "".write(to: fileUrl!, atomically: true, encoding: .utf8)
+        } catch {
+            print("Error: Unable to write to file \(fileUrl!)")
+        }
+        if let fileUpdater = try? FileHandle(forWritingTo: fileUrl!) {
+            
+            loadFood(to: &foodArray)
+            for f in foodArray {
+                let seasonField = (f.seasons?.allObjects as! [Season]).map({$0.title!}).joined(separator: ";")
+                let serveSizeField = (f.serveSizes?.allObjects as! [ServeSize]).map({
+                    [$0.foodGroup!.title!, limitDigits($0.quantity), $0.unit!].joined(separator: "_")
+                    }).joined(separator: ";")
+                let line = [
+                    f.title!,
+                    seasonField,
+                    serveSizeField,
+                    "\n"
+                ].joined(separator: K.outputFieldSeparator)
+                fileUpdater.write(line.data(using: .utf8)!)
+            }
+            fileUpdater.closeFile()
+        } else {
+            print("Error: Unable to open file handle")
+        }
+
+    }
+    
+    func cleanUp(){
+        var ingredients: [Ingredient] = []
+        loadIngredient(to: &ingredients)
+        for abandoned in ingredients.filter({$0.recipe == nil}) {
+            K.context.delete(abandoned)
+        }
+        ingredients = []
+        
+        var serveSizes: [ServeSize] = []
+        loadServeSize(to: &serveSizes)
+        for abandoned in serveSizes.filter({$0.food == nil}) {
+            K.context.delete(abandoned)
+        }
+        serveSizes = []
+    }
+    
+    func deepCopy(from data: ServeSize) -> ServeSize {
+        let newData = ServeSize(context: K.context)
+        newData.quantity = data.quantity
+        newData.unit = data.unit
+        //newData.food
+        newData.foodGroup = data.foodGroup
+        
+        return newData
+        
+    }
+    
+    func deepCopy(from data: Food) -> Food {
+        let newData = Food(context: K.context)
+        newData.title = data.title
+        //newData.ingredients
+        newData.seasons = data.seasons
+        let serveSizeCopy = (data.serveSizes?.allObjects as! [ServeSize]).map({self.deepCopy(from: $0)})
+        newData.serveSizes = NSSet(array: serveSizeCopy)
+        
+        return newData
+        
+    }
+    
+    func deepCopy(from data: Ingredient) -> Ingredient {
+        let newData = Ingredient(context: K.context)
+        newData.maxServes = data.maxServes
+        newData.optional = data.optional
+        newData.quantity = data.quantity
+        newData.unit = data.unit
+        newData.food = data.food
+//        newData.recipe
+        
+        return newData
+        
+    }
+    
+    func deepCopy(from data: Recipe) -> Recipe {
+        let newData = Recipe(context: K.context)
+        newData.featuredIngredients = data.featuredIngredients
+        newData.method = data.method
+        newData.methodImg = data.methodImg
+        newData.title = data.title
+        newData.portion = data.portion
+//        newData.currentMenu
+        let ingredientCopy = (data.ingredients?.allObjects as! [Ingredient]).map({self.deepCopy(from: $0)})
+        newData.ingredients = NSSet(array: ingredientCopy)
+        newData.meals = data.meals
+        newData.seasons = data.seasons
+        
+        return newData
+        
+    }
+    
+    
     func updateRecipeSeason(of recipe: Recipe) {
         var seasonSet = Set(S.dt.seasonArray)
         
@@ -110,7 +211,56 @@ extension UIViewController {
             recipe.featuredIngredients = ingredientByServes.map{$0.food!.title!}.joined(separator: ", ")
         }
     }
-
+    
+    func importDemoDatabase(){
+        // food
+        let filePath = Bundle.main.path(forResource: "Food", ofType: "tsv")
+        
+        if freopen(filePath, "r", stdin) == nil {
+            perror(filePath)
+        }
+        
+        while let line = readLine() {
+            //fields: 0-name, 1-seasons, 2-serve sizes
+            let fields: [String] = line.components(separatedBy: "\t")
+            let food: Food!
+            var foodArray: [Food] = []
+            loadFood(to: &foodArray, predicate: NSPredicate(format: "title MATCHES[cd] %@", fields[0]))
+            if foodArray.count == 0 {
+                food = Food(context: K.context)
+                food.title = fields[0]
+            } else {
+                food = foodArray.first!
+            }
+            
+            //season
+            let seasonTitles = fields[1].components(separatedBy: ";")
+            let seasons = S.dt.seasonArray.filter({seasonTitles.contains($0.title!)})
+            food.seasons = NSSet(array: seasons)
+            
+            //serve size
+            for serveSize in fields[2].components(separatedBy: ";") {
+                //info: 0-food group, 1-quantity, 2-unit
+                let info = serveSize.components(separatedBy: "_")
+                if let foodGroup = S.dt.foodGroupArray.first(where: {$0.title == info[0]}),
+                    let quantity = Double(info[1]),
+                    info[2] != "" {
+                    
+                    let serveSize = ServeSize(context: K.context)
+                    serveSize.foodGroup = foodGroup
+                    serveSize.quantity = quantity
+                    serveSize.unit = info[2]
+                    serveSize.food = food
+                }
+                
+            }
+            
+        }
+        fclose(stdin)
+        saveContext()
+        
+        //recipe
+    }
     
     func initDatabase(){
         
@@ -220,10 +370,14 @@ extension UIViewController {
         }
     }
     
-    func loadRecipe(to array: inout [Recipe]) {
+    func loadRecipe(to array: inout [Recipe], predicate: NSPredicate? = nil) {
         let request : NSFetchRequest<Recipe> = Recipe.fetchRequest()
         let sortBy = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sortBy]
+        if predicate != nil {
+            //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+            request.predicate = predicate
+        }
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -255,10 +409,14 @@ extension UIViewController {
         }
     }
     
-    func loadFood(to array: inout [Food]) {
+    func loadFood(to array: inout [Food], predicate: NSPredicate? = nil) {
         let request : NSFetchRequest<Food> = Food.fetchRequest()
         let sortByTitle = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sortByTitle]
+        if predicate != nil {
+            //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+            request.predicate = predicate
+        }
         do{
             array = try K.context.fetch(request)
         } catch {

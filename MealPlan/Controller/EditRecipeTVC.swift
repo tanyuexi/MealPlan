@@ -43,7 +43,6 @@ class EditRecipeTVC: UITableViewController {
         ingredientCollectionView.dataSource = self
         ingredientCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
         
-        
         if let recipe = selectedRecipe {
             loadDataToForm(recipe)
         } else {
@@ -56,13 +55,17 @@ class EditRecipeTVC: UITableViewController {
         super.viewWillAppear(animated)
         
         ingredientCollectionView.reloadData()
-        seasons = Array(self.updateRecipeSeason(from: ingredientsByTitle)).sorted(by: {$0.order < $1.order})
+        seasons = Array(updateRecipeSeason(from: ingredientsByTitle)).sorted(by: {$0.order < $1.order})
         updateSeasonLabel()
         verifyData()
     }
     
         
     //MARK: - IBAction
+    
+    @IBAction func quickFillButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "GoToChooseRecipe", sender: nil)
+    }
     
     @IBAction func textFieldEditingDidEnd(_ sender: Any) {
         verifyData()
@@ -137,8 +140,8 @@ class EditRecipeTVC: UITableViewController {
         let ingredients = data.ingredients?.allObjects as! [Ingredient]
         ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
 
-        seasons = data.seasons?.allObjects as! [Season]
-        updateSeasonLabel()
+//        seasons = data.seasons?.allObjects as! [Season]
+//        updateSeasonLabel()
 
         methodTextView.text = data.method
     }
@@ -173,21 +176,7 @@ class EditRecipeTVC: UITableViewController {
         seasonLabel.text = seasons.map({$0.title!}).joined(separator: ", ")
     }
     
-    func cleanUp(){
-        var ingredients: [Ingredient] = []
-        loadIngredient(to: &ingredients)
-        for abandoned in ingredients.filter({$0.recipe == nil}) {
-            K.context.delete(abandoned)
-        }
-        ingredients = []
-        
-        var serveSizes: [ServeSize] = []
-        loadServeSize(to: &serveSizes)
-        for abandoned in serveSizes.filter({$0.food == nil}) {
-            K.context.delete(abandoned)
-        }
-        serveSizes = []
-    }
+    
     
 }
 
@@ -232,8 +221,31 @@ extension EditRecipeTVC {
 
 
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GoToChooseRecipe",
+            let vc = segue.destination as? ChooseRecipeTVC {
+            
+            vc.newRecipeSelectedHandler = {
+                vc.notifyMessage(NSLocalizedString("Please choose an existing recipe.", comment: "alert"))
+            }
+            vc.existingRecipeSeclectedHandler = { recipe in
+//                self.selectedRecipe = self.deepCopy(from: recipe)
+                self.titleTextField.text = recipe.title
+                
+                for i in recipe.meals?.allObjects as! [Meal] {
+                    self.mealsButton[Int(i.order)].isSelected = true
+                }
+                
+                self.peopleTextField.text = String(recipe.portion)
+                
+                let ingredients = (recipe.ingredients?.allObjects as! [Ingredient]).map({self.deepCopy(from: $0)})
+                self.ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
 
-        if segue.identifier == "GoToEditIngredient",
+                self.methodTextView.text = recipe.method
+                vc.navigationController?.popViewController(animated: true)
+            }
+            
+            
+        } else if segue.identifier == "GoToEditIngredient",
             let vc = segue.destination as? EditIngredientTVC {
 
             if let selectedIndexPath = ingredientCollectionView.indexPathsForSelectedItems?.first {
@@ -245,7 +257,7 @@ extension EditRecipeTVC {
                 
                 switch operationString {
                 case K.operationDelete:
-                    self.ingredientsByTitle.remove(at: self.ingredientCollectionView.indexPathsForSelectedItems!.first!.row)
+                    self.ingredientsByTitle.remove(at: self.ingredientsByTitle.firstIndex(of: ingredient)!)
                 case K.operationUpdate:
                     self.ingredientsByTitle.sort{$0.food!.title! < $1.food!.title!}
                 case K.operationAdd:
