@@ -26,12 +26,14 @@ struct K {
         "4 afternoonTea": NSLocalizedString("Afternoon Tea", comment: "meals"),
         "5 dinner": NSLocalizedString("Dinner", comment: "meals")
     ]
+    static let seasonIcon = ["🌱","☀️","🍁","❄️"]
+    static let seasonUnavailableIcon = "✖️"
     
     static let tagColor = UIColor.systemYellow
     
-    static let outputFieldSeparator = "\t"
-    static let propertyFieldSeparator = "##"
-    static let propertyRecordSeparator = "^^"
+    static let level1Separator = "\t"
+    static let level2Separator = "@;"
+    static let level3Separator = "#_"
     
     static let operationAdd = "add"
     static let operationUpdate = "update"

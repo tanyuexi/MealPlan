@@ -87,7 +87,7 @@ class ChooseRecipeTVC: UITableViewController, UISearchControllerDelegate, UISear
             let recipe = filteredFinal[indexPath.row]
             
             cell.textLabel?.text = recipe.title
-            cell.detailTextLabel?.text = recipe.featuredIngredients
+            cell.detailTextLabel?.text = "    \(recipe.seasonLabel!) \(recipe.featuredIngredients!)"
             
             return cell
         }

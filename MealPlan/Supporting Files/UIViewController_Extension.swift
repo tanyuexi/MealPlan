@@ -60,15 +60,15 @@ extension UIViewController {
     
     //MARK: - bar button
     
-    func setBarButton(_ button: UIBarButtonItem, _ toEnable: Bool) {
-        if toEnable {
-            button.tintColor = .none
-            button.isEnabled = true
-        } else {
-            button.tintColor = .systemGray
-            button.isEnabled = false
-        }
-    }
+//    func setBarButton(_ button: UIBarButtonItem, _ toEnable: Bool) {
+//        if toEnable {
+//            button.tintColor = .none
+//            button.isEnabled = true
+//        } else {
+//            button.tintColor = .systemGray
+//            button.isEnabled = false
+//        }
+//    }
     
     //MARK: - plist
     //    func updateDays(_ int: Int){
@@ -84,28 +84,85 @@ extension UIViewController {
     
     //MARK: - Core Data
     
+    func convertDataToStringLine(from food: Food) -> String {
+        let seasonField = (food.seasons?.allObjects as! [Season]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
+        let serveSizeField = (food.serveSizes?.allObjects as! [ServeSize]).sorted(by: {$0.foodGroup!.title! < $1.foodGroup!.title!}).map({
+            [$0.foodGroup!.title!, limitDigits($0.quantity), $0.unit!].joined(separator: K.level3Separator)
+        }).joined(separator: K.level2Separator)
+        let line = [
+            food.title!,
+            seasonField,
+            serveSizeField,
+            "\n"
+        ].joined(separator: K.level1Separator)
+        return line
+    }
+    
+    func convertDataToStringLine(from recipe: Recipe) -> String {
+        //attributes: featureIngr method methodimg portion seasonLabel title currentmenu ingredients meal season
+        let seasonField = (recipe.seasons?.allObjects as! [Season]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
+        let mealField = (recipe.meals?.allObjects as! [Meal]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
+        //maxServe optional quantity unit food recipe
+        let ingredientField = (recipe.ingredients?.allObjects as! [Ingredient]).sorted(by: {$0.food!.title! < $1.food!.title!}).map({
+            [
+                $0.food!.title!,
+                limitDigits($0.maxServes),
+                ($0.optional ? "Yes" : "No"),
+                limitDigits($0.quantity),
+                $0.unit!
+            ].joined(separator: K.level3Separator)
+        }).joined(separator: K.level2Separator)
+        
+        //fields: 0-title, 1-portion, 2-meals, 3-seasons, 4-ingredients, 5-methodimg, 6-methodLink, 7-method
+        let line = [
+            recipe.title ?? "",
+            String(recipe.portion),
+            mealField,
+            seasonField,
+            ingredientField,
+            recipe.methodImg ?? "",
+            recipe.methodLink ?? "",
+            recipe.method ?? "",
+            "\n"
+        ].joined(separator: K.level1Separator)
+        return line
+    }
+    
     func exportToCsv(){
+        //export Food
         var foodArray: [Food] = []
-        let fileUrl = getFilePath("Food.tsv")
+        let foodFileUrl = getFilePath("Food.tsv")
         do {
-            try "".write(to: fileUrl!, atomically: true, encoding: .utf8)
+            try "".write(to: foodFileUrl!, atomically: true, encoding: .utf8)
         } catch {
-            print("Error: Unable to write to file \(fileUrl!)")
+            print("Error: Unable to write to file \(foodFileUrl!)")
         }
-        if let fileUpdater = try? FileHandle(forWritingTo: fileUrl!) {
+        if let fileUpdater = try? FileHandle(forWritingTo: foodFileUrl!) {
             
             loadFood(to: &foodArray)
-            for f in foodArray {
-                let seasonField = (f.seasons?.allObjects as! [Season]).map({$0.title!}).joined(separator: ";")
-                let serveSizeField = (f.serveSizes?.allObjects as! [ServeSize]).map({
-                    [$0.foodGroup!.title!, limitDigits($0.quantity), $0.unit!].joined(separator: "_")
-                    }).joined(separator: ";")
-                let line = [
-                    f.title!,
-                    seasonField,
-                    serveSizeField,
-                    "\n"
-                ].joined(separator: K.outputFieldSeparator)
+            for food in foodArray {
+                let line = convertDataToStringLine(from: food)
+                fileUpdater.write(line.data(using: .utf8)!)
+            }
+            fileUpdater.closeFile()
+        } else {
+            print("Error: Unable to open file handle")
+        }
+        foodArray = []
+        
+        //export Recipe
+        var recipeArray: [Recipe] = []
+        let recipeFileUrl = getFilePath("Recipe.tsv")
+        do {
+            try "".write(to: recipeFileUrl!, atomically: true, encoding: .utf8)
+        } catch {
+            print("Error: Unable to write to file \(recipeFileUrl!)")
+        }
+        if let fileUpdater = try? FileHandle(forWritingTo: recipeFileUrl!) {
+            
+            loadRecipe(to: &recipeArray)
+            for recipe in recipeArray {
+                let line = convertDataToStringLine(from: recipe)
                 fileUpdater.write(line.data(using: .utf8)!)
             }
             fileUpdater.closeFile()
@@ -189,17 +246,21 @@ extension UIViewController {
         var seasonSet = Set(S.dt.seasonArray)
         
         for i in recipe.ingredients?.allObjects as! [Ingredient] {
-            seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
+            if !i.optional {
+                seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
+            }
         }
         recipe.seasons = NSSet(set: seasonSet)
-        
+        recipe.seasonLabel = getSeasonIcon(from: Array(seasonSet))
     }
     
     func updateRecipeSeason(from ingredients: [Ingredient]) -> Set<Season> {
         var seasonSet = Set(S.dt.seasonArray)
         
         for i in ingredients {
-            seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
+            if !i.optional {
+                seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
+            }
         }
         return seasonSet
     }
@@ -207,59 +268,143 @@ extension UIViewController {
     func updateRecipeFeaturedIngredients(of recipe: Recipe){
         if let ingredients = recipe.ingredients?.allObjects as? [Ingredient] {
             
-            let ingredientByServes = ingredients.sorted{$0.maxServes > $1.maxServes}
+            let ingredientByServes = ingredients.filter({$0.optional == false}).sorted{$0.maxServes > $1.maxServes}
             recipe.featuredIngredients = ingredientByServes.map{$0.food!.title!}.joined(separator: ", ")
         }
     }
     
+    func convertStringLineToFood(from line: String) {
+        //fields: 0-name, 1-seasons, 2-serve sizes
+        let fields: [String] = line.components(separatedBy: K.level1Separator)
+        if fields.count < 3 {
+            return
+        }
+        let food: Food!
+        var foodArray: [Food] = []
+        loadFood(to: &foodArray, predicate: NSPredicate(format: "title MATCHES[cd] %@", fields[0]))
+        if foodArray.count == 0 {
+            food = Food(context: K.context)
+            food.title = fields[0]
+        } else {
+            food = foodArray.first!
+        }
+        
+        //season
+        let seasonTitles = fields[1].components(separatedBy: K.level2Separator)
+        let seasons = S.dt.seasonArray.filter({seasonTitles.contains($0.title!)})
+        food.seasons = NSSet(array: seasons)
+        food.seasonLabel = getSeasonIcon(from: seasons)
+        
+        //serve size
+        for serveSize in fields[2].components(separatedBy: K.level2Separator) {
+            //info: 0-food group, 1-quantity, 2-unit
+            let info = serveSize.components(separatedBy: K.level3Separator)
+            if info.count != 3 {
+                continue
+            }
+            if let foodGroup = S.dt.foodGroupArray.first(where: {$0.title == info[0]}),
+                let quantity = Double(info[1]),
+                info[2] != "" {
+                
+                let serveSize = ServeSize(context: K.context)
+                serveSize.foodGroup = foodGroup
+                serveSize.quantity = quantity
+                serveSize.unit = info[2]
+                serveSize.food = food
+                
+            }
+        }
+        let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
+        food.foodGroupLabel = getFoodGroupInfo(from: serveSizes)
+    }
+    
+    
+    
+    func convertStringLineToRecipe(from line: String) {
+        //fields: 0-title, 1-portion, 2-meals, 3-seasons, 4-ingredients, 5-methodimg, 6-methodLink, 7-method
+        let fields: [String] = line.components(separatedBy: K.level1Separator)
+        if fields.count < 8 {
+            return
+        }
+        let recipe: Recipe!
+        var recipeArray: [Recipe] = []
+        loadRecipe(to: &recipeArray, predicate: NSPredicate(format: "title MATCHES[cd] %@", fields[0]))
+        if recipeArray.count == 0 {
+            recipe = Recipe(context: K.context)
+            recipe.title = fields[0]
+        } else {
+            recipe = recipeArray.first!
+        }
+        
+//        recipe.featuredIngredients = fields[1]
+        recipe.portion = Int16(fields[1]) ?? 1
+        recipe.methodImg = fields[5]
+        recipe.methodLink = fields[6]
+        recipe.method = fields[7]
+
+        //meal
+        let mealTitles = fields[2].components(separatedBy: K.level2Separator)
+        let meals = S.dt.mealArray.filter({mealTitles.contains($0.title!)})
+        recipe.meals = NSSet(array: meals)
+        
+        //season
+        let seasonTitles = fields[3].components(separatedBy: K.level2Separator)
+        let seasons = S.dt.seasonArray.filter({seasonTitles.contains($0.title!)})
+        recipe.seasons = NSSet(array: seasons)
+        recipe.seasonLabel = getSeasonIcon(from: seasons)
+        
+        //ingredient
+        for ingredient in fields[4].components(separatedBy: K.level2Separator) {
+            //info: 0-food.title, 1-maxserve, 2-optional, 3-quantity, 4-unit
+            let info = ingredient.components(separatedBy: K.level3Separator)
+            if info.count != 5 {
+                continue
+            }
+            var foodByTitle: [Food] = []
+            loadFood(to: &foodByTitle, predicate: NSPredicate(format: "title MATCHES[cd] %@", info[0]))
+            if let food = foodByTitle.first,
+                let maxServes = Double(info[1]),
+                let quantity = Double(info[3]) {
+                
+                let i = Ingredient(context: K.context)
+                i.food = food
+                i.maxServes = maxServes
+                i.optional = (info[2] == "Yes")
+                i.quantity = quantity
+                i.unit = info[4]
+                i.recipe = recipe
+            }
+        }
+        updateRecipeFeaturedIngredients(of: recipe)
+    }
+    
+    
     func importDemoDatabase(){
         // food
-        let filePath = Bundle.main.path(forResource: "Food", ofType: "tsv")
+        let foodFilePath = Bundle.main.path(forResource: "Food", ofType: "tsv")
         
-        if freopen(filePath, "r", stdin) == nil {
-            perror(filePath)
+        if freopen(foodFilePath, "r", stdin) == nil {
+            perror("Error: Unable to read Food.tsv \(foodFilePath ?? "nil")")
         }
         
         while let line = readLine() {
-            //fields: 0-name, 1-seasons, 2-serve sizes
-            let fields: [String] = line.components(separatedBy: "\t")
-            let food: Food!
-            var foodArray: [Food] = []
-            loadFood(to: &foodArray, predicate: NSPredicate(format: "title MATCHES[cd] %@", fields[0]))
-            if foodArray.count == 0 {
-                food = Food(context: K.context)
-                food.title = fields[0]
-            } else {
-                food = foodArray.first!
-            }
-            
-            //season
-            let seasonTitles = fields[1].components(separatedBy: ";")
-            let seasons = S.dt.seasonArray.filter({seasonTitles.contains($0.title!)})
-            food.seasons = NSSet(array: seasons)
-            
-            //serve size
-            for serveSize in fields[2].components(separatedBy: ";") {
-                //info: 0-food group, 1-quantity, 2-unit
-                let info = serveSize.components(separatedBy: "_")
-                if let foodGroup = S.dt.foodGroupArray.first(where: {$0.title == info[0]}),
-                    let quantity = Double(info[1]),
-                    info[2] != "" {
-                    
-                    let serveSize = ServeSize(context: K.context)
-                    serveSize.foodGroup = foodGroup
-                    serveSize.quantity = quantity
-                    serveSize.unit = info[2]
-                    serveSize.food = food
-                }
-                
-            }
-            
+            convertStringLineToFood(from: line)
         }
         fclose(stdin)
         saveContext()
         
         //recipe
+        let recipeFilePath = Bundle.main.path(forResource: "Recipe", ofType: "tsv")
+        
+        if freopen(recipeFilePath, "r", stdin) == nil {
+            perror("Error: Unable to read Recipe.tsv \(recipeFilePath ?? "nil")")
+        }
+        
+        while let line = readLine() {
+            convertStringLineToRecipe(from: line)
+        }
+        fclose(stdin)
+        saveContext()
     }
     
     func initDatabase(){
@@ -274,7 +419,7 @@ extension UIViewController {
             }
             
             while let line = readLine() {
-                let fields: [String] = line.components(separatedBy: "\t")
+                let fields: [String] = line.components(separatedBy: K.level1Separator)
                 let newData = Meal(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
@@ -294,7 +439,7 @@ extension UIViewController {
             }
             
             while let line = readLine() {
-                let fields: [String] = line.components(separatedBy: "\t")
+                let fields: [String] = line.components(separatedBy: K.level1Separator)
                 let newData = FoodGroup(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
@@ -314,7 +459,7 @@ extension UIViewController {
             }
             
             while let line = readLine() {
-                let fields: [String] = line.components(separatedBy: "\t")
+                let fields: [String] = line.components(separatedBy: K.level1Separator)
                 let newData = Season(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
@@ -478,7 +623,7 @@ extension UIViewController {
     //
     //        //read in new serve sizes
     //        while let line = readLine() {
-    //            let fields: [String] = line.components(separatedBy: "\t")
+    //            let fields: [String] = line.components(separatedBy: K.level1Separator)
     //            let newFood = Food(context: K.context)
     //            newFood.category = fields[0]
     //            newFood.date = Date(timeIntervalSince1970: Double(fields[1])!)
@@ -556,7 +701,7 @@ extension UIViewController {
     
     
     //MARK: - Number formatting
-    func limitDigits(_ double: Double?, max: Int = 1) -> String {
+    func limitDigits(_ double: Double?, max: Int = 2) -> String {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = max
@@ -594,9 +739,18 @@ extension UIViewController {
         return foodGroups.sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: ", ")
     }
     
-    func getSeasonInfo(from seasons: [Season]) -> String {
-        let seasonStrings = seasons.sorted(by: {$0.order < $1.order}).map({$0.title!})
-        return seasonStrings.joined(separator: ", ")
+//    func getSeasonInfo(from seasons: [Season]) -> String {
+//        let seasonStrings = seasons.sorted(by: {$0.order < $1.order}).map({$0.title!})
+//        return seasonStrings.joined(separator: ", ")
+//    }
+    
+    func getSeasonIcon(from seasons: [Season]) -> String {
+        let seasonOrders = seasons.map({Int($0.order)})
+        var seasonString = ""
+        for i in 0...3 {
+            seasonString += (seasonOrders.contains(i) ? K.seasonIcon[i] : K.seasonUnavailableIcon)
+        }
+        return seasonString
     }
     
     //

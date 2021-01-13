@@ -27,6 +27,7 @@ class EditServeSizeTVC: UITableViewController {
     @IBOutlet weak var otherButton: UIButton!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var unitTextField: UITextField!
+    @IBOutlet weak var quantityCellContentView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +56,12 @@ class EditServeSizeTVC: UITableViewController {
                 i.isSelected = false
             }
             sender.isSelected = true
+            if sender.tag == 6 {
+                quantityTextField.text = "1"
+                quantityCellContentView.isHidden = true
+            } else {
+                quantityCellContentView.isHidden = false
+            }
         }
         verifyData()
     }

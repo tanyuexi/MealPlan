@@ -46,8 +46,8 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        verifyData()
         unitCollectionView.reloadData()
+        verifyData()
     }
     
 
@@ -73,7 +73,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             foodEditButton.setTitle(food.title, for: .normal)
             let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
             foodGroupLabel.text = getFoodGroupInfo(from: serveSizes)
-            seasonLabel.text = getSeasonInfo(from: food.seasons!.allObjects as! [Season])
+            seasonLabel.text = getSeasonIcon(from: food.seasons!.allObjects as! [Season])
             unitArray = Array(Set(serveSizes.map({$0.unit!})))
             unitArray.sort()
         } else {
@@ -81,15 +81,12 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             valid = false
         }
 
-        if let q = Double(quantityTextField.text!),
-            let i = unitCollectionView.indexPathsForSelectedItems?.first {
-
-            confirmLabel.text! += "\(limitDigits(q)) \(unitArray[i.row]). "
-
-        } else if Double(quantityTextField.text!) == nil {
+        if Double(quantityTextField.text!) == nil {
             confirmLabel.text! += NSLocalizedString("Invalid quantity. ", comment: "confirm")
             valid = false
-        } else {
+        }
+        
+        if unitCollectionView.indexPathsForSelectedItems?.first == nil {
             confirmLabel.text! += NSLocalizedString("Unchosen unit. ", comment: "confirm")
             valid = false
         }
@@ -158,8 +155,8 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         let minServeSize = serveSizes.filter({$0.unit! == unit}).sorted(by: {$0.quantity < $1.quantity}).first!
         ingredient.maxServes = ingredientQuantity / minServeSize.quantity
 
-        completionHandler?(ingredient, operationString)
         saveContext()
+        completionHandler?(ingredient, operationString)
         navigationController?.popViewController(animated: true)
     }
 

@@ -5,6 +5,8 @@
         <relationship name="plannedMeals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="day" inverseEntity="PlannedMeal"/>
     </entity>
     <entity name="Food" representedClassName=".Food" syncable="YES" codeGenerationType="class">
+        <attribute name="foodGroupLabel" attributeType="String" defaultValueString=""/>
+        <attribute name="seasonLabel" attributeType="String" defaultValueString=""/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="food" inverseEntity="Ingredient"/>
         <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="foods" inverseEntity="Season"/>
@@ -44,7 +46,9 @@
         <attribute name="featuredIngredients" attributeType="String" defaultValueString=""/>
         <attribute name="method" optional="YES" attributeType="String"/>
         <attribute name="methodImg" optional="YES" attributeType="String"/>
+        <attribute name="methodLink" attributeType="String" defaultValueString=""/>
         <attribute name="portion" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="seasonLabel" attributeType="String" defaultValueString=""/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="currentMenu" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="recipe" inverseEntity="PlannedMeal"/>
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Ingredient" inverseName="recipe" inverseEntity="Ingredient"/>
@@ -69,13 +73,13 @@
     </entity>
     <elements>
         <element name="Day" positionX="245.171875" positionY="1.81640625" width="128" height="73"/>
-        <element name="Food" positionX="-110.0859375" positionY="-362.62109375" width="128" height="103"/>
+        <element name="Food" positionX="-110.0859375" positionY="-362.62109375" width="128" height="133"/>
         <element name="FoodGroup" positionX="281.5078125" positionY="-427.90234375" width="128" height="88"/>
         <element name="Ingredient" positionX="-282.58984375" positionY="-277.3671875" width="128" height="133"/>
         <element name="Item" positionX="206.796875" positionY="161.84375" width="128" height="73"/>
         <element name="Meal" positionX="-210.9765625" positionY="113.890625" width="128" height="103"/>
         <element name="PlannedMeal" positionX="72.9609375" positionY="1.87109375" width="128" height="118"/>
-        <element name="Recipe" positionX="-243.625" positionY="-105.6328125" width="128" height="178"/>
+        <element name="Recipe" positionX="-243.625" positionY="-105.6328125" width="128" height="208"/>
         <element name="SavedPlan" positionX="11.6484375" positionY="173.01953125" width="128" height="73"/>
         <element name="Season" positionX="145.22265625" positionY="-217.4765625" width="128" height="103"/>
         <element name="ServeSize" positionX="67.98046875" positionY="-427.73828125" width="128" height="103"/>

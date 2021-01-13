@@ -15,7 +15,7 @@ class EditRecipeTVC: UITableViewController {
     var completionHandler: ((Recipe, String) -> Void)?
     var ingredientsByTitle: [Ingredient] = []
     var mealsButton: [UIButton] = []
-    var seasons: [Season] = []
+    var seasons: Set<Season>!
     
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -46,7 +46,7 @@ class EditRecipeTVC: UITableViewController {
         if let recipe = selectedRecipe {
             loadDataToForm(recipe)
         } else {
-            setBarButton(deleteButton, false)
+            deleteButton.isEnabled = false
         }
     }
 
@@ -55,8 +55,8 @@ class EditRecipeTVC: UITableViewController {
         super.viewWillAppear(animated)
         
         ingredientCollectionView.reloadData()
-        seasons = Array(updateRecipeSeason(from: ingredientsByTitle)).sorted(by: {$0.order < $1.order})
-        updateSeasonLabel()
+        seasons = updateRecipeSeason(from: ingredientsByTitle)
+        seasonLabel.text = getSeasonIcon(from: Array(seasons))
         verifyData()
     }
     
@@ -78,13 +78,14 @@ class EditRecipeTVC: UITableViewController {
     
     @IBAction func addIngredientButtonPressed(_ sender: UIButton) {
         
+        tableView.scrollToRow(at: [0,5], at: .top, animated: true)
         performSegue(withIdentifier: "GoToEditIngredient", sender: nil)
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         
         let meals = NSSet(array: mealsButton.filter({$0.isSelected == true}).map({$0.tag}).map({S.dt.mealArray[$0]}))
-        let seasonSet = NSSet(array: seasons)
+//        let seasonSet = NSSet(array: seasons)
         var operationString = ""
         
         let recipe: Recipe!
@@ -96,11 +97,12 @@ class EditRecipeTVC: UITableViewController {
             operationString = K.operationAdd
         }
         recipe.title = titleTextField.text
-        recipe.method = methodTextView.text
+        recipe.method = methodTextView.text.replacingOccurrences(of: "\n", with: "<br>")
         recipe.portion = Int16(peopleTextField.text!)!
         recipe.ingredients = NSSet(array: ingredientsByTitle)
         recipe.meals = meals
-        recipe.seasons = seasonSet
+        recipe.seasons = NSSet(set: seasons)
+        recipe.seasonLabel = seasonLabel.text
         updateRecipeFeaturedIngredients(of: recipe)
         
         
@@ -143,7 +145,7 @@ class EditRecipeTVC: UITableViewController {
 //        seasons = data.seasons?.allObjects as! [Season]
 //        updateSeasonLabel()
 
-        methodTextView.text = data.method
+        methodTextView.text = data.method!.replacingOccurrences(of: "<br>", with: "\n")
     }
     
     func verifyData(){
@@ -164,17 +166,16 @@ class EditRecipeTVC: UITableViewController {
             confirmLabel.text! += NSLocalizedString("Invalid number of people. ", comment: "confirm")
             valid = false
         }
-        
-        if valid {
-            setBarButton(saveButton, true)
-        } else {
-            setBarButton(saveButton, false)
-        }
+
+        saveButton.isEnabled = valid
     }
     
-    func updateSeasonLabel(){
-        seasonLabel.text = seasons.map({$0.title!}).joined(separator: ", ")
-    }
+    
+//
+//
+//    func getSeasonLabel() -> String {
+//        return seasons.map({$0.title!}).joined(separator: ", ")
+//    }
     
     
     
@@ -195,6 +196,9 @@ extension EditRecipeTVC: UICollectionViewDataSource {
         
         let ingredient = ingredientsByTitle[indexPath.row]
         cell.titleLabel.text = ingredient.food!.title
+        if ingredient.optional {
+            cell.titleLabel.text! += " *"
+        }
         cell.detailLabel.text = "\(limitDigits(ingredient.quantity)) \(ingredient.unit!)"
         
         return cell
@@ -240,7 +244,7 @@ extension EditRecipeTVC {
                 let ingredients = (recipe.ingredients?.allObjects as! [Ingredient]).map({self.deepCopy(from: $0)})
                 self.ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
 
-                self.methodTextView.text = recipe.method
+                self.methodTextView.text = recipe.method!.replacingOccurrences(of: "<br>", with: "\n")
                 vc.navigationController?.popViewController(animated: true)
             }
             

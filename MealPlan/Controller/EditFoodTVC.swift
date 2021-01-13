@@ -93,6 +93,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         
         if selectedFood == nil {
             food.seasons = seasons
+            food.seasonLabel = getSeasonIcon(from: (seasons.allObjects as! [Season]))
             food.title = titleTextField.text
             operationString = K.operationAdd
         } else {
@@ -114,6 +115,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             if !food.seasons!.isEqual(to: seasons as! Set<AnyHashable>) {
                 
                 food.seasons = seasons
+                food.seasonLabel = getSeasonIcon(from: (seasons.allObjects as! [Season]))
                 saveContext()
                 for i in food.ingredients?.allObjects as! [Ingredient] {
                     if let recipe = i.recipe {
@@ -125,8 +127,8 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         }
         
         food.serveSizes = NSSet(array: serveSizeArray)
+        food.foodGroupLabel = foodGroupLabel.text
         
-        cleanUp()
         saveContext()
         completionHandler?(food, operationString)
         navigationController?.popViewController(animated: true)

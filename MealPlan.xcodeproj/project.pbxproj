@@ -34,6 +34,7 @@
 		E745E66325707E280059196B /* EditFoodTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E66225707E280059196B /* EditFoodTVC.swift */; };
 		E745E667257081490059196B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E666257081490059196B /* Constants.swift */; };
 		E745E669257083910059196B /* UIViewController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E668257083910059196B /* UIViewController_Extension.swift */; };
+		E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F1B25AB253E00C5A926 /* Recipe.tsv */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
 		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
@@ -68,8 +69,9 @@
 		E745E66225707E280059196B /* EditFoodTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFoodTVC.swift; sourceTree = "<group>"; };
 		E745E666257081490059196B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E745E668257083910059196B /* UIViewController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController_Extension.swift; sourceTree = "<group>"; };
+		E7B64F1B25AB253E00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
-		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
+		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				E7C6EF2A25A429230009B952 /* Food.tsv */,
+				E7B64F1B25AB253E00C5A926 /* Recipe.tsv */,
 				E7177B1B257DC7C300C3C8A0 /* Meal.tsv */,
 				E7177B1D257DD1A400C3C8A0 /* FoodGroup.tsv */,
 				E7177B1E257DD1A400C3C8A0 /* Season.tsv */,
@@ -231,6 +234,7 @@
 				E745E645256CC6DF0059196B /* LaunchScreen.storyboard in Resources */,
 				E7C6EF2B25A429230009B952 /* Food.tsv in Resources */,
 				E745E642256CC6DF0059196B /* Assets.xcassets in Resources */,
+				E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */,
 				E745E63D256CC6D80059196B /* Main.storyboard in Resources */,
 				E7177B1C257DC7C300C3C8A0 /* Meal.tsv in Resources */,
 				E7177B20257DD1A400C3C8A0 /* Season.tsv in Resources */,

@@ -86,8 +86,7 @@ class ChooseFoodTVC: UITableViewController, UISearchControllerDelegate, UISearch
             let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell", for: indexPath)
             let food = filteredFinal[indexPath.row]
             cell.textLabel?.text = food.title
-            let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
-            cell.detailTextLabel?.text = getFoodGroupInfo(from: serveSizes)
+            cell.detailTextLabel?.text = "    \(food.seasonLabel ?? "") \(food.foodGroupLabel ?? "")"
             
             return cell
         }
