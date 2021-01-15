@@ -16,6 +16,9 @@ class EditRecipeTVC: UITableViewController {
     var ingredientsByTitle: [Ingredient] = []
     var mealsButton: [UIButton] = []
     var seasons: Set<Season>!
+    var alternativeArray: [Alternative] = []
+    
+    let cellBackgroundColors = [ #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5), #colorLiteral(red: 0.5791940689, green: 0.1280144453, blue: 0.5726861358, alpha: 0.5), #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 0.5), #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 0.5), #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 0.5), #colorLiteral(red: 0.6679978967, green: 0.4751212597, blue: 0.2586010993, alpha: 0.5), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5), #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1) ]
     
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -54,9 +57,11 @@ class EditRecipeTVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        ingredientCollectionView.reloadData()
-        seasons = updateRecipeSeason(from: ingredientsByTitle)
+        seasons = updateRecipeSeason(ingredients: ingredientsByTitle, alternatives: alternativeArray)
         seasonLabel.text = getSeasonIcon(from: Array(seasons))
+        alternativeArray = getAlternative(from: ingredientsByTitle)
+        print("viewWillAppear: \(alternativeArray)")
+        ingredientCollectionView.reloadData()
         verifyData()
     }
     
@@ -100,6 +105,7 @@ class EditRecipeTVC: UITableViewController {
         recipe.method = methodTextView.text.replacingOccurrences(of: "\n", with: "<br>")
         recipe.portion = Int16(peopleTextField.text!)!
         recipe.ingredients = NSSet(array: ingredientsByTitle)
+        recipe.alternatives = NSSet(array: alternativeArray)
         recipe.meals = meals
         recipe.seasons = NSSet(set: seasons)
         recipe.seasonLabel = seasonLabel.text
@@ -142,6 +148,8 @@ class EditRecipeTVC: UITableViewController {
         let ingredients = data.ingredients?.allObjects as! [Ingredient]
         ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
 
+        alternativeArray = getAlternative(from: ingredientsByTitle)
+        print("loadDataToForm: \(alternativeArray)")
 //        seasons = data.seasons?.allObjects as! [Season]
 //        updateSeasonLabel()
 
@@ -195,12 +203,18 @@ extension EditRecipeTVC: UICollectionViewDataSource {
         let cell = ingredientCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
         
         let ingredient = ingredientsByTitle[indexPath.row]
-        cell.titleLabel.text = ingredient.food!.title
         if ingredient.optional {
-            cell.titleLabel.text! += " *"
+            cell.titleLabel.text = "*" + ingredient.food!.title!
+        } else {
+            cell.titleLabel.text = ingredient.food!.title
         }
         cell.detailLabel.text = "\(limitDigits(ingredient.quantity)) \(ingredient.unit!)"
         
+        if ingredient.alternative != nil,
+            let alternativeIndex = alternativeArray.firstIndex(of: ingredient.alternative!) {
+            
+            cell.bgViewColor = cellBackgroundColors[alternativeIndex % 10]
+        }
         return cell
     }
     
@@ -255,6 +269,9 @@ extension EditRecipeTVC {
             if let selectedIndexPath = ingredientCollectionView.indexPathsForSelectedItems?.first {
                 
                 vc.selectedIngredient = ingredientsByTitle[selectedIndexPath.row]
+                vc.addedIngredients = ingredientsByTitle.filter({$0 != vc.selectedIngredient})
+            } else {
+                vc.addedIngredients = ingredientsByTitle
             }
 
             vc.completionHandler = { ingredient, operationString in

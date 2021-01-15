@@ -34,6 +34,7 @@ struct K {
     static let level1Separator = "\t"
     static let level2Separator = "@;"
     static let level3Separator = "#_"
+    static let level4Separator = "$|"
     
     static let operationAdd = "add"
     static let operationUpdate = "update"

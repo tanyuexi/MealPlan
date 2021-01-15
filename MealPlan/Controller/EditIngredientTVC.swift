@@ -14,6 +14,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     var selectedIngredient: Ingredient?
     var selectedFood: Food?
     var completionHandler: ((Ingredient, String) -> Void)?
+    var addedIngredients: [Ingredient] = []
     var unitArray: [String] = []
 
 
@@ -25,7 +26,9 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     @IBOutlet weak var seasonLabel: UILabel!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var unitCollectionView: UICollectionView!
-    @IBOutlet weak var optionalSegControl: UISegmentedControl!
+    @IBOutlet weak var alternativeCollectionView: UICollectionView!
+    @IBOutlet weak var optionalSwitch: UISwitch!
+    
     
 
     override func viewDidLoad() {
@@ -33,14 +36,22 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
 
         unitCollectionView.delegate = self
         unitCollectionView.dataSource = self
+        unitCollectionView.allowsMultipleSelection = false
         unitCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
+        
+        alternativeCollectionView.delegate = self
+        alternativeCollectionView.dataSource = self
+        alternativeCollectionView.allowsMultipleSelection = true
+        alternativeCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
 
         
         if let ingredient = selectedIngredient {
             loadDataToForm(ingredient)
+            addedIngredients.removeAll(where: {$0 == ingredient})
         } else {
             deleteButton.isEnabled = false
         }
+//        alternativeCollectionView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,7 +70,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     func loadDataToForm(_ data: Ingredient){
         selectedFood = data.food
         quantityTextField.text = limitDigits(data.quantity)
-        optionalSegControl.selectedSegmentIndex = data.optional ? 0 : 1
+        optionalSwitch.isOn = data.optional
     }
 
 
@@ -91,15 +102,17 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             valid = false
         }
 
-        if optionalSegControl.selectedSegmentIndex == 0 {
-            confirmLabel.text! += NSLocalizedString("Optional. ", comment: "confirm")
-        }
-
         saveButton.isEnabled = valid
     }
 
     
-   
+    func selectCollectionCell(_ sender: UICollectionView, at indexPath: IndexPath) {
+        if let cell = sender.cellForItem(at: indexPath) as? CollectionCell {
+            sender.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+            cell.isSelected = true
+//            sender.delegate?.collectionView?(sender, didSelectItemAt: indexPath)
+        }
+    }
     
 
     //MARK: - IBAction
@@ -124,15 +137,11 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         }
     }
 
-    
-    @IBAction func optionalSegControlValueChanged(_ sender: UISegmentedControl) {
-        verifyData()
-    }
 
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
 
         let unit = unitArray[unitCollectionView.indexPathsForSelectedItems!.first!.row]
-        let optional = (optionalSegControl.selectedSegmentIndex == 0)
+        
         let ingredientQuantity = Double(quantityTextField.text!) ?? 0
         var operationString = ""
 
@@ -147,13 +156,35 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             ingredient = Ingredient(context: K.context)
             operationString = K.operationAdd
         }
+        
         ingredient.food = selectedFood
         ingredient.unit = unit
-        ingredient.optional = optional
         ingredient.quantity = ingredientQuantity
+        ingredient.optional = optionalSwitch.isOn
+        
         let serveSizes = selectedFood?.serveSizes?.allObjects as! [ServeSize]
         let minServeSize = serveSizes.filter({$0.unit! == unit}).sorted(by: {$0.quantity < $1.quantity}).first!
         ingredient.maxServes = ingredientQuantity / minServeSize.quantity
+        
+        if let alternativeIngredients = alternativeCollectionView.indexPathsForSelectedItems?.compactMap({addedIngredients[$0.row]}) {
+            
+            var oldAlternatives = getAlternative(from: alternativeIngredients)
+            let newAlternative: Alternative!
+            if oldAlternatives.isEmpty {
+                newAlternative = Alternative(context: K.context)
+            } else {
+                newAlternative = oldAlternatives.remove(at: 0)
+                for alter in oldAlternatives {
+                    K.context.delete(alter)
+                }
+            }
+            newAlternative.ingredients = NSSet(array: alternativeIngredients)
+            ingredient.alternative = newAlternative
+            
+            for i in alternativeIngredients {
+                i.optional = optionalSwitch.isOn
+            }
+        }
 
         saveContext()
         completionHandler?(ingredient, operationString)
@@ -176,29 +207,61 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     //MARK: - UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return unitArray.count
+        
+        if collectionView == unitCollectionView {
+            return unitArray.count
+        } else { //alternativeCollectionView
+            return addedIngredients.count
+        }
     }
 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = unitCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
-        let unit = unitArray[indexPath.row]
-        cell.titleLabel.text = unit
-        cell.detailLabel.text = ""
-        if unit == selectedIngredient?.unit {
-            unitCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
-            cell.isSelected = true
-            unitCollectionView.delegate?.collectionView?(unitCollectionView, didSelectItemAt: indexPath)
+        if collectionView == unitCollectionView {
+            let cell = unitCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
+            let unit = unitArray[indexPath.row]
+            cell.titleLabel.text = unit
+            cell.detailLabel.text = ""
+            if unit == selectedIngredient?.unit {
+                unitCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+                cell.isSelected = true
+                unitCollectionView.delegate?.collectionView?(unitCollectionView, didSelectItemAt: indexPath)
+            }
+            return cell
+            
+        } else {  //alternativeCollectionView
+            let cell = alternativeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
+            let i = addedIngredients[indexPath.row]
+            cell.titleLabel.text = i.food!.title
+            cell.detailLabel.text = ""
+            if let s = selectedIngredient,
+                let alternatives = s.alternative?.ingredients?.allObjects as? [Ingredient],
+                alternatives.contains(i) {
+
+                alternativeCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+                cell.isSelected = true
+                alternativeCollectionView.delegate?.collectionView?(alternativeCollectionView, didSelectItemAt: indexPath)
+            }
+            return cell
         }
         
-        return cell
+        
     }
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        verifyData()
+        if collectionView == unitCollectionView {
+            verifyData()
+        } else if collectionView == alternativeCollectionView,
+            let alternativeIngredients = addedIngredients[indexPath.row].alternative?.ingredients?.allObjects as? [Ingredient] {
+            
+            let indexArray = alternativeIngredients.compactMap({addedIngredients.firstIndex(of: $0)})
+            for i in indexArray {
+                selectCollectionCell(alternativeCollectionView, at: [0,i])
+            }
+        }
     }
 
 

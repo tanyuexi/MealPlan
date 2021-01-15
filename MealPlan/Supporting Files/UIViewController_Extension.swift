@@ -84,6 +84,12 @@ extension UIViewController {
     
     //MARK: - Core Data
     
+    
+    func getAlternative(from ingredients: [Ingredient]) -> [Alternative] {
+        let alternatives = Set(ingredients.compactMap({$0.alternative}))
+        return Array(alternatives)
+    }
+    
     func convertDataToStringLine(from food: Food) -> String {
         let seasonField = (food.seasons?.allObjects as! [Season]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
         let serveSizeField = (food.serveSizes?.allObjects as! [ServeSize]).sorted(by: {$0.foodGroup!.title! < $1.foodGroup!.title!}).map({
@@ -101,25 +107,32 @@ extension UIViewController {
     func convertDataToStringLine(from recipe: Recipe) -> String {
         //attributes: featureIngr method methodimg portion seasonLabel title currentmenu ingredients meal season
         let seasonField = (recipe.seasons?.allObjects as! [Season]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
+        
         let mealField = (recipe.meals?.allObjects as! [Meal]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
+        
         //maxServe optional quantity unit food recipe
         let ingredientField = (recipe.ingredients?.allObjects as! [Ingredient]).sorted(by: {$0.food!.title! < $1.food!.title!}).map({
             [
                 $0.food!.title!,
                 limitDigits($0.maxServes),
-                ($0.optional ? "Yes" : "No"),
+                ($0.optional ? "Optional" : "Essential"),
                 limitDigits($0.quantity),
                 $0.unit!
             ].joined(separator: K.level3Separator)
         }).joined(separator: K.level2Separator)
         
-        //fields: 0-title, 1-portion, 2-meals, 3-seasons, 4-ingredients, 5-methodimg, 6-methodLink, 7-method
+        let alternativeField = (recipe.alternatives?.allObjects as! [Alternative]).map({
+                ($0.ingredients?.allObjects as! [Ingredient]).map({$0.food!.title!}).joined(separator: K.level3Separator)
+        }).joined(separator: K.level2Separator)
+        
+        //fields: 0-title, 1-portion, 2-meals, 3-seasons, 4-ingredients, 5-alternatives, 6-methodimg, 7-methodLink, 8-method
         let line = [
             recipe.title ?? "",
             String(recipe.portion),
             mealField,
             seasonField,
             ingredientField,
+            alternativeField,
             recipe.methodImg ?? "",
             recipe.methodLink ?? "",
             recipe.method ?? "",
@@ -180,6 +193,13 @@ extension UIViewController {
         }
         ingredients = []
         
+        var alternatives: [Alternative] = []
+        loadAlternative(to: &alternatives)
+        for abandoned in alternatives.filter({$0.ingredients == nil || $0.ingredients!.count == 0 || $0.recipe == nil}) {
+            K.context.delete(abandoned)
+        }
+        alternatives = []
+        
         var serveSizes: [ServeSize] = []
         loadServeSize(to: &serveSizes)
         for abandoned in serveSizes.filter({$0.food == nil}) {
@@ -210,11 +230,12 @@ extension UIViewController {
         return newData
         
     }
+
     
     func deepCopy(from data: Ingredient) -> Ingredient {
         let newData = Ingredient(context: K.context)
         newData.maxServes = data.maxServes
-        newData.optional = data.optional
+//        newData.optional = data.optional
         newData.quantity = data.quantity
         newData.unit = data.unit
         newData.food = data.food
@@ -243,22 +264,33 @@ extension UIViewController {
     
     
     func updateRecipeSeason(of recipe: Recipe) {
-        var seasonSet = Set(S.dt.seasonArray)
-        
-        for i in recipe.ingredients?.allObjects as! [Ingredient] {
-            if !i.optional {
-                seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
-            }
-        }
+        let seasonSet = updateRecipeSeason(
+            ingredients: recipe.ingredients?.allObjects as! [Ingredient],
+            alternatives: recipe.alternatives?.allObjects as! [Alternative])
         recipe.seasons = NSSet(set: seasonSet)
         recipe.seasonLabel = getSeasonIcon(from: Array(seasonSet))
     }
     
-    func updateRecipeSeason(from ingredients: [Ingredient]) -> Set<Season> {
+    func updateRecipeSeason(ingredients: [Ingredient], alternatives: [Alternative]) -> Set<Season> {
         var seasonSet = Set(S.dt.seasonArray)
         
+        //union for non-optional alternative ingredients
+        for alternative in alternatives {
+            var alternativeSeason: Set<Season> = Set()
+            if let alternativeIngredients = alternative.ingredients?.allObjects as? [Ingredient],
+                alternativeIngredients.count > 0,
+                alternativeIngredients.allSatisfy({$0.optional == false}) {
+                
+                for i in alternativeIngredients {
+                    alternativeSeason = alternativeSeason.union(i.food?.seasons as! Set<Season>)
+                }
+                seasonSet = seasonSet.intersection(alternativeSeason)
+            }
+        }
+        
+        //intersection for all ingredients
         for i in ingredients {
-            if !i.optional {
+            if i.alternative == nil, i.optional == false {
                 seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
             }
         }
@@ -268,7 +300,7 @@ extension UIViewController {
     func updateRecipeFeaturedIngredients(of recipe: Recipe){
         if let ingredients = recipe.ingredients?.allObjects as? [Ingredient] {
             
-            let ingredientByServes = ingredients.filter({$0.optional == false}).sorted{$0.maxServes > $1.maxServes}
+            let ingredientByServes = ingredients.sorted{$0.maxServes > $1.maxServes}
             recipe.featuredIngredients = ingredientByServes.map{$0.food!.title!}.joined(separator: ", ")
         }
     }
@@ -321,9 +353,9 @@ extension UIViewController {
     
     
     func convertStringLineToRecipe(from line: String) {
-        //fields: 0-title, 1-portion, 2-meals, 3-seasons, 4-ingredients, 5-methodimg, 6-methodLink, 7-method
+        //fields: 0-title, 1-portion, 2-meals, 3-seasons, 4-ingredients, 5-alternatives, 6-methodimg, 7-methodLink, 8-method
         let fields: [String] = line.components(separatedBy: K.level1Separator)
-        if fields.count < 8 {
+        if fields.count < 9 {
             return
         }
         let recipe: Recipe!
@@ -336,11 +368,7 @@ extension UIViewController {
             recipe = recipeArray.first!
         }
         
-//        recipe.featuredIngredients = fields[1]
         recipe.portion = Int16(fields[1]) ?? 1
-        recipe.methodImg = fields[5]
-        recipe.methodLink = fields[6]
-        recipe.method = fields[7]
 
         //meal
         let mealTitles = fields[2].components(separatedBy: K.level2Separator)
@@ -369,13 +397,32 @@ extension UIViewController {
                 let i = Ingredient(context: K.context)
                 i.food = food
                 i.maxServes = maxServes
-                i.optional = (info[2] == "Yes")
+                i.optional = (info[2] == "Optional")
                 i.quantity = quantity
                 i.unit = info[4]
                 i.recipe = recipe
             }
         }
         updateRecipeFeaturedIngredients(of: recipe)
+        
+        //alternatives
+        recipe.alternatives = nil
+        for alternative in fields[5].components(separatedBy: K.level2Separator) {
+            let newAlternative = Alternative(context: K.context)
+            newAlternative.recipe = recipe
+            for title in alternative.components(separatedBy: K.level3Separator) {
+                let ingredientByTitle = (recipe.ingredients?.allObjects as! [Ingredient]).filter({$0.food!.title! == title})
+                for i in ingredientByTitle {
+                    i.alternative = newAlternative
+                }
+            }
+            
+        }
+        
+        //method
+        recipe.methodImg = fields[6]
+        recipe.methodLink = fields[7]
+        recipe.method = fields[8]
     }
     
     
@@ -530,8 +577,27 @@ extension UIViewController {
         }
     }
     
-    func loadIngredient(to array: inout [Ingredient]) {
+    func loadIngredient(to array: inout [Ingredient], predicate: NSPredicate? = nil) {
+        //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+        //NSCompoundPredicate(orPredicateWithSubpredicates: textSubpredicates)
         let request : NSFetchRequest<Ingredient> = Ingredient.fetchRequest()
+        if predicate != nil {
+            request.predicate = predicate
+        }
+        do{
+            array = try K.context.fetch(request)
+        } catch {
+            print("Error loading Ingredient \(error)")
+        }
+    }
+    
+    func loadAlternative(to array: inout [Alternative], predicate: NSPredicate? = nil) {
+        //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+        //NSCompoundPredicate(orPredicateWithSubpredicates: textSubpredicates)
+        let request : NSFetchRequest<Alternative> = Alternative.fetchRequest()
+        if predicate != nil {
+            request.predicate = predicate
+        }
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -753,9 +819,19 @@ extension UIViewController {
         return seasonString
     }
     
-    //
-    //
-    //    //MARK: - UI handling
+    
+    
+    //MARK: - UI handling
+    
+//    func selectCollectionCell(_ theCollectionView: UICollectionView, at indexPath: IndexPath){
+//        if let cell = theCollectionView.cellForItem(at: indexPath) as? CollectionCell {
+//            theCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+//            cell.isSelected = true
+//            theCollectionView.delegate?.collectionView?(theCollectionView, didSelectItemAt: indexPath)
+//        }
+//    }
+    
+    
     //    func enableSaveButton(_ button: UIButton, enable: Bool = true){
     //        if enable {
     //            button.isEnabled = true
