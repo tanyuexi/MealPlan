@@ -19,7 +19,6 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
-    @IBOutlet weak var confirmLabel: UILabel!
     @IBOutlet weak var quickFillButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var springButton: UIButton!
@@ -49,12 +48,6 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        verifyData()
-        onServeSizeUpdated()
-    }
     
     //MARK: - IBAction
     
@@ -62,13 +55,9 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         performSegue(withIdentifier: "GoToChooseFood", sender: nil)
     }
     
-    @IBAction func textFieldEditingDidEnd(_ sender: UITextField) {
-        verifyData()
-    }
     
     @IBAction func seasonButtonPressed(_ sender: UIButton) {
         sender.isSelected.toggle()
-        verifyData()
     }
     
     @IBAction func addServeSizeButtonPressed(_ sender: UIButton) {
@@ -77,6 +66,11 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        
+        if let errorMessage = entryError() {
+            notifyMessage(errorMessage)
+            return
+        }
         
         let seasons = NSSet(array: seasonButtons.filter({$0.isSelected}).map({$0.tag}).map({S.dt.seasonArray[$0]}))
         var operationString = ""
@@ -160,7 +154,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         let serveSize = serveSizeArray[indexPath.row]
         cell.titleLabel.text = serveSize.unit! + " (\(serveSize.foodGroup!.title!))"
         cell.detailLabel.text = limitDigits(serveSize.quantity)
-        
+        cell.isSelected = false
         return cell
     }
     
@@ -181,8 +175,9 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         }
         serveSizeArray = data.serveSizes?.allObjects as! [ServeSize]
         serveSizeArray.sort{$0.unit! < $1.unit!}
-//        onServeSizeUpdated()
+        onServeSizeUpdated()
     }
+    
     
     
     func onServeSizeUpdated(){
@@ -190,29 +185,51 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         foodGroupLabel.text = getFoodGroupInfo(from: serveSizeArray)
     }
     
-    func verifyData(){
-        var valid = true
-        confirmLabel.text = ""
+//    func verifyData(){
+//        var valid = true
+//        confirmLabel.text = ""
+//
+//        if titleTextField.text == "" {
+//            confirmLabel.text! += NSLocalizedString("Missing title. ", comment: "confirm")
+//            valid = false
+//        }
+//
+//        if serveSizeArray.count == 0 {
+//            confirmLabel.text! += NSLocalizedString("Missing serve size(s). ", comment: "confirm")
+//            valid = false
+//        }
+//
+//        if seasonButtons.allSatisfy({$0.isSelected == false}) {
+//            confirmLabel.text! += NSLocalizedString("Missing season(s). ", comment: "confirm")
+//            valid = false
+//        }
+//
+//        saveButton.isEnabled = valid
+//    }
+    
+    
+    
+    func entryError() -> String? {
+        
+        var message = ""
         
         if titleTextField.text == "" {
-            confirmLabel.text! += NSLocalizedString("Missing title. ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Missing title. ", comment: "alert")
         }
         
         if serveSizeArray.count == 0 {
-            confirmLabel.text! += NSLocalizedString("Missing serve size(s). ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Missing serve size. ", comment: "alert")
         }
         
-            if seasonButtons.allSatisfy({$0.isSelected == false}) {
-                confirmLabel.text! += NSLocalizedString("Missing season(s). ", comment: "confirm")
-                valid = false
-            }
-            
-            saveButton.isEnabled = valid
+        if seasonButtons.allSatisfy({$0.isSelected == false}) {
+            message += NSLocalizedString("Missing season. ", comment: "alert")
         }
         
+        return (message == "" ? nil : message)
         
+    }
+    
+    
     
     // MARK: - Navigation
     
@@ -227,7 +244,8 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             vc.completionHandler = {serveSize, operationString in
                 switch operationString {
                 case K.operationDelete:
-                    self.serveSizeArray.remove(at: self.serveSizeArray.firstIndex(of: serveSize)!)
+                    self.serveSizeArray.removeAll(where: {$0 == serveSize})
+//                    self.serveSizeArray.remove(at: self.serveSizeArray.firstIndex(of: serveSize)!)
                 case K.operationAdd:
                     self.serveSizeArray.append(serveSize)
                     self.serveSizeArray.sort{$0.unit! < $1.unit!}
@@ -236,6 +254,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
                 default:
                     print(operationString)
                 }
+                self.onServeSizeUpdated()
             }
         } else if segue.identifier == "GoToChooseFood",
             let vc = segue.destination as? ChooseFoodTVC {
@@ -243,13 +262,13 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
                 vc.notifyMessage(NSLocalizedString("Please choose an existing food.", comment: "alert"))
             }
             vc.existingFoodSeclectedHandler = { food in
-//                self.selectedFood = self.deepCopy(from: food)
-                self.titleTextField.text = food.title
+                self.titleTextField.text = food.title! + " - 2"
                 for i in food.seasons!.allObjects as! [Season] {
                     self.seasonButtons[Int(i.order)].isSelected = true
                 }
                 self.serveSizeArray = (food.serveSizes?.allObjects as! [ServeSize]).map({self.deepCopy(from: $0)})
                 self.serveSizeArray.sort{$0.unit! < $1.unit!}
+                self.onServeSizeUpdated()
                 vc.navigationController?.popViewController(animated: true)
             }
         }

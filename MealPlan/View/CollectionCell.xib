@@ -42,7 +42,7 @@
                             <constraint firstItem="cw2-KE-eh8" firstAttribute="leading" secondItem="WRC-or-8Mf" secondAttribute="leading" constant="5" id="K9O-Iy-NnU"/>
                             <constraint firstAttribute="bottom" secondItem="cw2-KE-eh8" secondAttribute="bottom" constant="5" id="ZEO-uy-c5A"/>
                             <constraint firstAttribute="trailing" secondItem="cw2-KE-eh8" secondAttribute="trailing" constant="5" id="mmh-1x-ZvI"/>
-                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="180" id="pga-5C-8q6"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="pga-5C-8q6"/>
                         </constraints>
                     </view>
                 </subviews>

@@ -20,8 +20,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
-    @IBOutlet weak var foodEditButton: UIButton!
-    @IBOutlet weak var confirmLabel: UILabel!
+    @IBOutlet weak var chooseFoodButton: UIButton!
     @IBOutlet weak var foodGroupLabel: UILabel!
     @IBOutlet weak var seasonLabel: UILabel!
     @IBOutlet weak var quantityTextField: UITextField!
@@ -47,18 +46,9 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         
         if let ingredient = selectedIngredient {
             loadDataToForm(ingredient)
-            addedIngredients.removeAll(where: {$0 == ingredient})
         } else {
             deleteButton.isEnabled = false
         }
-//        alternativeCollectionView.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        unitCollectionView.reloadData()
-        verifyData()
     }
     
 
@@ -69,58 +59,63 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
 
     func loadDataToForm(_ data: Ingredient){
         selectedFood = data.food
+        onSelectedFoodUpdated()
         quantityTextField.text = limitDigits(data.quantity)
         optionalSwitch.isOn = data.optional
+        addedIngredients.removeAll(where: {$0 == data})
+        alternativeCollectionView.reloadData()
+//        selectAlternativeIngredients(of: data)
     }
 
+    func selectAlternativeIngredients(of ingredient: Ingredient){
+        if let alternativeIngredients = ingredient.alternative?.ingredients?.allObjects as? [Ingredient] {
 
-    func verifyData(){
-        var valid = true
-        confirmLabel.text = ""
-        foodGroupLabel.text = ""
-        seasonLabel.text = ""
-        
+            let indexArray = alternativeIngredients.compactMap({addedIngredients.firstIndex(of: $0)})
+            for i in indexArray {
+                selectCollectionCell(alternativeCollectionView, at: [0,i])
+            }
+        }
+    }
+    
+    func onSelectedFoodUpdated(){
         if let food = selectedFood {
-            foodEditButton.setTitle(food.title, for: .normal)
+            chooseFoodButton.setTitle(food.title, for: .normal)
             let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
             foodGroupLabel.text = getFoodGroupInfo(from: serveSizes)
             seasonLabel.text = getSeasonIcon(from: food.seasons!.allObjects as! [Season])
             unitArray = Array(Set(serveSizes.map({$0.unit!})))
             unitArray.sort()
-        } else {
-            confirmLabel.text! += NSLocalizedString("Unchosen food. ", comment: "confirm")
-            valid = false
+            onUnitUpdated()
+        }
+    }
+    
+    
+    func onUnitUpdated(){
+        unitCollectionView.reloadData()
+    }
+    
+    
+    func entryError() -> String? {
+        var message = ""
+        
+        if selectedFood == nil {
+            message += NSLocalizedString("Unchosen food. ", comment: "alert")
         }
 
         if Double(quantityTextField.text!) == nil {
-            confirmLabel.text! += NSLocalizedString("Invalid quantity. ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Invalid quantity. ", comment: "alert")
         }
         
         if unitCollectionView.indexPathsForSelectedItems?.first == nil {
-            confirmLabel.text! += NSLocalizedString("Unchosen unit. ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Unchosen unit. ", comment: "alert")
         }
 
-        saveButton.isEnabled = valid
+        return (message == "" ? nil : message)
     }
 
-    
-    func selectCollectionCell(_ sender: UICollectionView, at indexPath: IndexPath) {
-        if let cell = sender.cellForItem(at: indexPath) as? CollectionCell {
-            sender.selectItem(at: indexPath, animated: false, scrollPosition: .left)
-            cell.isSelected = true
-//            sender.delegate?.collectionView?(sender, didSelectItemAt: indexPath)
-        }
-    }
-    
 
     //MARK: - IBAction
     
-    @IBAction func textFieldEditingDidEnd(_ sender: UITextField) {
-        verifyData()
-    }
-
     
     @IBAction func chooseFoodButtonPressed(_ sender: UIButton) {
         
@@ -139,6 +134,11 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
 
 
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        
+        if let errorMessage = entryError() {
+            notifyMessage(errorMessage)
+            return
+        }
 
         let unit = unitArray[unitCollectionView.indexPathsForSelectedItems!.first!.row]
         
@@ -166,7 +166,10 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         let minServeSize = serveSizes.filter({$0.unit! == unit}).sorted(by: {$0.quantity < $1.quantity}).first!
         ingredient.maxServes = ingredientQuantity / minServeSize.quantity
         
-        if let alternativeIngredients = alternativeCollectionView.indexPathsForSelectedItems?.compactMap({addedIngredients[$0.row]}) {
+        if var alternativeIngredients = alternativeCollectionView.indexPathsForSelectedItems?.compactMap({addedIngredients[$0.row]}),
+            alternativeIngredients.count > 0{
+                        
+            alternativeIngredients.append(ingredient)
             
             var oldAlternatives = getAlternative(from: alternativeIngredients)
             let newAlternative: Alternative!
@@ -179,7 +182,6 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
                 }
             }
             newAlternative.ingredients = NSSet(array: alternativeIngredients)
-            ingredient.alternative = newAlternative
             
             for i in alternativeIngredients {
                 i.optional = optionalSwitch.isOn
@@ -226,7 +228,8 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             if unit == selectedIngredient?.unit {
                 unitCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
                 cell.isSelected = true
-                unitCollectionView.delegate?.collectionView?(unitCollectionView, didSelectItemAt: indexPath)
+            } else {
+                cell.isSelected = false
             }
             return cell
             
@@ -235,13 +238,13 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             let i = addedIngredients[indexPath.row]
             cell.titleLabel.text = i.food!.title
             cell.detailLabel.text = ""
-            if let s = selectedIngredient,
-                let alternatives = s.alternative?.ingredients?.allObjects as? [Ingredient],
-                alternatives.contains(i) {
-
+            if let alternativeIngredients = selectedIngredient?.alternative?.ingredients?.allObjects as? [Ingredient],
+                alternativeIngredients.contains(i){
+                
                 alternativeCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
                 cell.isSelected = true
-                alternativeCollectionView.delegate?.collectionView?(alternativeCollectionView, didSelectItemAt: indexPath)
+            } else {
+                cell.isSelected = false
             }
             return cell
         }
@@ -252,49 +255,46 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if collectionView == unitCollectionView {
-            verifyData()
-        } else if collectionView == alternativeCollectionView,
-            let alternativeIngredients = addedIngredients[indexPath.row].alternative?.ingredients?.allObjects as? [Ingredient] {
+        if collectionView == alternativeCollectionView {
             
-            let indexArray = alternativeIngredients.compactMap({addedIngredients.firstIndex(of: $0)})
-            for i in indexArray {
-                selectCollectionCell(alternativeCollectionView, at: [0,i])
-            }
+            selectAlternativeIngredients(of: addedIngredients[indexPath.row])
         }
     }
 
 
 
 // MARK: - Navigation
-
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-       if segue.identifier == "GoToChooseFood",
-           let vc = segue.destination as? ChooseFoodTVC {
-           
-           vc.newFoodSelectedHandler = {
-               vc.performSegue(withIdentifier: "GoToEditFood", sender: nil)
-           }
-           
-           vc.existingFoodSeclectedHandler = { food in
-               self.selectedFood = food
-               vc.navigationController?.popViewController(animated: true)
-           }
-       } else if segue.identifier == "GoToEditFood",
-           let vc = segue.destination as? EditFoodTVC {
-           
-           vc.selectedFood = selectedFood
-           vc.completionHandler = { food, operationString in
-               switch operationString {
-               case K.operationDelete:
-                   self.selectedFood = nil
-               case K.operationUpdate:
-                   self.selectedFood = food
-               default:
-                   print("operationString: \(operationString)")
-               }
-           }
-       }
-   }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "GoToChooseFood",
+            let vc = segue.destination as? ChooseFoodTVC {
+            
+            vc.newFoodSelectedHandler = {
+                vc.performSegue(withIdentifier: "GoToEditFood", sender: nil)
+            }
+            
+            vc.existingFoodSeclectedHandler = { food in
+                self.selectedFood = food
+                self.onSelectedFoodUpdated()
+                vc.navigationController?.popViewController(animated: true)
+            }
+        } else if segue.identifier == "GoToEditFood",
+            let vc = segue.destination as? EditFoodTVC {
+            
+            vc.selectedFood = selectedFood
+            vc.completionHandler = { food, operationString in
+                switch operationString {
+                    //cannot be deleted when associated with ingredient
+//                case K.operationDelete:
+//                    self.selectedFood = nil
+                case K.operationUpdate:
+                    self.selectedFood = food
+                default:
+                    print("operationString: \(operationString)")
+                }
+                self.onSelectedFoodUpdated()
+            }
+        }
+    }
 }

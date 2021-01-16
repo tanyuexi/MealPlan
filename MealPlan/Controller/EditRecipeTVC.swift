@@ -24,7 +24,6 @@ class EditRecipeTVC: UITableViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var confirmLabel: UILabel!
     @IBOutlet weak var breakfastButton: UIButton!
     @IBOutlet weak var lunchButton: UIButton!
     @IBOutlet weak var dinnerButton: UIButton!
@@ -52,45 +51,85 @@ class EditRecipeTVC: UITableViewController {
             deleteButton.isEnabled = false
         }
     }
-
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    
+    //MARK: - Custom functions
+    
+    func loadDataToForm(_ data: Recipe){
+        titleTextField.text = data.title
         
-        seasons = updateRecipeSeason(ingredients: ingredientsByTitle, alternatives: alternativeArray)
-        seasonLabel.text = getSeasonIcon(from: Array(seasons))
-        alternativeArray = getAlternative(from: ingredientsByTitle)
-        print("viewWillAppear: \(alternativeArray)")
-        ingredientCollectionView.reloadData()
-        verifyData()
+        for i in data.meals?.allObjects as! [Meal] {
+            mealsButton[Int(i.order)].isSelected = true
+        }
+        
+        peopleTextField.text = String(data.portion)
+        
+        let ingredients = data.ingredients?.allObjects as! [Ingredient]
+        ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
+        onIngredientUpdated()
+        
+        methodTextView.text = data.method!.replacingOccurrences(of: "<br>", with: "\n")
     }
     
+    
+    func onIngredientUpdated(){
+        alternativeArray = getAlternative(from: ingredientsByTitle)
+//        print("alternativeArray: \(alternativeArray.count)")
+//        print(alternativeArray.compactMap({($0.ingredients?.allObjects as! [Ingredient]).compactMap({$0.food!.title!}).joined(separator: ",")}))
+        seasons = updateRecipeSeason(ingredients: ingredientsByTitle, alternatives: alternativeArray)
+        seasonLabel.text = getSeasonIcon(from: Array(seasons))
+        ingredientCollectionView.reloadData()
+    }
+    
+    
+    
+    func entryError() -> String? {
+        var message = ""
         
+        if titleTextField.text == "" {
+            message += NSLocalizedString("Missing title. ", comment: "alert")
+        }
+        
+        if mealsButton.allSatisfy({$0.isSelected == false}) {
+            message += NSLocalizedString("Missing meal. ", comment: "alert")
+        }
+        
+        if Int16(peopleTextField.text!) == nil {
+            message += NSLocalizedString("Invalid number of people. ", comment: "alert")
+        }
+        
+        return (message == "" ? nil : message)
+    }
+    
+    
+    
+    
+    
     //MARK: - IBAction
     
     @IBAction func quickFillButtonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "GoToChooseRecipe", sender: nil)
     }
     
-    @IBAction func textFieldEditingDidEnd(_ sender: Any) {
-        verifyData()
-    }
     
     @IBAction func mealButtonPressed(_ sender: UIButton) {
         sender.isSelected.toggle()
-        verifyData()
     }
     
     @IBAction func addIngredientButtonPressed(_ sender: UIButton) {
         
-        tableView.scrollToRow(at: [0,5], at: .top, animated: true)
         performSegue(withIdentifier: "GoToEditIngredient", sender: nil)
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         
+        if let errorMessage = entryError() {
+            notifyMessage(errorMessage)
+            return
+        }
+        
         let meals = NSSet(array: mealsButton.filter({$0.isSelected == true}).map({$0.tag}).map({S.dt.mealArray[$0]}))
-//        let seasonSet = NSSet(array: seasons)
         var operationString = ""
         
         let recipe: Recipe!
@@ -134,59 +173,6 @@ class EditRecipeTVC: UITableViewController {
     }
     
     
-    //MARK: - Custom functions
-    
-    func loadDataToForm(_ data: Recipe){
-        titleTextField.text = data.title
-        
-        for i in data.meals?.allObjects as! [Meal] {
-            mealsButton[Int(i.order)].isSelected = true
-        }
-        
-        peopleTextField.text = String(data.portion)
-        
-        let ingredients = data.ingredients?.allObjects as! [Ingredient]
-        ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
-
-        alternativeArray = getAlternative(from: ingredientsByTitle)
-        print("loadDataToForm: \(alternativeArray)")
-//        seasons = data.seasons?.allObjects as! [Season]
-//        updateSeasonLabel()
-
-        methodTextView.text = data.method!.replacingOccurrences(of: "<br>", with: "\n")
-    }
-    
-    func verifyData(){
-        var valid = true
-        confirmLabel.text = ""
-        
-        if titleTextField.text == "" {
-            confirmLabel.text! += NSLocalizedString("Missing title. ", comment: "confirm")
-            valid = false
-        }
-        
-        if mealsButton.allSatisfy({$0.isSelected == false}) {
-            confirmLabel.text! += NSLocalizedString("Missing meal. ", comment: "confirm")
-            valid = false
-        }
-        
-        if Int16(peopleTextField.text!) == nil {
-            confirmLabel.text! += NSLocalizedString("Invalid number of people. ", comment: "confirm")
-            valid = false
-        }
-
-        saveButton.isEnabled = valid
-    }
-    
-    
-//
-//
-//    func getSeasonLabel() -> String {
-//        return seasons.map({$0.title!}).joined(separator: ", ")
-//    }
-    
-    
-    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -194,7 +180,7 @@ class EditRecipeTVC: UITableViewController {
 extension EditRecipeTVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
+        
         return ingredientsByTitle.count
     }
     
@@ -212,9 +198,12 @@ extension EditRecipeTVC: UICollectionViewDataSource {
         
         if ingredient.alternative != nil,
             let alternativeIndex = alternativeArray.firstIndex(of: ingredient.alternative!) {
-            
+
             cell.bgViewColor = cellBackgroundColors[alternativeIndex % 10]
+        } else {
+            cell.bgViewColor = UIColor.clear
         }
+        cell.isSelected = false
         return cell
     }
     
@@ -236,9 +225,9 @@ extension EditRecipeTVC: UICollectionViewDelegate {
 //MARK: - navigation
 
 extension EditRecipeTVC {
-
-
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GoToChooseRecipe",
             let vc = segue.destination as? ChooseRecipeTVC {
             
@@ -246,8 +235,7 @@ extension EditRecipeTVC {
                 vc.notifyMessage(NSLocalizedString("Please choose an existing recipe.", comment: "alert"))
             }
             vc.existingRecipeSeclectedHandler = { recipe in
-//                self.selectedRecipe = self.deepCopy(from: recipe)
-                self.titleTextField.text = recipe.title
+                self.titleTextField.text = recipe.title! + " - 2"
                 
                 for i in recipe.meals?.allObjects as! [Meal] {
                     self.mealsButton[Int(i.order)].isSelected = true
@@ -257,7 +245,7 @@ extension EditRecipeTVC {
                 
                 let ingredients = (recipe.ingredients?.allObjects as! [Ingredient]).map({self.deepCopy(from: $0)})
                 self.ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
-
+                self.onIngredientUpdated()
                 self.methodTextView.text = recipe.method!.replacingOccurrences(of: "<br>", with: "\n")
                 vc.navigationController?.popViewController(animated: true)
             }
@@ -265,20 +253,19 @@ extension EditRecipeTVC {
             
         } else if segue.identifier == "GoToEditIngredient",
             let vc = segue.destination as? EditIngredientTVC {
-
+            
+            vc.addedIngredients = ingredientsByTitle
+            
             if let selectedIndexPath = ingredientCollectionView.indexPathsForSelectedItems?.first {
                 
                 vc.selectedIngredient = ingredientsByTitle[selectedIndexPath.row]
-                vc.addedIngredients = ingredientsByTitle.filter({$0 != vc.selectedIngredient})
-            } else {
-                vc.addedIngredients = ingredientsByTitle
             }
-
+            
             vc.completionHandler = { ingredient, operationString in
                 
                 switch operationString {
                 case K.operationDelete:
-                    self.ingredientsByTitle.remove(at: self.ingredientsByTitle.firstIndex(of: ingredient)!)
+                    self.ingredientsByTitle.removeAll(where: {$0 == ingredient})
                 case K.operationUpdate:
                     self.ingredientsByTitle.sort{$0.food!.title! < $1.food!.title!}
                 case K.operationAdd:
@@ -287,12 +274,11 @@ extension EditRecipeTVC {
                 default:
                     print("operationString: \(operationString)")
                 }
-
+                self.onIngredientUpdated()
             }
         }
-     }
-    
+    }
     
 
-
+    
 }

@@ -17,7 +17,6 @@ class EditServeSizeTVC: UITableViewController {
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
-    @IBOutlet weak var confirmLabel: UILabel!
     @IBOutlet weak var vegetableButton: UIButton!
     @IBOutlet weak var fruitButton: UIButton!
     @IBOutlet weak var proteinButton: UIButton!
@@ -41,7 +40,7 @@ class EditServeSizeTVC: UITableViewController {
             deleteButton.isEnabled = false
         }
         
-        verifyData()
+//        verifyData()
     }
 
     
@@ -63,14 +62,15 @@ class EditServeSizeTVC: UITableViewController {
                 quantityCellContentView.isHidden = false
             }
         }
-        verifyData()
-    }
-    
-    @IBAction func textFieldEditingDidEnd(_ sender: UITextField) {
-        verifyData()
+//        verifyData()
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        
+        if let errorMessage = entryError() {
+            notifyMessage(errorMessage)
+            return
+        }
         
         let foodGroupIndex = foodGroupButtons.firstIndex(where: {$0.isSelected == true})
         var operationString = ""
@@ -118,28 +118,51 @@ class EditServeSizeTVC: UITableViewController {
     }
     
     
-    func verifyData(){
+    func entryError() -> String? {
         
-        confirmLabel.text = ""
-        var valid = true
+        var message = ""
         
         if foodGroupButtons.allSatisfy({$0.isSelected == false}) {
-            confirmLabel.text! += NSLocalizedString("Missing Food Group. ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Missing Food Group. ", comment: "alert")
         }
         
         if Double(quantityTextField.text!) == nil {
-            confirmLabel.text! += NSLocalizedString("Invalid quantity. ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Invalid quantity. ", comment: "alert")
         }
         
         if unitTextField.text == "" {
-            confirmLabel.text! += NSLocalizedString("Missing unit. ", comment: "confirm")
-            valid = false
+            message += NSLocalizedString("Missing unit. ", comment: "alert")
         }
         
-        saveButton.isEnabled = valid
+        return (message == "" ? nil : message)
     }
+    
+    
+//        func verifyData(){
+//
+//            var message = ""
+//    //        var valid = true
+//
+//            if foodGroupButtons.allSatisfy({$0.isSelected == false}) {
+//                message += NSLocalizedString("Missing Food Group. ", comment: "confirm")
+//    //            valid = false
+//            }
+//
+//            if Double(quantityTextField.text!) == nil {
+//                message += NSLocalizedString("Invalid quantity. ", comment: "confirm")
+//    //            valid = false
+//            }
+//
+//            if unitTextField.text == "" {
+//                message += NSLocalizedString("Missing unit. ", comment: "confirm")
+//    //            valid = false
+//            }
+//
+//            return valid
+//    //        saveButton.isEnabled = valid
+//        }
+    
+    
     
     /*
     // MARK: - Navigation

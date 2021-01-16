@@ -823,13 +823,13 @@ extension UIViewController {
     
     //MARK: - UI handling
     
-//    func selectCollectionCell(_ theCollectionView: UICollectionView, at indexPath: IndexPath){
-//        if let cell = theCollectionView.cellForItem(at: indexPath) as? CollectionCell {
-//            theCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
-//            cell.isSelected = true
-//            theCollectionView.delegate?.collectionView?(theCollectionView, didSelectItemAt: indexPath)
-//        }
-//    }
+    func selectCollectionCell(_ sender: UICollectionView, at indexPath: IndexPath) {
+        sender.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+        if let cell = sender.cellForItem(at: indexPath) as? CollectionCell {
+            cell.isSelected = true
+//            sender.delegate?.collectionView?(sender, didSelectItemAt: indexPath)
+        }
+    }
     
     
     //    func enableSaveButton(_ button: UIButton, enable: Bool = true){
