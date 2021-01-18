@@ -38,15 +38,17 @@ class SettingsTVC: UITableViewController {
             navigationController?.popViewController(animated: true)
         case [0,2]:
             performSegue(withIdentifier: "GoToShoppingList", sender: self)
-        case [1,0]:
+        case [1,2]:
+            performSegue(withIdentifier: "GoToChoosePerson", sender: self)
+        case [1,3]:
+            performSegue(withIdentifier: "GoToChooseRecipe", sender: self)
+        case [1,4]:
+            performSegue(withIdentifier: "GoToChooseFood", sender: self)
+        case [1,5]:
             askToConfirmMessage("Overwrite current data with demo?", confirmHandler: { action in
                 self.importDemoDatabase()
                 self.notifyMessage("Demo database restored")
             })
-        case [1,1]:
-            performSegue(withIdentifier: "GoToChooseRecipe", sender: self)
-        case [1,2]:
-            performSegue(withIdentifier: "GoToChooseFood", sender: self)
         case [2,0]:
             exportToCsv()
             notifyMessage("Database exported")

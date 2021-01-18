@@ -531,6 +531,17 @@ extension UIViewController {
     //        }
     //    }
     
+    func loadPerson(to array: inout [Person]) {
+        let request : NSFetchRequest<Person> = Person.fetchRequest()
+//        let sortBy = NSSortDescriptor(key: "dateOfBirth", ascending: true)
+//        request.sortDescriptors = [sortBy]
+        do{
+            array = try K.context.fetch(request)
+        } catch {
+            print("Error loading Person \(error)")
+        }
+    }
+    
     
     func loadMeal(to array: inout [Meal]) {
         let request : NSFetchRequest<Meal> = Meal.fetchRequest()

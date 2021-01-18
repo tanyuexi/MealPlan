@@ -40,6 +40,14 @@
         <relationship name="plannedMeals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlannedMeal" inverseName="meal" inverseEntity="PlannedMeal"/>
         <relationship name="recipes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="meals" inverseEntity="Recipe"/>
     </entity>
+    <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
+        <attribute name="additional" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="breastfeeding" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="dateOfBirth" attributeType="Date" defaultDateTimeInterval="632664420" usesScalarValueType="NO"/>
+        <attribute name="female" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="pregnant" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+    </entity>
     <entity name="PlannedMeal" representedClassName=".CurrentMenu" syncable="YES" codeGenerationType="class">
         <attribute name="portions" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="plannedMeals" inverseEntity="Day"/>
@@ -85,6 +93,7 @@
         <element name="Ingredient" positionX="-361.171875" positionY="-361.1015625" width="128" height="148"/>
         <element name="Item" positionX="206.796875" positionY="161.84375" width="128" height="73"/>
         <element name="Meal" positionX="-210.9765625" positionY="113.890625" width="128" height="103"/>
+        <element name="Person" positionX="350.77734375" positionY="-242.49609375" width="128" height="133"/>
         <element name="PlannedMeal" positionX="72.9609375" positionY="1.87109375" width="128" height="118"/>
         <element name="Recipe" positionX="-186.7265625" positionY="-196.47265625" width="128" height="223"/>
         <element name="SavedPlan" positionX="11.6484375" positionY="173.01953125" width="128" height="73"/>

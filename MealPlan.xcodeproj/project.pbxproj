@@ -35,6 +35,8 @@
 		E745E667257081490059196B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E666257081490059196B /* Constants.swift */; };
 		E745E669257083910059196B /* UIViewController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E668257083910059196B /* UIViewController_Extension.swift */; };
 		E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F1B25AB253E00C5A926 /* Recipe.tsv */; };
+		E7B64F1E25B5AFE200C5A926 /* ChoosePersonTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */; };
+		E7B64F2025B5AFFC00C5A926 /* EditPersonTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
 		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
@@ -69,7 +71,9 @@
 		E745E66225707E280059196B /* EditFoodTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFoodTVC.swift; sourceTree = "<group>"; };
 		E745E666257081490059196B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E745E668257083910059196B /* UIViewController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController_Extension.swift; sourceTree = "<group>"; };
-		E7B64F1B25AB253E00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F1B25AB253E00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePersonTVC.swift; sourceTree = "<group>"; };
+		E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPersonTVC.swift; sourceTree = "<group>"; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
 		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -132,6 +136,8 @@
 				E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */,
 				E745E65E25707DE80059196B /* PreferredFoodTVC.swift */,
 				E745E66025707E120059196B /* ViewFoodTVC.swift */,
+				E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */,
+				E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -249,11 +255,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E745E636256CC6D80059196B /* AppDelegate.swift in Sources */,
+				E7B64F1E25B5AFE200C5A926 /* ChoosePersonTVC.swift in Sources */,
 				E745E65F25707DE80059196B /* PreferredFoodTVC.swift in Sources */,
 				E745E65925707D9D0059196B /* EditRecipeTVC.swift in Sources */,
 				E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */,
 				E745E66325707E280059196B /* EditFoodTVC.swift in Sources */,
 				E745E65325707D4B0059196B /* ShoppingListTVC.swift in Sources */,
+				E7B64F2025B5AFFC00C5A926 /* EditPersonTVC.swift in Sources */,
 				E745E65525707D700059196B /* ChooseRecipeTVC.swift in Sources */,
 				E7177B152577AD1600C3C8A0 /* UITextView_Extension.swift in Sources */,
 				E745E667257081490059196B /* Constants.swift in Sources */,
