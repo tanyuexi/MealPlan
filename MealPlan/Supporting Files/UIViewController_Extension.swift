@@ -826,11 +826,18 @@ extension UIViewController {
     
     //MARK: - UI handling
     
+    func convertMultiLineToDisplay(from dataString: String) -> String {
+        return dataString.replacingOccurrences(of: K.lineBreakReplaceString, with: "\n")
+    }
+    
+    func convertMultiLineToData(from displayString: String) -> String {
+        return displayString.replacingOccurrences(of: "\n", with: K.lineBreakReplaceString)
+    }
+    
     func selectCollectionCell(_ sender: UICollectionView, at indexPath: IndexPath) {
         sender.selectItem(at: indexPath, animated: false, scrollPosition: .left)
         if let cell = sender.cellForItem(at: indexPath) as? CollectionCell {
             cell.isSelected = true
-//            sender.delegate?.collectionView?(sender, didSelectItemAt: indexPath)
         }
     }
     

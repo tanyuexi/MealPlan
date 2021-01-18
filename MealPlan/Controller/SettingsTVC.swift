@@ -39,7 +39,10 @@ class SettingsTVC: UITableViewController {
         case [0,2]:
             performSegue(withIdentifier: "GoToShoppingList", sender: self)
         case [1,0]:
-            notifyMessage("Demo database restored")
+            askToConfirmMessage("Overwrite current data with demo?", confirmHandler: { action in
+                self.importDemoDatabase()
+                self.notifyMessage("Demo database restored")
+            })
         case [1,1]:
             performSegue(withIdentifier: "GoToChooseRecipe", sender: self)
         case [1,2]:

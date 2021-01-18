@@ -18,8 +18,6 @@ class EditRecipeTVC: UITableViewController {
     var seasons: Set<Season> = Set()
     var alternativeArray: [Alternative] = []
     
-    let cellBackgroundColors = [ #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5), #colorLiteral(red: 0.5791940689, green: 0.1280144453, blue: 0.5726861358, alpha: 0.5), #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 0.5), #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 0.5), #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 0.5), #colorLiteral(red: 0.6679978967, green: 0.4751212597, blue: 0.2586010993, alpha: 0.5), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5), #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1) ]
-    
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
@@ -69,7 +67,7 @@ class EditRecipeTVC: UITableViewController {
         ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
         onIngredientUpdated()
         
-        methodTextView.text = data.method!.replacingOccurrences(of: "<br>", with: "\n")
+        methodTextView.text = convertMultiLineToDisplay(from: data.method!)
     }
     
     
@@ -141,7 +139,7 @@ class EditRecipeTVC: UITableViewController {
             operationString = K.operationAdd
         }
         recipe.title = titleTextField.text
-        recipe.method = methodTextView.text.replacingOccurrences(of: "\n", with: "<br>")
+        recipe.method = convertMultiLineToData(from: methodTextView.text)
         recipe.portion = Int16(peopleTextField.text!)!
         recipe.ingredients = NSSet(array: ingredientsByTitle)
         recipe.alternatives = NSSet(array: alternativeArray)
@@ -199,7 +197,7 @@ extension EditRecipeTVC: UICollectionViewDataSource {
         if ingredient.alternative != nil,
             let alternativeIndex = alternativeArray.firstIndex(of: ingredient.alternative!) {
 
-            cell.bgViewColor = cellBackgroundColors[alternativeIndex % 10]
+            cell.bgViewColor = K.cellBackgroundColors[alternativeIndex % 10]
         } else {
             cell.bgViewColor = UIColor.clear
         }
