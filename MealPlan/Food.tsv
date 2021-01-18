@@ -1,251 +1,258 @@
 Dijon mustard	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
 English muffin	Spring@;Summer@;Autumn@;Winter	Grain#_1#_small@;Grain#_35#_g	
 almond (with skin)	Spring@;Summer@;Autumn@;Winter	Calcium#_100#_g	
-apple	Spring@;Summer@;Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
-apricot	Summer	Fruit#_150#_g@;Fruit#_2#_whole	
-artichoke	Spring@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
-asian greens	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
-asian pear/nashi	Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
-asparagus	Spring@;Summer	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
+apple	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
+apricot	Summer	Fruit#_2#_whole@;Fruit#_150#_g	
+artichoke	Spring@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
+asian greens	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+asian pear/nashi	Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
+asparagus	Spring@;Summer	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
 avocado	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
-baby wombok (asian green)	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
-banana	Spring@;Summer@;Autumn	Fruit#_1#_whole@;Fruit#_150#_g	
-barley	Spring@;Summer@;Autumn@;Winter	Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)	
+baby wombok (asian green)	Summer@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+banana	Spring@;Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_whole	
+barley	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)	
 basil	Summer@;Autumn	Other#_1#_tbsp	
-bay leaf	Spring@;Summer@;Autumn@;Winter	Other#_1#_piece@;Other#_1#_tsp@;Other#_1#_some	
-bayberry	Summer	Fruit#_150#_g@;Fruit#_1#_cup	
-bean (borlotti)	Spring@;Summer@;Autumn@;Winter	Protein#_0.5#_cup (dried)@;Protein#_150#_g (cooked)@;Protein#_75#_g (dried)@;Protein#_1#_cup (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_37#_g (dried)	
-bean (borlotti, fresh)	Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
-bean (broad)	Spring@;Summer@;Autumn@;Winter	Protein#_1#_cup (cooked)@;Protein#_0.5#_cup (dried)@;Protein#_75#_g (dried)@;Protein#_150#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)	
-bean (broad, fresh)	Spring@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
-bean (butter)	Spring@;Summer@;Autumn@;Winter	Protein#_150#_g (cooked)@;Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Protein#_0.5#_cup (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_cup (dried)	
-bean (butter, fresh)	Summer@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
-bean (cannellini)	Spring@;Summer@;Autumn@;Winter	Protein#_150#_g (cooked)@;Protein#_1#_cup (cooked)@;Protein#_0.5#_cup (dried)@;Protein#_75#_g (dried)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)	
+bay leaf	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_piece@;Other#_1#_tsp	
+bayberry	Summer	Fruit#_1#_cup@;Fruit#_150#_g	
+bean (borlotti)	Spring@;Summer@;Autumn@;Winter	Protein#_75#_g (dried)@;Protein#_1#_cup (cooked)@;Protein#_150#_g (cooked)@;Protein#_0.5#_cup (dried)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_37#_g (dried)	
+bean (borlotti, fresh)	Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+bean (broad)	Spring@;Summer@;Autumn@;Winter	Protein#_1#_cup (cooked)@;Protein#_0.5#_cup (dried)@;Protein#_75#_g (dried)@;Protein#_150#_g (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_cup (dried)	
+bean (broad, fresh)	Spring@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
+bean (butter)	Spring@;Summer@;Autumn@;Winter	Protein#_0.5#_cup (dried)@;Protein#_150#_g (cooked)@;Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_37#_g (dried)	
+bean (butter, fresh)	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+bean (cannellini)	Spring@;Summer@;Autumn@;Winter	Protein#_75#_g (dried)@;Protein#_150#_g (cooked)@;Protein#_1#_cup (cooked)@;Protein#_0.5#_cup (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_0.5#_cup (cooked)	
+bean (four bean mix)	Spring@;Summer@;Autumn@;Winter	Protein#_0.5#_cup (dried)@;Protein#_75#_g (dried)@;Protein#_1#_cup (cooked)@;Protein#_150#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.25#_cup (dried)	
 bean (green, fresh)	Spring@;Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
-bean (kidney)	Spring@;Summer@;Autumn@;Winter	Protein#_0.5#_cup (dried)@;Protein#_150#_g (cooked)@;Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_cup (dried)	
-bean sprouts	Spring@;Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
-bean/legume	Spring@;Summer@;Autumn@;Winter	Protein#_150#_g (cooked)@;Protein#_0.5#_cup (dried)@;Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_0.5#_cup (cooked)	
+bean (kidney)	Spring@;Summer@;Autumn@;Winter	Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Protein#_0.5#_cup (dried)@;Protein#_150#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)	
+bean sprouts	Spring@;Summer@;Autumn	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
+bean/legume	Spring@;Summer@;Autumn@;Winter	Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Protein#_150#_g (cooked)@;Protein#_0.5#_cup (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_0.5#_cup (cooked)	
 beef	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
+beef (blade steak)	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
+beef (chuck steak)	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
 beef mince	Spring@;Summer@;Autumn@;Winter	Protein#_95#_g (raw)@;Protein#_65#_g (cooked)	
-beetroot	Spring@;Summer@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_medium@;Vegetable#_2#_small@;Vegetable#_0.5#_large	
+beetroot	Spring@;Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_medium@;Vegetable#_2#_small@;Vegetable#_0.5#_large@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
 begonia fruit	Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 bell fruit/wax apple	Spring@;Summer	Fruit#_2#_whole@;Fruit#_150#_g	
-bitter melon	Spring@;Summer@;Autumn	Vegetable#_1#_medium@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large	
+bitter melon	Spring@;Summer@;Autumn	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small	
 black pepper	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_some	
 black plum	Summer	Fruit#_2#_whole@;Fruit#_150#_g	
 blackberries	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 blueberries	Spring@;Summer	Fruit#_1#_cup@;Fruit#_150#_g	
-bok choy (asian green)	Spring@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+bok choy (asian green)	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
+bouquet garni sachet	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_some@;Other#_1#_tbsp	
 boysenberries	Summer	Fruit#_150#_g@;Fruit#_1#_cup	
-bread	Spring@;Summer@;Autumn@;Winter	Grain#_1#_slice@;Grain#_40#_g	
-broccoli	Spring@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
-broccolini	Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
-brown rice	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_100#_g (cooked)	
-brussels sprouts	Spring@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+bread	Spring@;Summer@;Autumn@;Winter	Grain#_40#_g@;Grain#_1#_slice	
+broccoli	Spring@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+broccolini	Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
+brown rice	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_100#_g (cooked)@;Grain#_0.5#_cup (cooked)	
+brussels sprout	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_6#_whole@;Vegetable#_75#_g (cooked)	
 buckwheat	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)@;Grain#_0.5#_cup (cooked)	
-bulgur	Spring@;Summer@;Autumn@;Winter	Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_50#_g (raw)	
+bulgur	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)	
 butter	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g	
 buttermilk	Spring@;Summer@;Autumn@;Winter	Calcium#_250#_ml@;Calcium#_1#_cup	
-cabbage	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (raw)@;Vegetable#_1#_cup (raw)	
-capsicum	Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_0.5#_large@;Vegetable#_150#_g (raw)	
-capsicum (green)	Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_large	
-capsicum (red)	Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_2#_small@;Vegetable#_0.5#_large@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_medium@;Vegetable#_1#_cup (raw)	
-carrot	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_medium@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_2#_small@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.5#_large@;Vegetable#_1#_cup (raw)	
-cauliflower	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
-celeriac	Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
-celery	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_stick@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
-cheese (Parmesan grated)	Spring@;Summer@;Autumn@;Winter	Calcium#_40#_g@;Other#_1#_tbsp@;Other#_1#_some	
-cheese (grated)	Spring@;Summer@;Autumn@;Winter	Calcium#_40#_g@;Calcium#_0.25#_cup@;Other#_1#_some	
-cheese (hard)	Spring@;Summer@;Autumn@;Winter	Calcium#_2#_slices@;Calcium#_40#_g	
+cabbage	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
+capsicum	Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_0.5#_large	
+capsicum (green)	Summer@;Autumn@;Winter	Vegetable#_0.5#_large@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)	
+capsicum (red)	Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_2#_small@;Vegetable#_0.5#_large@;Vegetable#_1#_medium	
+carrot	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_1#_medium@;Vegetable#_0.5#_large@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
+cauliflower	Spring@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
+celeriac	Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+celery	Spring@;Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_1#_stick@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+cheese (Parmesan, grated)	Spring@;Summer@;Autumn@;Winter	Calcium#_40#_g@;Other#_1#_tbsp@;Other#_1#_cup@;Other#_1#_some	
+cheese (Romano, grated)	Spring@;Summer@;Autumn@;Winter	Calcium#_40#_g@;Other#_1#_some@;Other#_1#_tbsp@;Other#_1#_cup	
+cheese (grated)	Spring@;Summer@;Autumn@;Winter	Calcium#_0.25#_cup@;Calcium#_40#_g@;Other#_1#_some	
+cheese (hard)	Spring@;Summer@;Autumn@;Winter	Calcium#_40#_g@;Calcium#_2#_slices	
 cheese (ricotta)	Spring@;Summer@;Autumn@;Winter	Calcium#_0.5#_cup@;Calcium#_120#_g	
-cherry	Spring@;Summer	Fruit#_1#_cup@;Fruit#_150#_g	
-cherry tomato	Spring@;Summer@;Autumn	Fruit#_2#_whole@;Fruit#_150#_g	
+cherry	Spring@;Summer	Fruit#_150#_g@;Fruit#_1#_cup	
+cherry tomato	Spring@;Summer@;Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
 chicken	Spring@;Summer@;Autumn@;Winter	Protein#_80#_g (cooked)@;Protein#_100#_g (raw)	
-chicken breast (no skin)	Spring@;Summer@;Autumn@;Winter	Protein#_100#_g (raw)@;Protein#_1#_small@;Protein#_80#_g (cooked)	
-chickpea	Spring@;Summer@;Autumn@;Winter	Protein#_150#_g (cooked)@;Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Protein#_0.5#_cup (dried)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_37#_g (dried)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
-chilli	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp	
-chilli (red)	Spring@;Summer@;Autumn@;Winter	Other#_1#_whole@;Other#_1#_some@;Other#_1#_tsp	
+chicken breast (no skin)	Spring@;Summer@;Autumn@;Winter	Protein#_80#_g (cooked)@;Protein#_100#_g (raw)@;Protein#_1#_small	
+chickpea	Spring@;Summer@;Autumn@;Winter	Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Protein#_0.5#_cup (dried)@;Protein#_150#_g (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.25#_cup (dried)	
+chilli	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_some	
+chilli (red)	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_whole@;Other#_1#_some	
 chilli flakes	Spring@;Summer@;Autumn@;Winter	Other#_1#_some	
-choko	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_2#_small@;Vegetable#_1#_medium@;Vegetable#_0.5#_large@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
-choy sum (asian green)	Spring@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
-chrysanthemum (asian green)	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
+choko	Spring@;Autumn@;Winter	Vegetable#_1#_medium@;Vegetable#_0.5#_large@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_2#_small	
+choy sum (asian green)	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
+chrysanthemum (asian green)	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
 chutney	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp	
-coconut	Summer	Fruit#_150#_g@;Fruit#_1#_cup	
-coconut milk	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_cup	
+coconut	Summer	Fruit#_1#_cup@;Fruit#_150#_g	
+coconut essence	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
+coconut milk	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup@;Other#_1#_some	
 coriander	Spring@;Summer@;Autumn@;Winter	Other#_1#_some	
 corn	Spring@;Summer@;Autumn	Vegetable#_75#_g@;Vegetable#_1#_cup	
-corn kernels	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_can@;Vegetable#_200#_g	
+corn kernels	Spring@;Summer@;Autumn@;Winter	Vegetable#_200#_g@;Vegetable#_0.5#_can	
 cornflour	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
 couscous	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)	
 cowpea snap	Summer	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
-cranberry	Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
+cranberry	Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 crispbreads	Spring@;Summer@;Autumn@;Winter	Grain#_35#_g@;Grain#_3#_whole	
-crumpet	Spring@;Summer@;Autumn@;Winter	Grain#_60#_g@;Grain#_1#_whole	
-cucumber	Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_0.5#_large@;Vegetable#_1#_medium	
-cucumber (Lebanese)	Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium@;Vegetable#_150#_g (raw)	
+crumpet	Spring@;Summer@;Autumn@;Winter	Grain#_1#_whole@;Grain#_60#_g	
+cucumber	Summer@;Autumn@;Winter	Vegetable#_0.5#_large@;Vegetable#_1#_medium@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small	
+cucumber (Lebanese)	Summer@;Autumn@;Winter	Vegetable#_1#_medium@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.5#_large	
 cumin	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
-cumquat/kumquat	Spring@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_cup	
-curry paste	Spring@;Summer@;Autumn@;Winter	Other#_8#_g@;Other#_1#_tbsp@;Other#_1#_some	
+cumquat/kumquat	Spring@;Autumn@;Winter	Fruit#_1#_cup@;Fruit#_150#_g	
+curry paste	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_8#_g@;Other#_1#_tbsp	
 curry powder	Spring@;Summer@;Autumn@;Winter	Other#_8#_g@;Other#_1#_tbsp@;Other#_1#_tsp@;Other#_1#_some	
-custard apple/sugar-apple/sweetsop	Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
-daikon/radish	Spring@;Summer@;Autumn	Vegetable#_0.5#_large@;Vegetable#_2#_small@;Vegetable#_1#_medium@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
+custard apple/sugar-apple/sweetsop	Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
+daikon/radish	Spring@;Summer@;Autumn	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.5#_large@;Vegetable#_2#_small@;Vegetable#_1#_medium@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
 date	Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
-dragon fruit	Spring@;Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
+dragon fruit	Spring@;Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 dried fruit	Spring@;Summer@;Autumn@;Winter	Fruit#_30#_g	
-dry sherry or white wine	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_cup	
-durian	Summer	Fruit#_1#_cup@;Fruit#_150#_g	
-egg	Spring@;Summer@;Autumn@;Winter	Protein#_2#_large@;Protein#_120#_g	
+dry sherry	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_cup	
+durian	Summer	Fruit#_150#_g@;Fruit#_1#_cup	
+egg	Spring@;Summer@;Autumn@;Winter	Protein#_120#_g@;Protein#_2#_large	
 egg fruit	Winter	Fruit#_2#_whole@;Fruit#_150#_g	
-eggplant	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large	
-endive leaf	Summer	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
+eggplant	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
+endive leaf	Summer	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
 evaporated milk	Spring@;Summer@;Autumn@;Winter	Calcium#_120#_ml@;Calcium#_0.5#_cup	
-feijoa	Autumn@;Winter	Fruit#_2#_whole@;Fruit#_150#_g	
+feijoa	Autumn@;Winter	Fruit#_150#_g@;Fruit#_2#_whole	
 fennel	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
-fig	Summer@;Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
-filo pastry	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_1#_sheet@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)	
-fish (canned)	Spring@;Summer@;Autumn@;Winter	Protein#_115#_g (raw)@;Protein#_100#_g (cooked)	
-fish fillet	Spring@;Summer@;Autumn@;Winter	Protein#_115#_g (raw)@;Protein#_100#_g (cooked)	
+fig	Summer@;Autumn	Fruit#_2#_whole@;Fruit#_150#_g	
+filo pastry	Spring@;Summer@;Autumn@;Winter	Grain#_1#_sheet@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
+fish (canned)	Spring@;Summer@;Autumn@;Winter	Protein#_100#_g (cooked)@;Protein#_115#_g (raw)	
+fish fillet	Spring@;Summer@;Autumn@;Winter	Protein#_100#_g (cooked)@;Protein#_115#_g (raw)	
 flat peach	Autumn	Fruit#_2#_whole@;Fruit#_150#_g	
-flour (plain)	Spring@;Summer@;Autumn@;Winter	Grain#_3.3#_tbsp@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
+flour (plain)	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_3.3#_tbsp	
 flour (white self-raising)	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)	
 flour (whole meal self-raising)	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)	
-fruit juice	Spring@;Summer@;Autumn@;Winter	Fruit#_0.5#_cup@;Fruit#_125#_ml	
-gai laan	Spring@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+fruit juice	Spring@;Summer@;Autumn@;Winter	Fruit#_125#_ml@;Fruit#_0.5#_cup	
+gai laan	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
 garlic	Spring@;Summer@;Autumn@;Winter	Other#_1#_clove	
-garlic shoot	Spring	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
+garlic shoot	Spring	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
 ginger	Spring@;Summer@;Autumn@;Winter	Other#_1#_some	
 ginseng fruit	Autumn	Fruit#_2#_whole@;Fruit#_150#_g	
-goat	Spring@;Summer@;Autumn@;Winter	Protein#_95#_g (raw)@;Protein#_65#_g (cooked)	
-golden berry	Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
+goat	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
+golden berry	Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
 grapefruit	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
-grapes	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
-green leafy or salad vegetables	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
-green onion	Spring@;Summer	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
+grapes	Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
+green leafy or salad vegetables	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (raw)@;Vegetable#_1#_cup (raw)	
+green onion	Spring@;Summer	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
 guava	Autumn	Fruit#_150#_g@;Fruit#_1#_whole	
-hawthorn	Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
-herb (dried)	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_some	
+hawthorn	Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
+herb (dried)	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp@;Other#_1#_tbsp	
 herb (fresh)	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tbsp	
 honey	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
 honeydew	Spring@;Summer	Fruit#_1#_cup@;Fruit#_150#_g	
-horseradish	Winter	Vegetable#_1#_medium@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small	
-jabuticaba fruit	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_cup	
-jackfruit	Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
+horseradish	Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_1#_medium@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large	
+jabuticaba fruit	Spring@;Summer@;Autumn@;Winter	Fruit#_1#_cup@;Fruit#_150#_g	
+jackfruit	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 kale	Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
-kangaroo	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
-kelp	Spring@;Summer@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
-kiwano	Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
+kangaroo	Spring@;Summer@;Autumn@;Winter	Protein#_95#_g (raw)@;Protein#_65#_g (cooked)	
+kelp	Spring@;Summer@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
+kiwano	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 kiwi fruit	Autumn@;Winter	Fruit#_2#_whole@;Fruit#_150#_g	
-kohlrabi	Winter	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
-konjac	Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
-lamb	Spring@;Summer@;Autumn@;Winter	Protein#_95#_g (raw)@;Protein#_65#_g (cooked)	
-lasagne (instant sheet)	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_1#_sheet@;Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
-leaf mustard (asian green)	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
-leek	Spring@;Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
+kohlrabi	Winter	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
+konjac	Autumn	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+lamb	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
+lasagne (instant sheet)	Spring@;Summer@;Autumn@;Winter	Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_1#_sheet@;Grain#_50#_g (raw)	
+leaf mustard (asian green)	Spring@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
+leek	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
 lemon	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_2#_whole	
 lemon juice	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp	
-lentils (red)	Spring@;Summer@;Autumn@;Winter	Protein#_0.5#_cup (dried)@;Protein#_150#_g (cooked)@;Protein#_75#_g (dried)@;Protein#_1#_cup (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_0.25#_cup (dried)@;Vegetable#_75#_g (cooked)	
+lentil	Spring@;Summer@;Autumn@;Winter	Protein#_75#_g (dried)@;Protein#_1#_cup (cooked)@;Protein#_150#_g (cooked)@;Protein#_0.5#_cup (dried)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_0.25#_cup (dried)	
+lentil (red)	Spring@;Summer@;Autumn@;Winter	Protein#_0.5#_cup (dried)@;Protein#_1#_cup (cooked)@;Protein#_75#_g (dried)@;Protein#_150#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_37#_g (dried)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.25#_cup (dried)	
 lettuce	Spring@;Summer@;Autumn	Vegetable#_75#_g (raw)@;Vegetable#_1#_cup (raw)	
-lily root	Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
+lily root	Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
 lime	Spring@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_2#_whole	
 loganberries	Summer	Fruit#_150#_g@;Fruit#_1#_cup	
 longan	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 loofah	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
 loquat	Spring	Fruit#_150#_g@;Fruit#_2#_whole	
-lotus root	Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
-luo han guo	Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_cup	
-lychee	Spring@;Summer	Fruit#_150#_g@;Fruit#_2#_whole	
+lotus root	Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
+luo han guo	Autumn@;Winter	Fruit#_1#_cup@;Fruit#_150#_g	
+lychee	Spring@;Summer	Fruit#_2#_whole@;Fruit#_150#_g	
 malus asiatica	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 mandarin	Spring@;Autumn@;Winter	Fruit#_2#_whole@;Fruit#_150#_g	
-mango	Spring@;Summer@;Autumn	Fruit#_1#_whole@;Fruit#_150#_g	
-mangosteen	Autumn	Fruit#_2#_whole@;Fruit#_150#_g	
+mango	Spring@;Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_whole	
+mangosteen	Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
 margarine	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp	
 mayonnaise	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
-medium fruit like apple and banana	Spring@;Summer@;Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
-melon	Spring@;Summer	Fruit#_1#_cup@;Fruit#_150#_g	
+medium fruit like apple and banana	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
+melon	Spring@;Summer	Fruit#_150#_g@;Fruit#_1#_cup	
 milk	Spring@;Summer@;Autumn@;Winter	Calcium#_250#_ml@;Calcium#_1#_cup@;Other#_1#_some	
-milk (low-fat)	Spring@;Summer@;Autumn@;Winter	Calcium#_1#_cup@;Calcium#_250#_ml@;Other#_1#_some@;Other#_1#_tbsp	
+milk (low-fat)	Spring@;Summer@;Autumn@;Winter	Calcium#_250#_ml@;Calcium#_1#_cup@;Other#_1#_some@;Other#_1#_tbsp	
 miracle fruit	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
 muesli	Spring@;Summer@;Autumn@;Winter	Grain#_30#_g@;Grain#_0.2#_cup	
 mulberry	Spring@;Summer	Fruit#_1#_cup@;Fruit#_150#_g	
-mushroom	Spring@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
-mushroom (crab)	Spring@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
-mushroom (enoki)	Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+mushroom	Spring@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+mushroom (crab)	Spring@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
+mushroom (enoki)	Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
 mushroom (field)	Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
-mushroom (flat)	Spring@;Winter	Vegetable#_1#_cup@;Vegetable#_3#_whole@;Vegetable#_150#_g (raw)	
+mushroom (flat)	Spring@;Winter	Vegetable#_3#_whole@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup	
 mushroom (hericium erinaceus)	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
-mushroom (pine)	Autumn	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
-mushroom (pleurotus eryngii)	Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
-mushroom (pleurotus ostreatus)	Spring@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
-mushroom (shiitake)	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
-mushroom (slippery jacks)	Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
-mushroom (tea tree)	Spring@;Summer	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
-mushroom (tricholoma)	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
+mushroom (pine)	Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
+mushroom (pleurotus eryngii)	Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+mushroom (pleurotus ostreatus)	Spring@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
+mushroom (shiitake)	Spring@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+mushroom (slippery jacks)	Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
+mushroom (tea tree)	Spring@;Summer	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+mushroom (tricholoma)	Summer@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
 mustard (French)	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
 mustard (wholegrain)	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
 nectarine	Summer	Fruit#_1#_whole@;Fruit#_150#_g	
-non-leafy vegetables	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
-noodles	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
+non-leafy vegetables	Spring@;Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+noodles	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)	
 nut or seed paste	Spring@;Summer@;Autumn@;Winter	Protein#_30#_g	
-nutmeg	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp	
+nutmeg	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_some	
 nuts	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g@;Protein#_30#_g	
 oil	Spring@;Summer@;Autumn@;Winter	Oil#_2#_tbsp@;Oil#_8#_g	
-oil (unsaturated)	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g@;Oil#_0.5#_tbsp@;Oil#_2#_tsp	
+oil (unsaturated)	Spring@;Summer@;Autumn@;Winter	Oil#_0.5#_tbsp@;Oil#_2#_tsp@;Oil#_8#_g	
 oil spray	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g@;Other#_1#_some	
 oil spreads	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g	
-okra	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
-olive	Spring@;Summer@;Autumn@;Winter	Other#_1#_slice@;Other#_1#_tsp	
-olive oil	Spring@;Summer@;Autumn@;Winter	Oil#_2#_tsp@;Oil#_8#_g@;Oil#_0.5#_tbsp	
-onion	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_large	
-onion (red)	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_0.5#_large@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium	
-orange	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
-orange juice	Spring@;Summer@;Autumn@;Winter	Fruit#_125#_ml@;Fruit#_0.5#_cup@;Other#_1#_tbsp@;Other#_0.5#_medium	
+okra	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+olive	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_slice	
+olive oil	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g@;Oil#_0.5#_tbsp@;Oil#_2#_tsp	
+onion	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_large@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
+onion (brown)	Spring@;Summer@;Autumn@;Winter	Vegetable#_2#_small@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_medium@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large	
+onion (red)	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_large@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_2#_small	
+orange	Spring@;Summer@;Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
+orange juice	Spring@;Summer@;Autumn@;Winter	Fruit#_0.5#_cup@;Fruit#_125#_ml@;Other#_0.5#_medium@;Other#_1#_tbsp	
 oyster sauce	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
-papaya/papaw/paw paw	Spring@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
+papaya/papaw/paw paw	Spring@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
 paprika	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
-paprika or curry powder	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp	
-parsley	Spring@;Summer@;Autumn@;Winter	Other#_1#_handful@;Other#_1#_some@;Other#_1#_tbsp@;Vegetable#_1#_cup (raw)	
-parsley or basil	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_some@;Other#_1#_handful@;Vegetable#_1#_cup (raw)	
+parsley	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_handful@;Other#_1#_some@;Vegetable#_1#_cup (raw)	
 parsnip	Spring@;Autumn@;Winter	Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_cup (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
-passionfruit	Summer@;Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
+passionfruit	Summer@;Autumn	Fruit#_2#_whole@;Fruit#_150#_g	
 pasta	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_50#_g (raw)	
 pasta (penne)	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)	
 pea	Spring@;Summer	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
 pea (frozen)	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
 pea seedling	Spring@;Summer	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
-peach	Summer@;Autumn	Fruit#_1#_whole@;Fruit#_150#_g	
+peach	Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_whole	
 peanut	Spring@;Summer@;Autumn@;Winter	Protein#_30#_g	
 pear	Summer@;Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
-pepino	Spring	Fruit#_150#_g@;Fruit#_1#_cup	
-pepper	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_some	
+pepino	Spring	Fruit#_1#_cup@;Fruit#_150#_g	
+pepper	Spring@;Summer@;Autumn@;Winter	Other#_1#_some@;Other#_1#_tsp	
 persimmon	Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
 pineapple	Spring@;Summer@;Winter	Fruit#_0.5#_whole@;Fruit#_150#_g@;Fruit#_1#_cup	
 plum	Summer@;Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
-polenta	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.5#_cup (cooked)@;Grain#_0.25#_cup (raw)	
+polenta	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_0.5#_cup (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)	
 pomegranate	Autumn	Fruit#_150#_g@;Fruit#_1#_whole	
 pomelo	Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
 pork	Spring@;Summer@;Autumn@;Winter	Protein#_95#_g (raw)@;Protein#_65#_g (cooked)	
 porridge	Spring@;Summer@;Autumn@;Winter	Grain#_0.7#_cup (cooked)@;Grain#_120#_g (cooked)	
-potato	Spring@;Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small	
+potato	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium	
 powdered milk	Spring@;Summer@;Autumn@;Winter	Calcium#_250#_ml@;Calcium#_1#_cup	
-prickly pear	Autumn	Fruit#_150#_g@;Fruit#_1#_whole	
-prune	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
-pumpkin	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
-pumpkin (butternut)	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_whole@;Vegetable#_75#_g (cooked)	
-pumpkin or sweet potato	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+prawn	Spring@;Summer@;Autumn@;Winter	Protein#_100#_g (cooked)@;Protein#_115#_g (raw)	
+prickly pear	Autumn	Fruit#_1#_whole@;Fruit#_150#_g	
+prune	Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup	
+pumpkin	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
+pumpkin (butternut)	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.25#_whole@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
 purple cabbage	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
-quince	Autumn@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
-quinoa	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
+quince	Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
+quinoa	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)	
 raisins/sultanas/currants	Spring@;Summer@;Autumn@;Winter	Fruit#_30#_g	
 rambutan	Summer@;Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
 raspberries	Summer@;Autumn	Fruit#_1#_cup@;Fruit#_150#_g	
-rhubarb	Spring@;Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
-rice	Spring@;Summer@;Autumn@;Winter	Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_50#_g (raw)@;Grain#_100#_g (cooked)	
-rice (basmati)	Spring@;Summer@;Autumn@;Winter	Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)	
+rhubarb	Spring@;Summer@;Autumn@;Winter	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
+rice	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
+rice (basmati)	Spring@;Summer@;Autumn@;Winter	Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_0.25#_cup (raw)@;Grain#_50#_g (raw)	
 rice milk	Spring@;Summer@;Autumn@;Winter	Calcium#_250#_ml@;Calcium#_1#_cup	
-rind of lemon or orange 	Spring@;Summer@;Autumn@;Winter	Other#_1#_medium@;Other#_1#_tsp	
-rockmelon/sweetmelon/cantaloupe	Spring@;Summer	Fruit#_150#_g@;Fruit#_1#_cup	
+rind of lemon	Spring@;Summer@;Autumn@;Winter	Other#_1#_medium@;Other#_1#_tsp	
+rind of orange 	Spring@;Summer@;Autumn@;Winter	Other#_1#_tsp@;Other#_1#_medium	
+rockmelon/sweetmelon/cantaloupe	Spring@;Summer	Fruit#_1#_cup@;Fruit#_150#_g	
 roll or flat bread	Spring@;Summer@;Autumn@;Winter	Grain#_40#_g@;Grain#_0.5#_medium	
-salad	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (raw)@;Vegetable#_1#_cup (raw)	
+salad	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
 salmon (canned pink salmon with bones)	Spring@;Summer@;Autumn@;Winter	Calcium#_0.5#_cup@;Calcium#_100#_g	
 salt	Spring@;Summer@;Autumn@;Winter	Other#_1#_some	
 sapodilla	Autumn	Fruit#_150#_g@;Fruit#_2#_whole	
@@ -254,62 +261,65 @@ scallop	Spring@;Summer@;Autumn@;Winter	Protein#_100#_g (cooked)@;Protein#_115#_g
 scone	Spring@;Summer@;Autumn@;Winter	Grain#_35#_g@;Grain#_1#_small	
 seaweed	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
 seeds	Spring@;Summer@;Autumn@;Winter	Oil#_8#_g@;Protein#_30#_g	
-semolina	Spring@;Summer@;Autumn@;Winter	Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)	
+semolina	Spring@;Summer@;Autumn@;Winter	Grain#_100#_g (cooked)@;Grain#_50#_g (raw)@;Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)	
 shallot/spring onion	Spring@;Summer@;Autumn@;Winter	Other#_1#_stick	
-shepherd's purse	Spring@;Summer@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
-silverbeet	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)	
+shepherd's purse	Spring@;Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+silver beet (young)	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
+silverbeet	Spring@;Summer@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
 small fruits like apricots and plums	Spring@;Summer@;Autumn@;Winter	Fruit#_2#_whole@;Fruit#_150#_g	
-snakeskin fruit	Summer	Fruit#_2#_whole@;Fruit#_150#_g	
-snow pea	Summer	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
-soy milk	Spring@;Summer@;Autumn@;Winter	Calcium#_1#_cup@;Calcium#_250#_ml	
+snakeskin fruit	Summer	Fruit#_150#_g@;Fruit#_2#_whole	
+snow pea	Summer	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
+soy milk	Spring@;Summer@;Autumn@;Winter	Calcium#_250#_ml@;Calcium#_1#_cup	
+spaghetti	Spring@;Summer@;Autumn@;Winter	Grain#_0.25#_cup (raw)@;Grain#_0.5#_cup (cooked)@;Grain#_100#_g (cooked)@;Grain#_50#_g (raw)	
 spinach (English)	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
-spinach (English) or young silver beet	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (raw)	
 spring bamboo shoots	Spring@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)	
-squash	Spring@;Summer@;Autumn@;Winter	Vegetable#_2#_small@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
-starfruit	Spring	Fruit#_1#_whole@;Fruit#_150#_g	
+squash	Spring@;Summer@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_2#_small@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_1#_medium	
+starfruit	Spring	Fruit#_150#_g@;Fruit#_1#_whole	
 stock	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
+stock (beef)	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
 stock (chicken)	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
 stock (vegetable)	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
-strawberries	Spring@;Summer@;Autumn	Fruit#_150#_g@;Fruit#_1#_cup@;Fruit#_5#_whole	
-sugar cane	Autumn@;Winter	Fruit#_1#_cup@;Fruit#_150#_g	
+strawberries	Spring@;Summer@;Autumn	Fruit#_1#_cup@;Fruit#_5#_whole@;Fruit#_150#_g	
+sugar cane	Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_cup	
 sugar snap pea	Summer	Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
 swede	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
 sweet chilli sauce	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
-sweet potato	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_large	
-tamarillo	Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_2#_whole	
-tangelo	Spring@;Winter	Fruit#_150#_g@;Fruit#_1#_whole	
+sweet potato	Spring@;Autumn@;Winter	Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_large@;Vegetable#_1#_cup (raw)	
+tamarillo	Summer@;Autumn@;Winter	Fruit#_2#_whole@;Fruit#_150#_g	
+tangelo	Spring@;Winter	Fruit#_1#_whole@;Fruit#_150#_g	
 taro	Summer@;Autumn	Vegetable#_0.5#_large@;Vegetable#_150#_g (raw)@;Vegetable#_2#_small@;Vegetable#_1#_medium@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
-tiny fruit or diced or canned fruit	Spring@;Summer@;Autumn@;Winter	Fruit#_150#_g@;Fruit#_1#_cup	
+tiny fruit or diced or canned fruit	Spring@;Summer@;Autumn@;Winter	Fruit#_1#_cup@;Fruit#_150#_g	
 tofu	Spring@;Summer@;Autumn@;Winter	Calcium#_100#_g@;Protein#_170#_g	
-tomato	Spring@;Summer@;Autumn	Vegetable#_0.5#_large@;Vegetable#_2#_small@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium	
+tomato	Spring@;Summer@;Autumn	Vegetable#_2#_small@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_large	
 tomato (canned)	Spring@;Summer@;Autumn@;Winter	Vegetable#_1#_can	
-tomato pasta sauce	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_jar@;Other#_1#_g	
+tomato pasta sauce	Spring@;Summer@;Autumn@;Winter	Other#_1#_jar@;Other#_1#_g@;Other#_1#_tbsp	
 tomato paste	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
-toon bud	Spring	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
+toon bud	Spring	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
 tortilla	Spring@;Summer@;Autumn@;Winter	Grain#_1#_piece	
 tuna	Spring@;Summer@;Autumn@;Winter	Protein#_1#_can@;Protein#_100#_g (cooked)	
-turkey	Spring@;Summer@;Autumn@;Winter	Protein#_100#_g (raw)@;Protein#_80#_g (cooked)	
-turnip	Spring@;Autumn@;Winter	Vegetable#_75#_g (cooked)@;Vegetable#_2#_small@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)	
-veal	Spring@;Summer@;Autumn@;Winter	Protein#_65#_g (cooked)@;Protein#_95#_g (raw)	
+turkey	Spring@;Summer@;Autumn@;Winter	Protein#_80#_g (cooked)@;Protein#_100#_g (raw)	
+turnip	Spring@;Autumn@;Winter	Vegetable#_2#_small@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_large@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
+veal	Spring@;Summer@;Autumn@;Winter	Protein#_95#_g (raw)@;Protein#_65#_g (cooked)	
 vinegar	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
 vinegar (balsamic)	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
-water	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup@;Other#_250#_g	
+water	Spring@;Summer@;Autumn@;Winter	Other#_250#_g@;Other#_1#_cup	
 water caltrop	Summer@;Autumn	Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)	
 water chestnuts	Spring	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
 water spinach (asian green)	Spring@;Summer	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)	
 watercress	Spring@;Summer@;Autumn	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
 watermelon	Spring@;Summer	Fruit#_150#_g@;Fruit#_1#_cup	
-wheat cereal flakes	Spring@;Summer@;Autumn@;Winter	Grain#_30#_g@;Grain#_0.7#_cup	
-wine	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
-winter melon	Summer@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	
-witlof	Spring@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
-wombok (asian green)	Spring@;Autumn@;Winter	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
-wood ear fungus	Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
+wheat cereal flakes	Spring@;Summer@;Autumn@;Winter	Grain#_0.7#_cup@;Grain#_30#_g	
+wine (red)	Spring@;Summer@;Autumn@;Winter	Other#_1#_cup	
+wine (white)	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp@;Other#_1#_cup	
+winter melon	Summer@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)	
+witlof	Spring@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+wombok (asian green)	Spring@;Autumn@;Winter	Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)	
+wood ear fungus	Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
 worcestershire sauce	Spring@;Summer@;Autumn@;Winter	Other#_1#_tbsp	
-xian cai/amaranth (asian green)	Spring@;Summer	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
-yacon	Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_cup (raw)	
-yam	Summer@;Autumn	Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.5#_large@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_2#_small	
-yoghurt	Spring@;Summer@;Autumn@;Winter	Calcium#_0.8#_cup@;Calcium#_200#_g@;Calcium#_13.3#_tbsp	
+xian cai/amaranth (asian green)	Spring@;Summer	Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)	
+yacon	Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)@;Vegetable#_150#_g (raw)	
+yam	Summer@;Autumn	Vegetable#_75#_g (cooked)@;Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_1#_medium@;Vegetable#_2#_small@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_0.5#_large	
+yoghurt	Spring@;Summer@;Autumn@;Winter	Calcium#_13.3#_tbsp@;Calcium#_0.8#_cup@;Calcium#_200#_g	
 you mai cai/leaf lettuce (asian green)	Summer@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_75#_g (cooked)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_150#_g (raw)	
 zizania (asian green)	Summer@;Autumn	Vegetable#_1#_cup (raw)@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_75#_g (cooked)	
 zucchini	Spring@;Summer@;Autumn	Vegetable#_0.5#_large@;Vegetable#_75#_g (cooked)@;Vegetable#_1#_medium@;Vegetable#_2#_small@;Vegetable#_150#_g (raw)@;Vegetable#_0.5#_cup (cooked)@;Vegetable#_1#_cup (raw)	

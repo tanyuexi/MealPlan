@@ -313,7 +313,7 @@ extension UIViewController {
         }
         let food: Food!
         var foodArray: [Food] = []
-        loadFood(to: &foodArray, predicate: NSPredicate(format: "title MATCHES[cd] %@", fields[0]))
+        loadFood(to: &foodArray, predicate: NSPredicate(format: "title ==[cd] %@", fields[0]))
         if foodArray.count == 0 {
             food = Food(context: K.context)
             food.title = fields[0]
@@ -328,6 +328,7 @@ extension UIViewController {
         food.seasonLabel = getSeasonIcon(from: seasons)
         
         //serve size
+        food.serveSizes = nil
         for serveSize in fields[2].components(separatedBy: K.level2Separator) {
             //info: 0-food group, 1-quantity, 2-unit
             let info = serveSize.components(separatedBy: K.level3Separator)
@@ -360,7 +361,7 @@ extension UIViewController {
         }
         let recipe: Recipe!
         var recipeArray: [Recipe] = []
-        loadRecipe(to: &recipeArray, predicate: NSPredicate(format: "title MATCHES[cd] %@", fields[0]))
+        loadRecipe(to: &recipeArray, predicate: NSPredicate(format: "title ==[cd] %@", fields[0]))
         if recipeArray.count == 0 {
             recipe = Recipe(context: K.context)
             recipe.title = fields[0]
@@ -382,6 +383,7 @@ extension UIViewController {
         recipe.seasonLabel = getSeasonIcon(from: seasons)
         
         //ingredient
+        recipe.ingredients = nil
         for ingredient in fields[4].components(separatedBy: K.level2Separator) {
             //info: 0-food.title, 1-maxserve, 2-optional, 3-quantity, 4-unit
             let info = ingredient.components(separatedBy: K.level3Separator)
@@ -389,7 +391,7 @@ extension UIViewController {
                 continue
             }
             var foodByTitle: [Food] = []
-            loadFood(to: &foodByTitle, predicate: NSPredicate(format: "title MATCHES[cd] %@", info[0]))
+            loadFood(to: &foodByTitle, predicate: NSPredicate(format: "title ==[cd] %@", info[0]))
             if let food = foodByTitle.first,
                 let maxServes = Double(info[1]),
                 let quantity = Double(info[3]) {
@@ -451,6 +453,7 @@ extension UIViewController {
             convertStringLineToRecipe(from: line)
         }
         fclose(stdin)
+        cleanUp()
         saveContext()
     }
     
@@ -567,7 +570,7 @@ extension UIViewController {
         let sortBy = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sortBy]
         if predicate != nil {
-            //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+            //NSPredicate(format: "title ==[cd] %@", fields[0])
             request.predicate = predicate
         }
         do{
@@ -578,7 +581,7 @@ extension UIViewController {
     }
     
     func loadIngredient(to array: inout [Ingredient], predicate: NSPredicate? = nil) {
-        //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+        //NSPredicate(format: "title ==[cd] %@", fields[0])
         //NSCompoundPredicate(orPredicateWithSubpredicates: textSubpredicates)
         let request : NSFetchRequest<Ingredient> = Ingredient.fetchRequest()
         if predicate != nil {
@@ -592,7 +595,7 @@ extension UIViewController {
     }
     
     func loadAlternative(to array: inout [Alternative], predicate: NSPredicate? = nil) {
-        //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+        //NSPredicate(format: "title ==[cd] %@", fields[0])
         //NSCompoundPredicate(orPredicateWithSubpredicates: textSubpredicates)
         let request : NSFetchRequest<Alternative> = Alternative.fetchRequest()
         if predicate != nil {
@@ -609,7 +612,7 @@ extension UIViewController {
     func loadServeSize(to array: inout [ServeSize], predicates: [NSPredicate] = []) {
         let request : NSFetchRequest<ServeSize> = ServeSize.fetchRequest()
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        //let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        //let categoryPredicate = NSPredicate(format: "parentCategory.name == %@", selectedCategory!.name!)
         //let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         let sortBy = NSSortDescriptor(key: "quantity", ascending: true)
         request.sortDescriptors = [sortBy]
@@ -625,7 +628,7 @@ extension UIViewController {
         let sortByTitle = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sortByTitle]
         if predicate != nil {
-            //NSPredicate(format: "title MATCHES[cd] %@", fields[0])
+            //NSPredicate(format: "title ==[cd] %@", fields[0])
             request.predicate = predicate
         }
         do{

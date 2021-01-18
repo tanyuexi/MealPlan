@@ -16,6 +16,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     
     var seasonButtons: [UIButton] = []
     var serveSizeArray: [ServeSize] = []
+    var recipeArray: [Recipe] = []
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
@@ -27,6 +28,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     @IBOutlet weak var winterButton: UIButton!
     @IBOutlet weak var serveSizeCollectionView: UICollectionView!
     @IBOutlet weak var foodGroupLabel: UILabel!
+    @IBOutlet weak var recipeCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,10 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         serveSizeCollectionView.delegate = self
         serveSizeCollectionView.dataSource = self
         serveSizeCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
+        
+        recipeCollectionView.delegate = self
+        recipeCollectionView.dataSource = self
+        recipeCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
         
         seasonButtons = [springButton, summerButton, autumnButton, winterButton]
         
@@ -79,7 +85,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         
         //modify title if same food exists
         var foodOfSameTitle: [Food] = []
-        loadFood(to: &foodOfSameTitle, predicate: NSPredicate(format: "title MATCHES[cd] %@", titleTextField.text!))
+        loadFood(to: &foodOfSameTitle, predicate: NSPredicate(format: "title ==[cd] %@", titleTextField.text!))
         foodOfSameTitle = foodOfSameTitle.filter({$0 != food})
         if foodOfSameTitle.count > 0 {
             titleTextField.text! += " - \(foodOfSameTitle.count + 1)"
@@ -144,25 +150,52 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return serveSizeArray.count
+        if collectionView == serveSizeCollectionView {
+            return serveSizeArray.count
+        } else { // recipeCollectionView
+            return recipeArray.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = serveSizeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
+        if collectionView == serveSizeCollectionView {
+            let cell = serveSizeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
+            
+            let serveSize = serveSizeArray[indexPath.row]
+            cell.titleLabel.text = serveSize.unit! + " (\(serveSize.foodGroup!.title!))"
+            cell.detailLabel.text = limitDigits(serveSize.quantity)
+            cell.isSelected = false
+            return cell
+            
+        } else { // recipeCollectionView
+            let cell = recipeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
+            
+            let recipe = recipeArray[indexPath.row]
+            cell.titleLabel.text = recipe.title
+            cell.detailLabel.text = ""
+            cell.isSelected = false
+            return cell
+        }
         
-        let serveSize = serveSizeArray[indexPath.row]
-        cell.titleLabel.text = serveSize.unit! + " (\(serveSize.foodGroup!.title!))"
-        cell.detailLabel.text = limitDigits(serveSize.quantity)
-        cell.isSelected = false
-        return cell
+        
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        performSegue(withIdentifier: "GoToEditServeSize", sender: nil)
-        serveSizeCollectionView.deselectItem(at: indexPath, animated: true)
+        if collectionView == serveSizeCollectionView {
+            
+            performSegue(withIdentifier: "GoToEditServeSize", sender: nil)
+            serveSizeCollectionView.deselectItem(at: indexPath, animated: true)
+            
+        } else { // recipeCollectionView
+            
+            performSegue(withIdentifier: "GoToEditRecipe", sender: nil)
+            recipeCollectionView.deselectItem(at: indexPath, animated: true)
+        }
+        
+        
     }
     
     //MARK: - Custom functions
@@ -176,6 +209,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         serveSizeArray = data.serveSizes?.allObjects as! [ServeSize]
         serveSizeArray.sort{$0.unit! < $1.unit!}
         onServeSizeUpdated()
+        updateRecipe(of: data)
     }
     
     
@@ -185,28 +219,10 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         foodGroupLabel.text = getFoodGroupInfo(from: serveSizeArray)
     }
     
-//    func verifyData(){
-//        var valid = true
-//        confirmLabel.text = ""
-//
-//        if titleTextField.text == "" {
-//            confirmLabel.text! += NSLocalizedString("Missing title. ", comment: "confirm")
-//            valid = false
-//        }
-//
-//        if serveSizeArray.count == 0 {
-//            confirmLabel.text! += NSLocalizedString("Missing serve size(s). ", comment: "confirm")
-//            valid = false
-//        }
-//
-//        if seasonButtons.allSatisfy({$0.isSelected == false}) {
-//            confirmLabel.text! += NSLocalizedString("Missing season(s). ", comment: "confirm")
-//            valid = false
-//        }
-//
-//        saveButton.isEnabled = valid
-//    }
-    
+    func updateRecipe(of data: Food){
+        recipeArray = (data.ingredients?.allObjects as! [Ingredient]).compactMap({$0.recipe})
+        recipeCollectionView.reloadData()
+    }
     
     
     func entryError() -> String? {
@@ -256,11 +272,14 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
                 }
                 self.onServeSizeUpdated()
             }
+            
         } else if segue.identifier == "GoToChooseFood",
             let vc = segue.destination as? ChooseFoodTVC {
+            
             vc.newFoodSelectedHandler = {
                 vc.notifyMessage(NSLocalizedString("Please choose an existing food.", comment: "alert"))
             }
+            
             vc.existingFoodSeclectedHandler = { food in
                 self.titleTextField.text = food.title! + " - 2"
                 for i in food.seasons!.allObjects as! [Season] {
@@ -270,6 +289,17 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
                 self.serveSizeArray.sort{$0.unit! < $1.unit!}
                 self.onServeSizeUpdated()
                 vc.navigationController?.popViewController(animated: true)
+            }
+            
+        } else if segue.identifier == "GoToEditRecipe",
+            let vc = segue.destination as? EditRecipeTVC,
+            let indexPath = recipeCollectionView.indexPathsForSelectedItems?.first {
+            
+            vc.selectedRecipe = recipeArray[indexPath.row]
+            vc.completionHandler = { recipe, operationString in
+                if let food = self.selectedFood {
+                    self.updateRecipe(of: food)
+                }
             }
         }
     }

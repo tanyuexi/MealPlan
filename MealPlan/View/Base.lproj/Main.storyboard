@@ -247,7 +247,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qh2-qY-vrZ">
                                                             <rect key="frame" x="0.0" y="0.0" width="289" height="48"/>
                                                             <string key="text">Optional:
-(This ingredient and its alternatives)</string>
+(Not essential to this recipe)</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -633,16 +633,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="JDw-9l-M1t">
-                                                    <rect key="frame" x="8" y="11" width="359" height="478"/>
+                                                    <rect key="frame" x="16" y="11" width="343" height="478"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gR5-Ku-AfN">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="efU-He-Pnz">
-                                                            <rect key="frame" x="0.0" y="25.5" width="359" height="452.5"/>
+                                                            <rect key="frame" x="0.0" y="25.5" width="343" height="452.5"/>
                                                             <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1450,6 +1450,48 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="200" id="IHG-iZ-RbB" userLabel="Recipe Table View Cell">
+                                        <rect key="frame" x="0.0" y="436" width="375" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IHG-iZ-RbB" id="Feu-3M-WR6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c19-xC-ffc">
+                                                    <rect key="frame" x="16" y="11" width="343" height="178"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ree-V5-yKO">
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ng4-Ai-vPH">
+                                                            <rect key="frame" x="0.0" y="25.5" width="343" height="152.5"/>
+                                                            <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="sMA-MB-QIT">
+                                                                <size key="itemSize" width="128" height="128"/>
+                                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            </collectionViewFlowLayout>
+                                                            <cells/>
+                                                            <connections>
+                                                                <outlet property="dataSource" destination="2AI-vJ-8cB" id="phs-b6-4FN"/>
+                                                                <outlet property="delegate" destination="2AI-vJ-8cB" id="MuX-0H-QoL"/>
+                                                            </connections>
+                                                        </collectionView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="c19-xC-ffc" firstAttribute="top" secondItem="Feu-3M-WR6" secondAttribute="topMargin" id="2bN-rV-Tog"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="c19-xC-ffc" secondAttribute="bottom" id="SP2-TE-6Vg"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="c19-xC-ffc" secondAttribute="trailing" id="v2w-aJ-H7B"/>
+                                                <constraint firstItem="c19-xC-ffc" firstAttribute="leading" secondItem="Feu-3M-WR6" secondAttribute="leadingMargin" id="veq-Qt-fmA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1477,6 +1519,7 @@
                         <outlet property="deleteButton" destination="k6i-ml-foY" id="V3i-1R-AB0"/>
                         <outlet property="foodGroupLabel" destination="ldM-yc-XVS" id="vaD-F6-m20"/>
                         <outlet property="quickFillButton" destination="L9B-0d-Jyp" id="F2r-jb-vLL"/>
+                        <outlet property="recipeCollectionView" destination="ng4-Ai-vPH" id="3Va-7z-jtW"/>
                         <outlet property="saveButton" destination="nIP-k6-G6J" id="pXM-fS-Bj8"/>
                         <outlet property="serveSizeCollectionView" destination="ZpT-uu-jhb" id="ckF-yu-YDK"/>
                         <outlet property="springButton" destination="X8q-nX-lqR" id="3es-rm-IRa"/>
@@ -1485,6 +1528,7 @@
                         <outlet property="winterButton" destination="y2e-Y5-tJS" id="4jK-yZ-03S"/>
                         <segue destination="jB4-o9-cnP" kind="show" identifier="GoToEditServeSize" id="O3r-ks-d0f"/>
                         <segue destination="jKX-Qn-vHJ" kind="show" identifier="GoToChooseFood" id="XYU-kO-LaI"/>
+                        <segue destination="xIy-1L-pkq" kind="show" identifier="GoToEditRecipe" id="gom-Tl-Wcg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jhS-C8-RcD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1886,7 +1930,7 @@
         <segue reference="ZTh-2U-V2X"/>
         <segue reference="AwS-PZ-voq"/>
         <segue reference="nQZ-G0-lth"/>
-        <segue reference="qIv-CO-v6r"/>
+        <segue reference="gom-Tl-Wcg"/>
         <segue reference="XYU-kO-LaI"/>
     </inferredMetricsTieBreakers>
     <resources>

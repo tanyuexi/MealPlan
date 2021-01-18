@@ -40,7 +40,6 @@ class EditServeSizeTVC: UITableViewController {
             deleteButton.isEnabled = false
         }
         
-//        verifyData()
     }
 
     
@@ -62,7 +61,6 @@ class EditServeSizeTVC: UITableViewController {
                 quantityCellContentView.isHidden = false
             }
         }
-//        verifyData()
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
@@ -137,30 +135,6 @@ class EditServeSizeTVC: UITableViewController {
         return (message == "" ? nil : message)
     }
     
-    
-//        func verifyData(){
-//
-//            var message = ""
-//    //        var valid = true
-//
-//            if foodGroupButtons.allSatisfy({$0.isSelected == false}) {
-//                message += NSLocalizedString("Missing Food Group. ", comment: "confirm")
-//    //            valid = false
-//            }
-//
-//            if Double(quantityTextField.text!) == nil {
-//                message += NSLocalizedString("Invalid quantity. ", comment: "confirm")
-//    //            valid = false
-//            }
-//
-//            if unitTextField.text == "" {
-//                message += NSLocalizedString("Missing unit. ", comment: "confirm")
-//    //            valid = false
-//            }
-//
-//            return valid
-//    //        saveButton.isEnabled = valid
-//        }
     
     
     

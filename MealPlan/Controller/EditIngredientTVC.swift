@@ -237,7 +237,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             let cell = alternativeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
             let i = addedIngredients[indexPath.row]
             cell.titleLabel.text = i.food!.title
-            cell.detailLabel.text = ""
+            cell.detailLabel.text = "\(limitDigits(i.quantity)) \(i.unit!)"
             if let alternativeIngredients = selectedIngredient?.alternative?.ingredients?.allObjects as? [Ingredient],
                 alternativeIngredients.contains(i){
                 
