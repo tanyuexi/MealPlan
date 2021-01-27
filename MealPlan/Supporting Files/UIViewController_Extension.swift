@@ -33,6 +33,26 @@ extension UIViewController {
         }
     }
     
+    
+    //MARK: - plist
+    func setPlistDays(_ int: Int){
+        K.defaults.set(int, forKey: "Days")
+    }
+    
+    
+    func getPlistDays() -> Int {
+        return K.defaults.integer(forKey: "Days")
+    }
+    
+    func setPlistFirstDate(_ firstDate: String){
+        K.defaults.set(firstDate, forKey: "First date")
+    }
+    
+    
+    func getPlistFirstDate() -> String {
+        return K.defaults.string(forKey: "First date") ?? ""
+    }
+    
     //MARK: - alert
     
     func notifyMessage(_ message: String){
@@ -54,6 +74,15 @@ extension UIViewController {
 
         present(alert, animated: true, completion: nil)
 
+    }
+    
+    
+    //MARK: - Time and Date
+    
+    func dateAfter(_ days: Int, from startDate: Date) -> Date {
+        let calendar = Calendar.current
+        let component = DateComponents(day: days)
+        return calendar.date(byAdding: component, to: startDate)!
     }
 
 
@@ -88,6 +117,19 @@ extension UIViewController {
     func getAlternative(from ingredients: [Ingredient]) -> [Alternative] {
         let alternatives = Set(ingredients.compactMap({$0.alternative}))
         return Array(alternatives)
+    }
+    
+    func convertDataToStringLine(from person: Person) -> String {
+        let line = [
+            person.name!,
+            S.data.dateFormatter.string(from: person.dateOfBirth!),
+            person.additional ? "Additional" : "None",
+            person.female ? "Female" : "Male",
+            person.pregnant ? "Pregnant" : "None",
+            person.breastfeeding ? "Breastfeeding" : "None",
+            "\n"
+        ].joined(separator: K.level1Separator)
+        return line
     }
     
     func convertDataToStringLine(from food: Food) -> String {
@@ -142,6 +184,28 @@ extension UIViewController {
     }
     
     func exportToCsv(){
+        //export Person
+        var personArray: [Person] = []
+        let personFileUrl = getFilePath("Person.tsv")
+        do {
+            try "".write(to: personFileUrl!, atomically: true, encoding: .utf8)
+        } catch {
+            print("Error: Unable to write to file \(personFileUrl!)")
+        }
+        if let fileUpdater = try? FileHandle(forWritingTo: personFileUrl!) {
+            
+            loadPerson(to: &personArray)
+            for person in personArray {
+                let line = convertDataToStringLine(from: person)
+                fileUpdater.write(line.data(using: .utf8)!)
+            }
+            fileUpdater.closeFile()
+        } else {
+            print("Error: Unable to open file handle")
+        }
+        personArray = []
+        
+        
         //export Food
         var foodArray: [Food] = []
         let foodFileUrl = getFilePath("Food.tsv")
@@ -272,7 +336,7 @@ extension UIViewController {
     }
     
     func updateRecipeSeason(ingredients: [Ingredient], alternatives: [Alternative]) -> Set<Season> {
-        var seasonSet = Set(S.dt.seasonArray)
+        var seasonSet = Set(S.data.seasonArray)
         
         //union for non-optional alternative ingredients
         for alternative in alternatives {
@@ -323,7 +387,7 @@ extension UIViewController {
         
         //season
         let seasonTitles = fields[1].components(separatedBy: K.level2Separator)
-        let seasons = S.dt.seasonArray.filter({seasonTitles.contains($0.title!)})
+        let seasons = S.data.seasonArray.filter({seasonTitles.contains($0.title!)})
         food.seasons = NSSet(array: seasons)
         food.seasonLabel = getSeasonIcon(from: seasons)
         
@@ -335,7 +399,7 @@ extension UIViewController {
             if info.count != 3 {
                 continue
             }
-            if let foodGroup = S.dt.foodGroupArray.first(where: {$0.title == info[0]}),
+            if let foodGroup = S.data.foodGroupArray.first(where: {$0.title == info[0]}),
                 let quantity = Double(info[1]),
                 info[2] != "" {
                 
@@ -373,12 +437,12 @@ extension UIViewController {
 
         //meal
         let mealTitles = fields[2].components(separatedBy: K.level2Separator)
-        let meals = S.dt.mealArray.filter({mealTitles.contains($0.title!)})
+        let meals = S.data.mealArray.filter({mealTitles.contains($0.title!)})
         recipe.meals = NSSet(array: meals)
         
         //season
         let seasonTitles = fields[3].components(separatedBy: K.level2Separator)
-        let seasons = S.dt.seasonArray.filter({seasonTitles.contains($0.title!)})
+        let seasons = S.data.seasonArray.filter({seasonTitles.contains($0.title!)})
         recipe.seasons = NSSet(array: seasons)
         recipe.seasonLabel = getSeasonIcon(from: seasons)
         
@@ -458,10 +522,43 @@ extension UIViewController {
     }
     
     func initDatabase(){
+        // days
+        if getPlistDays() == 0 {
+            setPlistDays(7)
+        }
+        S.data.days = Double(getPlistDays())
+        
+        // first date
+        S.data.firstDate = S.data.dateFormatter.date(from: getPlistFirstDate())
+        
+        // person
+        var personArray: [Person] = []
+        loadPerson(to: &personArray)
+        if personArray.count == 0 {
+            let filePath = Bundle.main.path(forResource: "Person", ofType: "tsv")
+            
+            if freopen(filePath, "r", stdin) == nil {
+                perror(filePath)
+            }
+            
+            
+            while let line = readLine() {
+                let fields: [String] = line.components(separatedBy: K.level1Separator)
+                let person = Person(context: K.context)
+                person.name = fields[0]
+                person.dateOfBirth = S.data.dateFormatter.date(from: fields[1])
+                person.additional = (fields[2] == "Additional")
+                person.female = (fields[3] == "Female")
+                person.pregnant = (fields[4] == "Pregnant")
+                person.breastfeeding = (fields[5] == "Breastfeeding")
+                personArray.append(person)
+            }
+            fclose(stdin)
+        }
         
         // meal
-        loadMeal(to: &S.dt.mealArray)
-        if S.dt.mealArray.count == 0 {
+        loadMeal(to: &S.data.mealArray)
+        if S.data.mealArray.count == 0 {
             let filePath = Bundle.main.path(forResource: "Meal", ofType: "tsv")
             
             if freopen(filePath, "r", stdin) == nil {
@@ -473,15 +570,15 @@ extension UIViewController {
                 let newData = Meal(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
-                S.dt.mealArray.append(newData)
+                S.data.mealArray.append(newData)
             }
             fclose(stdin)
-            saveContext()
         }
+
         
         // foodgroup
-        loadFoodGroup(to: &S.dt.foodGroupArray)
-        if S.dt.foodGroupArray.count == 0 {
+        loadFoodGroup(to: &S.data.foodGroupArray)
+        if S.data.foodGroupArray.count == 0 {
             let filePath = Bundle.main.path(forResource: "FoodGroup", ofType: "tsv")
             
             if freopen(filePath, "r", stdin) == nil {
@@ -493,15 +590,14 @@ extension UIViewController {
                 let newData = FoodGroup(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
-                S.dt.foodGroupArray.append(newData)
+                S.data.foodGroupArray.append(newData)
             }
             fclose(stdin)
-            saveContext()
         }
         
         // season
-        loadSeason(to: &S.dt.seasonArray)
-        if S.dt.seasonArray.count == 0 {
+        loadSeason(to: &S.data.seasonArray)
+        if S.data.seasonArray.count == 0 {
             let filePath = Bundle.main.path(forResource: "Season", ofType: "tsv")
             
             if freopen(filePath, "r", stdin) == nil {
@@ -513,11 +609,13 @@ extension UIViewController {
                 let newData = Season(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
-                S.dt.seasonArray.append(newData)
+                S.data.seasonArray.append(newData)
             }
             fclose(stdin)
-            saveContext()
         }
+        
+        saveContext()
+
     }
     
     //    func loadPresetData<T: NSManagedObject>(to array: inout [T], asType: T.Type) {
@@ -575,6 +673,23 @@ extension UIViewController {
             print("Error loading Season \(error)")
         }
     }
+    
+    func loadPlannedDish(to array: inout [PlannedDish], predicate: NSPredicate? = nil) {
+        let request : NSFetchRequest<PlannedDish> = PlannedDish.fetchRequest()
+        let sortByMeal = NSSortDescriptor(key: "meal.order", ascending: true)
+        let sortByRecipe = NSSortDescriptor(key: "recipe.title", ascending: true)
+        request.sortDescriptors = [sortByMeal, sortByRecipe]
+        if predicate != nil {
+            //NSPredicate(format: "title ==[cd] %@", fields[0])
+            request.predicate = predicate
+        }
+        do{
+            array = try K.context.fetch(request)
+        } catch {
+            print("Error loading PlannedDish \(error)")
+        }
+    }
+    
     
     func loadRecipe(to array: inout [Recipe], predicate: NSPredicate? = nil) {
         let request : NSFetchRequest<Recipe> = Recipe.fetchRequest()
@@ -649,8 +764,8 @@ extension UIViewController {
         }
     }
     
-    func loadItem(to array: inout [Item]) {
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItem(to array: inout [OtherItem]) {
+        let request : NSFetchRequest<OtherItem> = OtherItem.fetchRequest()
         let sortByDate = NSSortDescriptor(key: "date", ascending: true)
         request.sortDescriptors = [sortByDate]
         do{

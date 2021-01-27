@@ -17,7 +17,7 @@ class ChooseRecipeTVC: UITableViewController, UISearchControllerDelegate, UISear
     var filteredByText: [Recipe] = []
     var filteredFinal: [Recipe] = []
     let searchController = UISearchController(searchResultsController: nil)
-    let scopeTitles = [NSLocalizedString("All", comment: "search scope")] + K.meals.keys.sorted().map { K.meals[$0]! }
+    let scopeTitles = [NSLocalizedString("All", comment: "search scope")] + S.data.mealArray.map({$0.title}) as! [String]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +52,7 @@ class ChooseRecipeTVC: UITableViewController, UISearchControllerDelegate, UISear
             filteredFinal = filteredByText
         } else {
             filteredFinal = filteredByText.filter({
-                ($0.meals?.allObjects as! [Meal]).contains(S.dt.mealArray[selectedScope - 1])
+                ($0.meals?.allObjects as! [Meal]).contains(S.data.mealArray[selectedScope - 1])
             })
         }
     }

@@ -18,7 +18,7 @@ class ChooseFoodTVC: UITableViewController, UISearchControllerDelegate, UISearch
     var filteredByText: [Food] = []
     var filteredFinal: [Food] = []
     let searchController = UISearchController(searchResultsController: nil)
-    let scopeTitles = [NSLocalizedString("All", comment: "search scope")] + K.foodGroup
+    let scopeTitles = [NSLocalizedString("All", comment: "search scope")] + S.data.foodGroupArray.map({$0.title}) as! [String]
 
 
     override func viewDidLoad() {

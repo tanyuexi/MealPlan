@@ -122,15 +122,13 @@ class ViewRecipeTVC: UITableViewController {
             } else {
                 cell.backgroundColor = UIColor.clear
             }
-            cell.accessoryType = .none
             return cell
             
         default: //method
             
-            let m = methodArray[indexPath.row]
+            let method = methodArray[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "MethodCell", for: indexPath)
-            cell.textLabel?.text = m
-            cell.accessoryType = .none
+            cell.textLabel?.text = method
             return cell
         
         }

@@ -16,7 +16,6 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
     var index = -1
     
     var validDOB = false
-    let dateFormatter = DateFormatter()
     let confirmFormatter = DateFormatter()
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -36,7 +35,6 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
         
         DOBTextField.delegate = self
         
-        dateFormatter.dateFormat = NSLocalizedString("dd/MM/yyyy", comment: "DOB text field data format")
         confirmFormatter.dateFormat = NSLocalizedString("(d MMM, yyyy)", comment: "DOB confirm label data format")
         
         if let person = selectedPerson {
@@ -52,7 +50,7 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
     
     func loadDataToForm(_ data: Person){
         nameTextField.text = data.name
-        DOBTextField.text = dateFormatter.string(from: data.dateOfBirth!)
+        DOBTextField.text = S.data.dateFormatter.string(from: data.dateOfBirth!)
         DOBConfirmLabel.text = confirmFormatter.string(from: data.dateOfBirth!)
         validDOB = true
         additionalSwitch.isOn = data.additional
@@ -98,12 +96,15 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
     @IBAction func DOBTextFieldEditingChanged(_ sender: UITextField) {
         
         if DOBTextField.text == "" {
+            
             DOBConfirmLabel.text = NSLocalizedString("(DD/MM/YYYY)", comment: "DOB confirm label")
             DOBConfirmLabel.textColor = .none
             validDOB = false
+            
         } else {
-            if let oldDate = dateFormatter.date(from: DOBTextField.text!),
-                dateFormatter.date(from: DOBTextField.text!)! <= Date() {
+            
+            if let oldDate = S.data.dateFormatter.date(from: DOBTextField.text!),
+                S.data.dateFormatter.date(from: DOBTextField.text!)! <= Date() {
                 
                 DOBConfirmLabel.text = confirmFormatter.string(from: oldDate)
                 DOBConfirmLabel.textColor = .none
@@ -139,7 +140,7 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
         }
         
         person.name = nameTextField.text!
-        person.dateOfBirth = dateFormatter.date(from: DOBTextField.text!)
+        person.dateOfBirth = S.data.dateFormatter.date(from: DOBTextField.text!)
         person.additional = additionalSwitch.isOn
         person.female = (genderSegmentedControl.selectedSegmentIndex == 0)
         person.pregnant = pregnantSwitch.isOn

@@ -61,11 +61,11 @@ class ChoosePersonTVC: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCell", for: indexPath)
 
             let person = personArray[indexPath.row]
-            cell.textLabel?.text = String(format: "%d. %@",
+            cell.textLabel?.text = String(format: "%d - %@",
                                           indexPath.row + 1,
                                           person.name!)
             cell.detailTextLabel?.text = String(
-                format: "%@%@%@%d %@",
+                format: "%@%@%@ %d %@",
                 person.pregnant ? "🤰": "",
                 person.breastfeeding ? "🤱": "",
                 person.additional ? "🏃": "",

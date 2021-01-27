@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="PickerCell" customModule="MealPlan" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="324" height="234"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="324" height="234"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gf9-ux-2GN">
+                        <rect key="frame" x="20" y="11" width="284" height="212"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8VQ-LT-3mC">
+                                <rect key="frame" x="113" y="0.0" width="58" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="titleButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ptk-QL-dgF"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="BVh-fo-cfO">
+                                <rect key="frame" x="0.0" y="41" width="284" height="171"/>
+                            </pickerView>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="gf9-ux-2GN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="4YZ-XX-sh2"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="gf9-ux-2GN" secondAttribute="bottom" id="d3B-ut-7F6"/>
+                    <constraint firstItem="gf9-ux-2GN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="kiz-eI-pzq"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="gf9-ux-2GN" secondAttribute="trailing" id="wea-aP-baT"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="pickerView" destination="BVh-fo-cfO" id="c3I-AV-yqG"/>
+                <outlet property="titleButton" destination="8VQ-LT-3mC" id="yHy-ny-xhf"/>
+            </connections>
+            <point key="canvasLocation" x="134.78260869565219" y="208.25892857142856"/>
+        </tableViewCell>
+    </objects>
+</document>

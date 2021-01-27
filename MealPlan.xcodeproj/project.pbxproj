@@ -37,6 +37,14 @@
 		E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F1B25AB253E00C5A926 /* Recipe.tsv */; };
 		E7B64F1E25B5AFE200C5A926 /* ChoosePersonTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */; };
 		E7B64F2025B5AFFC00C5A926 /* EditPersonTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */; };
+		E7B64F2325B6B62D00C5A926 /* DishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2125B6B62D00C5A926 /* DishCell.swift */; };
+		E7B64F2425B6B62D00C5A926 /* DishCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F2225B6B62D00C5A926 /* DishCell.xib */; };
+		E7B64F2625B6F24B00C5A926 /* Person.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F2525B6F24B00C5A926 /* Person.tsv */; };
+		E7B64F2925B856BE00C5A926 /* PickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2725B856BE00C5A926 /* PickerCell.swift */; };
+		E7B64F2A25B856BE00C5A926 /* PickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F2825B856BE00C5A926 /* PickerCell.xib */; };
+		E7B64F2C25B8580C00C5A926 /* EditDishTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2B25B8580C00C5A926 /* EditDishTVC.swift */; };
+		E7B64F2F25C048E500C5A926 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2D25C048E500C5A926 /* ButtonCell.swift */; };
+		E7B64F3025C048E500C5A926 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F2E25C048E500C5A926 /* ButtonCell.xib */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
 		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
@@ -74,6 +82,14 @@
 		E7B64F1B25AB253E00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
 		E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePersonTVC.swift; sourceTree = "<group>"; };
 		E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPersonTVC.swift; sourceTree = "<group>"; };
+		E7B64F2125B6B62D00C5A926 /* DishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCell.swift; sourceTree = "<group>"; };
+		E7B64F2225B6B62D00C5A926 /* DishCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DishCell.xib; sourceTree = "<group>"; };
+		E7B64F2525B6F24B00C5A926 /* Person.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Person.tsv; path = MealPlan/Person.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F2725B856BE00C5A926 /* PickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerCell.swift; sourceTree = "<group>"; };
+		E7B64F2825B856BE00C5A926 /* PickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PickerCell.xib; sourceTree = "<group>"; };
+		E7B64F2B25B8580C00C5A926 /* EditDishTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDishTVC.swift; sourceTree = "<group>"; };
+		E7B64F2D25C048E500C5A926 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		E7B64F2E25C048E500C5A926 /* ButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonCell.xib; sourceTree = "<group>"; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
 		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -138,6 +154,7 @@
 				E745E66025707E120059196B /* ViewFoodTVC.swift */,
 				E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */,
 				E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */,
+				E7B64F2B25B8580C00C5A926 /* EditDishTVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -149,6 +166,12 @@
 				E745E643256CC6DF0059196B /* LaunchScreen.storyboard */,
 				E7177B172579A79900C3C8A0 /* CollectionCell.swift */,
 				E7177B182579A79900C3C8A0 /* CollectionCell.xib */,
+				E7B64F2125B6B62D00C5A926 /* DishCell.swift */,
+				E7B64F2225B6B62D00C5A926 /* DishCell.xib */,
+				E7B64F2725B856BE00C5A926 /* PickerCell.swift */,
+				E7B64F2825B856BE00C5A926 /* PickerCell.xib */,
+				E7B64F2D25C048E500C5A926 /* ButtonCell.swift */,
+				E7B64F2E25C048E500C5A926 /* ButtonCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -166,6 +189,7 @@
 		E745E66D2570841D0059196B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E7B64F2525B6F24B00C5A926 /* Person.tsv */,
 				E7C6EF2A25A429230009B952 /* Food.tsv */,
 				E7B64F1B25AB253E00C5A926 /* Recipe.tsv */,
 				E7177B1B257DC7C300C3C8A0 /* Meal.tsv */,
@@ -236,12 +260,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7177B1A2579A79900C3C8A0 /* CollectionCell.xib in Resources */,
+				E7B64F3025C048E500C5A926 /* ButtonCell.xib in Resources */,
+				E7B64F2625B6F24B00C5A926 /* Person.tsv in Resources */,
 				E7177B1F257DD1A400C3C8A0 /* FoodGroup.tsv in Resources */,
 				E745E645256CC6DF0059196B /* LaunchScreen.storyboard in Resources */,
 				E7C6EF2B25A429230009B952 /* Food.tsv in Resources */,
 				E745E642256CC6DF0059196B /* Assets.xcassets in Resources */,
 				E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */,
 				E745E63D256CC6D80059196B /* Main.storyboard in Resources */,
+				E7B64F2425B6B62D00C5A926 /* DishCell.xib in Resources */,
+				E7B64F2A25B856BE00C5A926 /* PickerCell.xib in Resources */,
 				E7177B1C257DC7C300C3C8A0 /* Meal.tsv in Resources */,
 				E7177B20257DD1A400C3C8A0 /* Season.tsv in Resources */,
 			);
@@ -263,7 +291,10 @@
 				E745E65325707D4B0059196B /* ShoppingListTVC.swift in Sources */,
 				E7B64F2025B5AFFC00C5A926 /* EditPersonTVC.swift in Sources */,
 				E745E65525707D700059196B /* ChooseRecipeTVC.swift in Sources */,
+				E7B64F2C25B8580C00C5A926 /* EditDishTVC.swift in Sources */,
+				E7B64F2325B6B62D00C5A926 /* DishCell.swift in Sources */,
 				E7177B152577AD1600C3C8A0 /* UITextView_Extension.swift in Sources */,
+				E7B64F2F25C048E500C5A926 /* ButtonCell.swift in Sources */,
 				E745E667257081490059196B /* Constants.swift in Sources */,
 				E745E638256CC6D80059196B /* SceneDelegate.swift in Sources */,
 				E7177B162577AD1700C3C8A0 /* UITextField_Extension.swift in Sources */,
@@ -272,6 +303,7 @@
 				E745E64D256D30960059196B /* MenuTVC.swift in Sources */,
 				E7177B22257E030500C3C8A0 /* Singleton.swift in Sources */,
 				E745E65B25707DB30059196B /* EditIngredientTVC.swift in Sources */,
+				E7B64F2925B856BE00C5A926 /* PickerCell.swift in Sources */,
 				E745E65125707D280059196B /* SettingsTVC.swift in Sources */,
 				E745E65D25707DCA0059196B /* ChooseFoodTVC.swift in Sources */,
 				E745E65725707D870059196B /* ViewRecipeTVC.swift in Sources */,

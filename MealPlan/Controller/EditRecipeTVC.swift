@@ -127,7 +127,7 @@ class EditRecipeTVC: UITableViewController {
             return
         }
         
-        let meals = NSSet(array: mealsButton.filter({$0.isSelected == true}).map({$0.tag}).map({S.dt.mealArray[$0]}))
+        let meals = NSSet(array: mealsButton.filter({$0.isSelected == true}).map({$0.tag}).map({S.data.mealArray[$0]}))
         var operationString = ""
         
         let recipe: Recipe!

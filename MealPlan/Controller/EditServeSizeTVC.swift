@@ -81,7 +81,7 @@ class EditServeSizeTVC: UITableViewController {
             serveSize = ServeSize(context: K.context)
             operationString = K.operationAdd
         }
-        serveSize.foodGroup = S.dt.foodGroupArray[foodGroupIndex!]
+        serveSize.foodGroup = S.data.foodGroupArray[foodGroupIndex!]
         serveSize.quantity = Double(quantityTextField.text!)!
         serveSize.unit = unitTextField.text
         

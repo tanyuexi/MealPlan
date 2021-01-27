@@ -9,10 +9,13 @@
 import CoreData
 
 class S {
-    static let dt = S()
+    static let data = S()
     var mealArray: [Meal] = []
     var seasonArray: [Season] = []
     var foodGroupArray: [FoodGroup] = []
     var northHemisphere: Bool = true
     var days: Double = 0
+    var firstDate: Date?
+    let dateFormatter = DateFormatter()
+    let weekdayFormatter = DateFormatter()
 }

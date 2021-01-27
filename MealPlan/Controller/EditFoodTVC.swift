@@ -78,7 +78,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             return
         }
         
-        let seasons = NSSet(array: seasonButtons.filter({$0.isSelected}).map({$0.tag}).map({S.dt.seasonArray[$0]}))
+        let seasons = NSSet(array: seasonButtons.filter({$0.isSelected}).map({$0.tag}).map({S.data.seasonArray[$0]}))
         var operationString = ""
         
         let food = (selectedFood == nil) ? Food(context: K.context) : selectedFood!
