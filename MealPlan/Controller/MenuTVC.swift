@@ -18,15 +18,13 @@ class MenuTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(getFilePath(directory: true)!)
+        
         S.data.dateFormatter.dateFormat = NSLocalizedString("dd/MM/yyyy", comment: "date format")
         S.data.weekdayFormatter.dateFormat = NSLocalizedString("EEE d MMM", comment: "date format")
         
-        
-        
         tableView.register(UINib(nibName: "DishCell", bundle: nil), forCellReuseIdentifier: "DishCell")
         
-        
-        print(getFilePath(directory: true)!)
         initDatabase()
         
         var foodArray: [Food] = []
@@ -100,7 +98,7 @@ class MenuTVC: UITableViewController {
                 return String(format: NSLocalizedString("Day %d - %@", comment: "picker format"), section, dateString)
                 
             } else {
-                return nil
+                return String(format: NSLocalizedString("Day %d", comment: "picker format"), section)
             }
             
         }
@@ -135,11 +133,6 @@ class MenuTVC: UITableViewController {
                     dish.portion = value
                     self.saveContext()
                 }
-//                cell.portionLabel.text = limitDigits(dish.portion)
-//                cell.portionStepper.minimumValue = 0
-//                cell.portionStepper.maximumValue = Double.infinity
-//                cell.portionStepper.value = dish.portion
-//                cell.portionStepper.stepValue = 0.5
             }
             
             if editMode {
@@ -162,6 +155,20 @@ class MenuTVC: UITableViewController {
             performSegue(withIdentifier: "GoToEditDish", sender: nil)
         }
     }
+    
+    
+    
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        
+//        return UITableView.automaticDimension
+//    }
+//    
+//    
+//    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        
+//        return UITableView.automaticDimension
+//    }
+    
     
     
     /*

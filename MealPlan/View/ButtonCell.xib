@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5M-mM-SET">
-                        <rect key="frame" x="141" y="11" width="38" height="22"/>
+                        <rect key="frame" x="16" y="11" width="288" height="22"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <state key="normal" title="Title"/>
                         <connections>
@@ -27,8 +27,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="v5M-mM-SET" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="CQ5-AH-YSE"/>
+                    <constraint firstItem="v5M-mM-SET" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="GAK-C7-EIN"/>
                     <constraint firstAttribute="bottomMargin" secondItem="v5M-mM-SET" secondAttribute="bottom" id="OW1-Xe-Qmk"/>
-                    <constraint firstItem="v5M-mM-SET" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="UTC-G4-ZrL"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="v5M-mM-SET" secondAttribute="trailing" id="V8i-y3-kWt"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

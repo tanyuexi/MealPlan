@@ -31,7 +31,7 @@ struct K {
         NSLocalizedString("⏰", comment: "meal icon"),
         NSLocalizedString("☕️", comment: "meal icon"),
         NSLocalizedString("🥪", comment: "meal icon"),
-        NSLocalizedString("🍺", comment: "meal icon"),
+        NSLocalizedString("🍹", comment: "meal icon"),
         NSLocalizedString("🍽", comment: "meal icon")]
     static let seasonIcon = ["🌱","☀️","🍁","❄️"]
     static let seasonUnavailableIcon = "✖️"
@@ -49,5 +49,10 @@ struct K {
     
     static let lineBreakReplaceString = "<br>"
     static let cellBackgroundColors = [ #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0.5), #colorLiteral(red: 0.6679978967, green: 0.4751212597, blue: 0.2586010993, alpha: 0.5), #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 0.5), #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 0.5), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.3), #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 0.5), #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.6) ]
+    
+    
+    static let servesForChildrenLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/recommended-number-serves-children-adolescents-and"
+    static let servesForAdultsLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/recommended-number-serves-adults"
+    static let serveSizesLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/serve-sizes"
     
 }

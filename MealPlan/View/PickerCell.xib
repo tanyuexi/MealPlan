@@ -20,7 +20,7 @@
                         <rect key="frame" x="20" y="11" width="284" height="212"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8VQ-LT-3mC">
-                                <rect key="frame" x="113" y="0.0" width="58" height="36"/>
+                                <rect key="frame" x="0.0" y="0.0" width="284" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
@@ -31,6 +31,10 @@
                                 <rect key="frame" x="0.0" y="41" width="284" height="171"/>
                             </pickerView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="8VQ-LT-3mC" secondAttribute="trailing" id="gZZ-5U-n0l"/>
+                            <constraint firstItem="8VQ-LT-3mC" firstAttribute="leading" secondItem="gf9-ux-2GN" secondAttribute="leading" id="wnC-cY-4Wo"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

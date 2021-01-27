@@ -531,6 +531,42 @@ extension UIViewController {
         // first date
         S.data.firstDate = S.data.dateFormatter.date(from: getPlistFirstDate())
         
+        //daily serves
+        if let filePath = Bundle.main.path(forResource: "DailyServes", ofType: "tsv") {
+            
+            if freopen(filePath, "r", stdin) == nil {
+                perror(filePath)
+            }
+            
+            let header = [
+                NSLocalizedString("Age", comment: "file header"),         //0
+                NSLocalizedString("Condition", comment: "file header"),   //1
+                NSLocalizedString("Vegetable", comment: "file header"),   //2
+                NSLocalizedString("Fruit", comment: "file header"),       //3
+                NSLocalizedString("Grain", comment: "file header"),       //4
+                NSLocalizedString("Protein", comment: "file header"),     //5
+                NSLocalizedString("Calcium", comment: "file header"),     //6
+                NSLocalizedString("Additional", comment: "file header"),  //7
+                NSLocalizedString("Oil", comment: "file header")          //8
+            ]
+            while let line = readLine() {
+                if line.prefix(2) == "//" {
+                    continue
+                }
+                //0-age, 1-condition, 2-vegetable, 3-fruit, 4-grain, 5-protein, 6-calcium, 7-additional, 8-oil
+                let fields: [String] = line.components(separatedBy: K.level1Separator)
+                //dailyServes = ["food": ["age gender&condition": serves]]
+                for column in 2..<9 {
+                    if S.data.dailyServes[header[column]] == nil {
+                        S.data.dailyServes[header[column]] = [:]
+                    }
+                    S.data.dailyServes[header[column]]!["\(fields[0]) \(fields[1])"] = Double(fields[column]) ?? 0
+                }
+                
+            }
+            fclose(stdin)
+        }
+        
         // person
         var personArray: [Person] = []
         loadPerson(to: &personArray)
@@ -540,7 +576,6 @@ extension UIViewController {
             if freopen(filePath, "r", stdin) == nil {
                 perror(filePath)
             }
-            
             
             while let line = readLine() {
                 let fields: [String] = line.components(separatedBy: K.level1Separator)

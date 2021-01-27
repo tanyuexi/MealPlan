@@ -45,6 +45,7 @@
 		E7B64F2C25B8580C00C5A926 /* EditDishTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2B25B8580C00C5A926 /* EditDishTVC.swift */; };
 		E7B64F2F25C048E500C5A926 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2D25C048E500C5A926 /* ButtonCell.swift */; };
 		E7B64F3025C048E500C5A926 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F2E25C048E500C5A926 /* ButtonCell.xib */; };
+		E7B64F3225C1918000C5A926 /* DailyServes.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F3125C1918000C5A926 /* DailyServes.tsv */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
 		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		E7B64F2B25B8580C00C5A926 /* EditDishTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDishTVC.swift; sourceTree = "<group>"; };
 		E7B64F2D25C048E500C5A926 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		E7B64F2E25C048E500C5A926 /* ButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonCell.xib; sourceTree = "<group>"; };
+		E7B64F3125C1918000C5A926 /* DailyServes.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = DailyServes.tsv; path = MealPlan/DailyServes.tsv; sourceTree = SOURCE_ROOT; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
 		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -189,6 +191,7 @@
 		E745E66D2570841D0059196B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E7B64F3125C1918000C5A926 /* DailyServes.tsv */,
 				E7B64F2525B6F24B00C5A926 /* Person.tsv */,
 				E7C6EF2A25A429230009B952 /* Food.tsv */,
 				E7B64F1B25AB253E00C5A926 /* Recipe.tsv */,
@@ -272,6 +275,7 @@
 				E7B64F2A25B856BE00C5A926 /* PickerCell.xib in Resources */,
 				E7177B1C257DC7C300C3C8A0 /* Meal.tsv in Resources */,
 				E7177B20257DD1A400C3C8A0 /* Season.tsv in Resources */,
+				E7B64F3225C1918000C5A926 /* DailyServes.tsv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

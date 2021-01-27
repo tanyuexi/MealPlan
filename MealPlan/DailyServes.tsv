@@ -1,0 +1,31 @@
+//Age	Condition(M-Male,F-Female,P-Pregnant,B-Breastfeeding)	Vegetable	Fruit	Grain	Protein	Calcium	Additional	Oil
+//Boy								
+1	M	2.5	0.5	4	1	1.25	0	0
+2	M	2.5	1	4	1	1.5	1	0.5
+4	M	4.5	1.5	4	1.5	2	2.5	1
+9	M	5	2	5	2.5	2.5	3	1
+12	M	5.5	2	6	2.5	3.5	3	1.5
+14	M	5.5	2	7	2.5	3.5	5	2
+//Girl								
+1	F	2.5	0.5	4	1	1.25	0	0
+2	F	2.5	1	4	1	1.5	1	0.5
+4	F	4.5	1.5	4	1.5	1.5	1	1
+9	F	5	2	4	2.5	3	3	1
+12	F	5	2	5	2.5	3.5	2.5	1.5
+14	F	5	2	7	2.5	3.5	2.5	2
+//Pregnant/Breastfeeding								
+1	FP	5	2	8	3.5	3.5	3	2
+1	FB	5.5	2	9	2.5	4	3	2
+1	FPB	5.5	2	9	3.5	4	3	2
+//Male								
+19	M	6	2	6	3	2.5	3	4
+51	M	5.5	2	6	2.5	2.5	2.5	4
+70	M	5	2	4.5	2.5	3.5	2.5	2
+//Female								
+19	F	5	2	6	2.5	2.5	2.5	2
+51	F	5	2	4	2	4	2.5	2
+70	F	5	2	3	2	4	2	2
+//Pregnant/Breastfeeding								
+19	FP	5	2	8.5	3.5	2.5	2.5	2
+19	FB	7.5	2	9	2.5	2.5	2.5	2
+19	FPB	7.5	2	9	3.5	2.5	2.5	2

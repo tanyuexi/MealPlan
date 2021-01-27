@@ -269,7 +269,7 @@ class EditDishTVC: UITableViewController {
             if let ingredients = alternativeIngredients[indexPath.row] {
                 cell.pickerTitles = ingredients.map({$0.food!.title!})
                 if ingredients.first!.optional {
-                    cell.pickerTitles.append(NSLocalizedString("Not putting", comment: "picker"))
+                    cell.pickerTitles.append(NSLocalizedString("< None >", comment: "picker"))
                 }
                 cell.selectRow(at: alternativeRow[indexPath.row] )
                 cell.onSelectedRow = { row in

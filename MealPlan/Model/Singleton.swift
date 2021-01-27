@@ -18,4 +18,5 @@ class S {
     var firstDate: Date?
     let dateFormatter = DateFormatter()
     let weekdayFormatter = DateFormatter()
+    var dailyServes: [String:[String:Double]] = [:]
 }
