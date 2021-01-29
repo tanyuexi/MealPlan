@@ -14,11 +14,18 @@ class ViewRecipeTVC: UITableViewController {
     var ingredientArray: [Ingredient] = []
     var methodArray: [String] = []
     var alternativeArray: [Alternative] = []
+    
+    var selectedDish: PlannedDish?
+    var portionMultiplier: Double = 1
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let dish = selectedDish {
+            selectedRecipe = dish.recipe
+        }
+        
         loadDataToForm()
     }
 
@@ -33,12 +40,21 @@ class ViewRecipeTVC: UITableViewController {
     //MARK: - Custom function
     
     func loadDataToForm(){
+        
         ingredientArray = (selectedRecipe.ingredients?.allObjects as! [Ingredient]).sorted(by: {$0.food!.title! < $1.food!.title!})
 
         alternativeArray = getAlternative(from: ingredientArray)
 
         let method = selectedRecipe.method!.replacingOccurrences(of: "\(K.lineBreakReplaceString)\(K.lineBreakReplaceString)", with: "\n\(K.lineBreakReplaceString)")
         methodArray = method.components(separatedBy: K.lineBreakReplaceString)
+        
+        if let dish = selectedDish {
+            portionMultiplier = dish.portion / selectedRecipe.portion
+            let selectedIngredients = dish.alternativeIngredients?.allObjects as! [Ingredient]
+//            selectedIngredients += ingredientArray.filter({$0.alternative == nil})
+            ingredientArray = ingredientArray.filter({$0.alternative == nil || selectedIngredients.contains($0)})
+
+        }
     }
     
     //MARK: - TableView
@@ -101,7 +117,7 @@ class ViewRecipeTVC: UITableViewController {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "PortionSeasonCell", for: indexPath)
             cell.textLabel?.text = selectedRecipe.seasonLabel
-            cell.detailTextLabel?.text =  "\(selectedRecipe.portion) 👤"
+            cell.detailTextLabel?.text =  "\(limitDigits(selectedRecipe.portion * portionMultiplier)) \(K.portionIcon)"
             cell.accessoryType = .none
             return cell
             
@@ -109,7 +125,7 @@ class ViewRecipeTVC: UITableViewController {
             
             let i = ingredientArray[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientCell", for: indexPath)
-            cell.textLabel?.text = "\(limitDigits(i.quantity)) \(i.unit!)"
+            cell.textLabel?.text = "\(limitDigits(i.quantity * portionMultiplier)) \(i.unit!)"
             if i.optional {
                 cell.detailTextLabel?.text = "*" + i.food!.title!
             } else {

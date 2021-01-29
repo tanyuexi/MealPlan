@@ -3,6 +3,7 @@
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -832,7 +833,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="View Recipe" id="tTA-JU-qwH">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" image="pencil" catalog="system" id="tBh-xQ-1wq">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" image="square.and.pencil" catalog="system" id="tBh-xQ-1wq">
                             <connections>
                                 <action selector="editButtonPressed:" destination="fkv-2T-dNH" id="ANn-PE-6zU"/>
                             </connections>
@@ -2249,109 +2250,115 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="M6V-fv-QPq" kind="relationship" relationship="rootViewController" id="yyk-kw-cZL"/>
+                        <segue destination="oeJ-AO-oGx" kind="relationship" relationship="rootViewController" id="Fnh-eQ-Wcy"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EdN-o3-Hww" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="47" y="-871"/>
+            <point key="canvasLocation" x="-166" y="-779"/>
         </scene>
         <!--Menu-->
-        <scene sceneID="cx4-tj-X2E">
+        <scene sceneID="boD-lH-aEE">
             <objects>
-                <tableViewController id="M6V-fv-QPq" customClass="MenuTVC" customModule="MealPlan" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Nnc-Nk-dhJ">
+                <viewController id="oeJ-AO-oGx" customClass="MenuVC" customModule="MealPlan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="D9f-rb-Bd1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="FhO-wS-alM">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recommended serves for 6 Food Groups" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XB-fv-l84">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="20.5"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ely-hx-8fw">
+                                        <rect key="frame" x="0.0" y="20.5" width="375" height="80"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="k53-6m-2wO"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="20" minimumInteritemSpacing="20" id="56K-eS-hlf">
+                                            <size key="itemSize" width="128" height="80"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="oeJ-AO-oGx" id="4rp-G7-EOY"/>
+                                            <outlet property="delegate" destination="oeJ-AO-oGx" id="4sU-sM-Mlp"/>
+                                        </connections>
+                                    </collectionView>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KuW-wu-6Ug">
+                                        <rect key="frame" x="0.0" y="100.5" width="375" height="522.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddDishCell" textLabel="auL-YJ-jzH" imageView="z9K-Pv-XBu" style="IBUITableViewCellStyleDefault" id="8rc-e4-Eyg" userLabel="Add Dish Table View Cell">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8rc-e4-Eyg" id="f6O-9t-1O0">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Add dish" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="auL-YJ-jzH">
+                                                            <rect key="frame" x="54" y="0.0" width="306" height="43.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="plus" catalog="system" id="z9K-Pv-XBu">
+                                                            <rect key="frame" x="18" y="13.5" width="18" height="16"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="oeJ-AO-oGx" id="rEi-QM-J8u"/>
+                                            <outlet property="delegate" destination="oeJ-AO-oGx" id="QbN-DB-sWj"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CalculatorCell" rowHeight="80" id="fo0-jj-DYq" userLabel="Calculator Table View Cell">
-                                <rect key="frame" x="0.0" y="28" width="375" height="80"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fo0-jj-DYq" id="dhv-5F-Xlq">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KY4-hg-b8q">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JjR-fk-veI">
-                                                <size key="itemSize" width="128" height="128"/>
-                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            </collectionViewFlowLayout>
-                                            <cells/>
-                                            <connections>
-                                                <outlet property="dataSource" destination="M6V-fv-QPq" id="AqM-ar-6xP"/>
-                                                <outlet property="delegate" destination="M6V-fv-QPq" id="4NH-yk-r4d"/>
-                                            </connections>
-                                        </collectionView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="KY4-hg-b8q" firstAttribute="top" secondItem="dhv-5F-Xlq" secondAttribute="top" id="2pV-Fj-ap0"/>
-                                        <constraint firstAttribute="trailing" secondItem="KY4-hg-b8q" secondAttribute="trailing" id="U0a-LH-q6v"/>
-                                        <constraint firstAttribute="bottom" secondItem="KY4-hg-b8q" secondAttribute="bottom" id="cfj-UV-sIW"/>
-                                        <constraint firstItem="KY4-hg-b8q" firstAttribute="leading" secondItem="dhv-5F-Xlq" secondAttribute="leading" id="sNb-aW-udv"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceholderCell" rowHeight="80" id="GQ5-yS-6lf" userLabel="Placeholder Table View Cell">
-                                <rect key="frame" x="0.0" y="108" width="375" height="80"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GQ5-yS-6lf" id="qL8-jS-e5l">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddDishCell" textLabel="RCd-AI-oP4" imageView="d8O-vk-NsG" style="IBUITableViewCellStyleDefault" id="f9n-DX-hUe" userLabel="Add Dish Table View Cell">
-                                <rect key="frame" x="0.0" y="188" width="375" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f9n-DX-hUe" id="kkw-Lg-k6k">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Add dish" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RCd-AI-oP4">
-                                            <rect key="frame" x="55" y="0.0" width="304" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="plus" catalog="system" id="d8O-vk-NsG">
-                                            <rect key="frame" x="19" y="13.5" width="18" height="16"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="M6V-fv-QPq" id="Gac-mM-jSQ"/>
-                            <outlet property="delegate" destination="M6V-fv-QPq" id="EbT-C7-f10"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Menu" id="bdU-Pa-Cas">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" image="gear" catalog="system" id="31E-qb-ceE">
+                        <constraints>
+                            <constraint firstItem="FhO-wS-alM" firstAttribute="top" secondItem="ORz-Ud-0mM" secondAttribute="top" id="LbT-97-qqy"/>
+                            <constraint firstItem="ORz-Ud-0mM" firstAttribute="bottom" secondItem="FhO-wS-alM" secondAttribute="bottom" id="elX-K5-zTu"/>
+                            <constraint firstItem="FhO-wS-alM" firstAttribute="leading" secondItem="ORz-Ud-0mM" secondAttribute="leading" id="pgm-Ib-W33"/>
+                            <constraint firstItem="ORz-Ud-0mM" firstAttribute="trailing" secondItem="FhO-wS-alM" secondAttribute="trailing" id="tOI-iF-D7T"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ORz-Ud-0mM"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Menu" id="9Ru-B6-M8d">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" image="gear" catalog="system" id="qth-4m-jDb">
                             <connections>
-                                <action selector="settingsButtonPressed:" destination="M6V-fv-QPq" id="udc-lp-f5w"/>
+                                <action selector="settingsButtonPressed:" destination="oeJ-AO-oGx" id="Mnp-NO-PC7"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="pencil" catalog="system" id="0PG-U4-QUb">
+                        <barButtonItem key="rightBarButtonItem" title="Mode" image="square.and.pencil" catalog="system" id="Y8a-Fc-m3f">
                             <connections>
-                                <action selector="editButtonPressed:" destination="M6V-fv-QPq" id="Nqm-HY-zey"/>
+                                <action selector="modeButtonPressed:" destination="oeJ-AO-oGx" id="7iH-VL-YjY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="eZ7-j7-fzA" kind="show" identifier="GoToSettings" id="fw8-jG-I5V"/>
-                        <segue destination="fkv-2T-dNH" kind="show" identifier="GoToViewRecipe" id="nQZ-G0-lth"/>
-                        <segue destination="XhN-bt-k6S" kind="show" identifier="GoToEditDish" id="SiC-sE-MOW"/>
+                        <outlet property="calculatorCollectionView" destination="ely-hx-8fw" id="GJV-ui-ea4"/>
+                        <outlet property="tableView" destination="KuW-wu-6Ug" id="PvP-jg-jpe"/>
+                        <segue destination="eZ7-j7-fzA" kind="show" identifier="GoToSettings" id="g3a-oQ-BGt"/>
+                        <segue destination="XhN-bt-k6S" kind="show" identifier="GoToEditDish" id="mS7-bj-ymB"/>
+                        <segue destination="fkv-2T-dNH" kind="show" identifier="GoToViewRecipe" id="WOn-xB-bQf"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Tkx-UX-w9F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hJ1-Ze-eul" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1281" y="-871"/>
+            <point key="canvasLocation" x="887" y="-779"/>
         </scene>
         <!--Edit Dish-->
         <scene sceneID="2TB-qe-MnW">
@@ -2407,22 +2414,22 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Zh-Ys-bea" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1896.8" y="-54.422788605697157"/>
+            <point key="canvasLocation" x="1596" y="81"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ZTh-2U-V2X"/>
         <segue reference="1xc-v6-scU"/>
-        <segue reference="nQZ-G0-lth"/>
+        <segue reference="WOn-xB-bQf"/>
         <segue reference="mtI-nc-EGN"/>
         <segue reference="hUe-X5-4JG"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="gear" catalog="system" width="128" height="119"/>
-        <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="118"/>
         <image name="trash" catalog="system" width="121" height="128"/>
     </resources>
 </document>

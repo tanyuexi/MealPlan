@@ -18,7 +18,6 @@ class DishCell: UITableViewCell {
     @IBOutlet weak var ingredientLabel: UILabel!
     @IBOutlet weak var portionLabel: UILabel!
     @IBOutlet weak var portionStepper: UIStepper!
-    @IBOutlet weak var portionStackView: UIStackView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,7 +35,7 @@ class DishCell: UITableViewCell {
     
     func onStepperValueChangedUpdateCell(_ value: Double){
         
-        portionLabel.text = tvc.limitDigits(value)
+        portionLabel.text = "\(tvc.limitDigits(value)) \(K.portionIcon)"
         portionStepper.value = value
     }
     

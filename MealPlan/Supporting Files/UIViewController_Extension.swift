@@ -433,7 +433,7 @@ extension UIViewController {
             recipe = recipeArray.first!
         }
         
-        recipe.portion = Int16(fields[1]) ?? 1
+        recipe.portion = Double(fields[1]) ?? 1
 
         //meal
         let mealTitles = fields[2].components(separatedBy: K.level2Separator)
@@ -1025,76 +1025,77 @@ extension UIViewController {
     //    }
     //
     //
-    //    //MARK: - Calculate daily serves
-    //    func yearsBeforeToday(_ years: Int) -> Date {
-    //        let calendar = Calendar.current
-    //        let today = Date()
-    //        let component = DateComponents(year: -years)
-    //        return calendar.date(byAdding: component, to: today)!
-    //    }
-    //
-    //    func isOlderRangeInAgeZone(_ date: Date, by ageThreshold: inout [Int: Date]) -> Bool {
-    //        for i in [4, 9, 12, 14, 19] {
-    //            let diff = Calendar.current.dateComponents([.year], from: date, to: ageThreshold[i]!)
-    //            if diff.year! == 0 {
-    //                return true
-    //            }
-    //        }
-    //        return false
-    //    }
-    //
-    //    func calculateDailyTotalServes(from peopleArray: [People], to totalDict: inout [String: Double]) {
-    //
-    //        totalDict = [:]
-    //
-    //        var ageThreshold: [Int: Date] = [:]
-    //
-    //        for i in [1, 2, 4, 9, 12, 14, 19, 51, 70] {
-    //            ageThreshold[i] = yearsBeforeToday(i)
-    //        }
-    //
-    //        //calculate total serves
-    //        for person in peopleArray {
-    //            var ageZone = 0
-    //            let olderRange = isOlderRangeInAgeZone(person.dateOfBirth!, by: &ageThreshold)
-    //            if person.pregnant || person.breastfeeding {
-    //                if person.dateOfBirth! <= ageThreshold[19]! {
-    //                    ageZone = 19
-    //                } else {
-    //                    ageZone = 1
-    //                }
-    //            } else {
-    //                for i in ageThreshold.keys.sorted() {
-    //                    if person.dateOfBirth! <= ageThreshold[i]! {
-    //                        ageZone = i
-    //                    }
-    //                }
-    //            }
-    //
-    //            //if less than 1 yrs old, next member
-    //            if ageZone == 0 {continue}
-    //
-    //            var key = "\(ageZone) "
-    //            key += person.female ? "F": "M"
-    //            if person.pregnant {key += "P"}
-    //            if person.breastfeeding {key += "B"}
-    //
-    //            for group in K.foodGroups {
-    //                if totalDict[group] == nil {
-    //                    totalDict[group] = 0.0
-    //                }
-    //
-    //                totalDict[group]! += K.dailyServes[group]![key]!
-    //
-    //                if (person.additional || olderRange),
-    //                    group != K.foodGroups[5] {   //oil
-    //
-    //                    totalDict[group]! += K.dailyServes[K.additionalString]![key]!/5
-    //                }
-    //            }
-    //        }
-    //
-    //    }
+        //MARK: - Calculate daily serves
+        func yearsBeforeToday(_ years: Int) -> Date {
+            let calendar = Calendar.current
+            let today = Date()
+            let component = DateComponents(year: -years)
+            return calendar.date(byAdding: component, to: today)!
+        }
+    
+        func isOlderRangeInAgeZone(_ date: Date, by ageThreshold: inout [Int: Date]) -> Bool {
+            for i in [4, 9, 12, 14, 19] {
+                let diff = Calendar.current.dateComponents([.year], from: date, to: ageThreshold[i]!)
+                if diff.year! == 0 {
+                    return true
+                }
+            }
+            return false
+        }
+    
+        func calculateDailyTotalServes(from personArray: [Person], to totalDict: inout [String: Double]) {
+    
+            totalDict = [:]
+    
+            var ageThreshold: [Int: Date] = [:]
+    
+            for i in [1, 2, 4, 9, 12, 14, 19, 51, 70] {
+                ageThreshold[i] = yearsBeforeToday(i)
+            }
+    
+            //calculate total serves
+            for person in personArray {
+                var ageZone = 0
+                let olderRange = isOlderRangeInAgeZone(person.dateOfBirth!, by: &ageThreshold)
+                if person.pregnant || person.breastfeeding {
+                    if person.dateOfBirth! <= ageThreshold[19]! {
+                        ageZone = 19
+                    } else {
+                        ageZone = 1
+                    }
+                } else {
+                    for i in ageThreshold.keys.sorted() {
+                        if person.dateOfBirth! <= ageThreshold[i]! {
+                            ageZone = i
+                        }
+                    }
+                }
+    
+                //if less than 1 yrs old, next member
+                if ageZone == 0 {continue}
+    
+                var key = "\(ageZone) "
+                key += person.female ? "F": "M"
+                if person.pregnant {key += "P"}
+                if person.breastfeeding {key += "B"}
+    
+                for i in 0..<6 {
+                    let group = S.data.foodGroupArray[i].title!
+                    if totalDict[group] == nil {
+                        totalDict[group] = 0.0
+                    }
+    
+                    totalDict[group]! += S.data.dailyServes[group]![key]!
+    
+                    if (person.additional || olderRange),
+                    group != NSLocalizedString("Oil", comment: "food group") {   //oil
+    
+                        totalDict[group]! += S.data.dailyServes[NSLocalizedString("Additional", comment: "food group")]![key]!/5
+                    }
+                }
+            }
+    
+        }
     //
     //    //MARK: - Notification Center
     //    func postNotification(_ userInfo: [String: Any]){

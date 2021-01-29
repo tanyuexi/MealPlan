@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EditRecipeTVC: UITableViewController {
+class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var selectedRecipe: Recipe?
     var completionHandler: ((Recipe, String) -> Void)?
@@ -73,8 +73,10 @@ class EditRecipeTVC: UITableViewController {
     
     func onIngredientUpdated(){
         alternativeArray = getAlternative(from: ingredientsByTitle)
+
 //        print("alternativeArray: \(alternativeArray.count)")
 //        print(alternativeArray.compactMap({($0.ingredients?.allObjects as! [Ingredient]).compactMap({$0.food!.title!}).joined(separator: ",")}))
+        
         seasons = updateRecipeSeason(ingredients: ingredientsByTitle, alternatives: alternativeArray)
         seasonLabel.text = getSeasonIcon(from: Array(seasons))
         ingredientCollectionView.reloadData()
@@ -140,7 +142,7 @@ class EditRecipeTVC: UITableViewController {
         }
         recipe.title = titleTextField.text
         recipe.method = convertMultiLineToData(from: methodTextView.text)
-        recipe.portion = Int16(peopleTextField.text!)!
+        recipe.portion = Double(peopleTextField.text!)!
         recipe.ingredients = NSSet(array: ingredientsByTitle)
         recipe.alternatives = NSSet(array: alternativeArray)
         recipe.meals = meals
@@ -171,11 +173,9 @@ class EditRecipeTVC: UITableViewController {
     }
     
     
-}
 
 //MARK: - UICollectionViewDataSource
 
-extension EditRecipeTVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -205,24 +205,18 @@ extension EditRecipeTVC: UICollectionViewDataSource {
         return cell
     }
     
-}
 
 //MARK: - UICollectionViewDelegate
 
-extension EditRecipeTVC: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: "GoToEditIngredient", sender: nil)
         ingredientCollectionView.deselectItem(at: indexPath, animated: true)
     }
-}
-
 
 
 //MARK: - navigation
-
-extension EditRecipeTVC {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -35,6 +35,7 @@ struct K {
         NSLocalizedString("🍽", comment: "meal icon")]
     static let seasonIcon = ["🌱","☀️","🍁","❄️"]
     static let seasonUnavailableIcon = "✖️"
+    static let portionIcon = "🥄"
     
     static let tagColor = UIColor.systemYellow
     

@@ -21,7 +21,6 @@
 		E745E640256CC6D80059196B /* MealPlan.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E745E63E256CC6D80059196B /* MealPlan.xcdatamodeld */; };
 		E745E642256CC6DF0059196B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E745E641256CC6DF0059196B /* Assets.xcassets */; };
 		E745E645256CC6DF0059196B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E745E643256CC6DF0059196B /* LaunchScreen.storyboard */; };
-		E745E64D256D30960059196B /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E64C256D30960059196B /* MenuTVC.swift */; };
 		E745E65125707D280059196B /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E65025707D280059196B /* SettingsTVC.swift */; };
 		E745E65325707D4B0059196B /* ShoppingListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E65225707D4B0059196B /* ShoppingListTVC.swift */; };
 		E745E65525707D700059196B /* ChooseRecipeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E65425707D700059196B /* ChooseRecipeTVC.swift */; };
@@ -46,6 +45,9 @@
 		E7B64F2F25C048E500C5A926 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2D25C048E500C5A926 /* ButtonCell.swift */; };
 		E7B64F3025C048E500C5A926 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F2E25C048E500C5A926 /* ButtonCell.xib */; };
 		E7B64F3225C1918000C5A926 /* DailyServes.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F3125C1918000C5A926 /* DailyServes.tsv */; };
+		E7B64F3925C2724500C5A926 /* CalculatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F3725C2724500C5A926 /* CalculatorCell.swift */; };
+		E7B64F3A25C2724500C5A926 /* CalculatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F3825C2724500C5A926 /* CalculatorCell.xib */; };
+		E7B64F3C25C382BF00C5A926 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F3B25C382BF00C5A926 /* MenuVC.swift */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
 		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
@@ -67,7 +69,6 @@
 		E745E641256CC6DF0059196B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E745E644256CC6DF0059196B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E745E646256CC6DF0059196B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E745E64C256D30960059196B /* MenuTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		E745E65025707D280059196B /* SettingsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		E745E65225707D4B0059196B /* ShoppingListTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTVC.swift; sourceTree = "<group>"; };
 		E745E65425707D700059196B /* ChooseRecipeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRecipeTVC.swift; sourceTree = "<group>"; };
@@ -92,6 +93,9 @@
 		E7B64F2D25C048E500C5A926 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		E7B64F2E25C048E500C5A926 /* ButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonCell.xib; sourceTree = "<group>"; };
 		E7B64F3125C1918000C5A926 /* DailyServes.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = DailyServes.tsv; path = MealPlan/DailyServes.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F3725C2724500C5A926 /* CalculatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorCell.swift; sourceTree = "<group>"; };
+		E7B64F3825C2724500C5A926 /* CalculatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalculatorCell.xib; sourceTree = "<group>"; };
+		E7B64F3B25C382BF00C5A926 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
 		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -142,7 +146,7 @@
 		E745E66A257083CF0059196B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E745E64C256D30960059196B /* MenuTVC.swift */,
+				E7B64F3B25C382BF00C5A926 /* MenuVC.swift */,
 				E745E65025707D280059196B /* SettingsTVC.swift */,
 				E745E65225707D4B0059196B /* ShoppingListTVC.swift */,
 				E745E65425707D700059196B /* ChooseRecipeTVC.swift */,
@@ -174,6 +178,8 @@
 				E7B64F2825B856BE00C5A926 /* PickerCell.xib */,
 				E7B64F2D25C048E500C5A926 /* ButtonCell.swift */,
 				E7B64F2E25C048E500C5A926 /* ButtonCell.xib */,
+				E7B64F3725C2724500C5A926 /* CalculatorCell.swift */,
+				E7B64F3825C2724500C5A926 /* CalculatorCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,6 +280,7 @@
 				E7B64F2425B6B62D00C5A926 /* DishCell.xib in Resources */,
 				E7B64F2A25B856BE00C5A926 /* PickerCell.xib in Resources */,
 				E7177B1C257DC7C300C3C8A0 /* Meal.tsv in Resources */,
+				E7B64F3A25C2724500C5A926 /* CalculatorCell.xib in Resources */,
 				E7177B20257DD1A400C3C8A0 /* Season.tsv in Resources */,
 				E7B64F3225C1918000C5A926 /* DailyServes.tsv in Resources */,
 			);
@@ -296,7 +303,9 @@
 				E7B64F2025B5AFFC00C5A926 /* EditPersonTVC.swift in Sources */,
 				E745E65525707D700059196B /* ChooseRecipeTVC.swift in Sources */,
 				E7B64F2C25B8580C00C5A926 /* EditDishTVC.swift in Sources */,
+				E7B64F3C25C382BF00C5A926 /* MenuVC.swift in Sources */,
 				E7B64F2325B6B62D00C5A926 /* DishCell.swift in Sources */,
+				E7B64F3925C2724500C5A926 /* CalculatorCell.swift in Sources */,
 				E7177B152577AD1600C3C8A0 /* UITextView_Extension.swift in Sources */,
 				E7B64F2F25C048E500C5A926 /* ButtonCell.swift in Sources */,
 				E745E667257081490059196B /* Constants.swift in Sources */,
@@ -304,7 +313,6 @@
 				E7177B162577AD1700C3C8A0 /* UITextField_Extension.swift in Sources */,
 				E745E669257083910059196B /* UIViewController_Extension.swift in Sources */,
 				E7177B192579A79900C3C8A0 /* CollectionCell.swift in Sources */,
-				E745E64D256D30960059196B /* MenuTVC.swift in Sources */,
 				E7177B22257E030500C3C8A0 /* Singleton.swift in Sources */,
 				E745E65B25707DB30059196B /* EditIngredientTVC.swift in Sources */,
 				E7B64F2925B856BE00C5A926 /* PickerCell.swift in Sources */,

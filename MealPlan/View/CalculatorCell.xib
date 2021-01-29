@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalculatorCell" customModule="MealPlan" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="142" height="112"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="142" height="112"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z5a-u3-0TQ" userLabel="Content View">
+                        <rect key="frame" x="0.0" y="0.0" width="142" height="112"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="JuB-5E-Qev">
+                                <rect key="frame" x="0.0" y="0.0" width="142" height="112"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t0b-nU-BhK">
+                                        <rect key="frame" x="53" y="0.0" width="36.5" height="34"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvN-Cx-Hpc">
+                                        <rect key="frame" x="49.5" y="39" width="43" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nyg-wo-dYc">
+                                        <rect key="frame" x="56" y="78" width="30.5" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="JuB-5E-Qev" firstAttribute="top" secondItem="z5a-u3-0TQ" secondAttribute="top" id="5g8-yg-CkC"/>
+                            <constraint firstAttribute="trailing" secondItem="JuB-5E-Qev" secondAttribute="trailing" id="M5E-4i-D0P"/>
+                            <constraint firstAttribute="bottom" secondItem="JuB-5E-Qev" secondAttribute="bottom" id="dbI-Pm-l9T"/>
+                            <constraint firstItem="JuB-5E-Qev" firstAttribute="leading" secondItem="z5a-u3-0TQ" secondAttribute="leading" id="jll-0U-p1t"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="z5a-u3-0TQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="YKV-2m-SiJ"/>
+                <constraint firstAttribute="trailing" secondItem="z5a-u3-0TQ" secondAttribute="trailing" id="hZe-dR-k6s"/>
+                <constraint firstAttribute="bottom" secondItem="z5a-u3-0TQ" secondAttribute="bottom" id="krk-YZ-Bjy"/>
+                <constraint firstItem="z5a-u3-0TQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="umO-p4-ite"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="142" height="112"/>
+            <connections>
+                <outlet property="bgView" destination="z5a-u3-0TQ" id="nUX-uI-Xfn"/>
+                <outlet property="sumLabel" destination="Nyg-wo-dYc" id="aDH-X1-mn2"/>
+                <outlet property="targetLabel" destination="nvN-Cx-Hpc" id="Gsi-7G-EMf"/>
+                <outlet property="titleLabel" destination="t0b-nU-BhK" id="meJ-i1-qo4"/>
+            </connections>
+            <point key="canvasLocation" x="198.55072463768118" y="164.0625"/>
+        </collectionViewCell>
+    </objects>
+</document>

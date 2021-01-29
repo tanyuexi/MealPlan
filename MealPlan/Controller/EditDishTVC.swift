@@ -39,7 +39,7 @@ class EditDishTVC: UITableViewController {
 
             for i in 0..<alternativeArray.count {
                 if let ingredients = alternativeIngredients[i],
-                    let selectedIngredients = dish.selectedIngredients {
+                    let selectedIngredients = dish.alternativeIngredients {
                     
                     if let selectedIndex = ingredients.firstIndex(where: {selectedIngredients.contains($0)}) {
                         
@@ -116,7 +116,7 @@ class EditDishTVC: UITableViewController {
         }
 //        let allIngredients = selectedRecipe!.ingredients?.allObjects as! [Ingredient]
 //        let ingredientsInDish = allIngredients.filter({$0.alternative == nil || selectedIngredients.contains($0)})
-        dish.selectedIngredients = NSSet(array: selectedIngredients)
+        dish.alternativeIngredients = NSSet(array: selectedIngredients)
         
         saveContext()
         navigationController?.popViewController(animated: true)

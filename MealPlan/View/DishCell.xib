@@ -78,7 +78,6 @@
                 <outlet property="ingredientLabel" destination="Lo2-et-Q5k" id="gtA-C3-E05"/>
                 <outlet property="mealLabel" destination="X1k-nQ-zRc" id="dFn-jP-9en"/>
                 <outlet property="portionLabel" destination="OVr-XI-VAQ" id="EEK-Kv-wzw"/>
-                <outlet property="portionStackView" destination="Akw-On-Uyz" id="tzz-ER-9v5"/>
                 <outlet property="portionStepper" destination="Se3-Qc-fhd" id="Wbu-5W-rdH"/>
                 <outlet property="recipeLabel" destination="Gnw-no-qko" id="zVk-J2-W24"/>
             </connections>
