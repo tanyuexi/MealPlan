@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-//import func AVFoundation.AVMakeRect
+import func AVFoundation.AVMakeRect
 
 
 extension UIViewController {
@@ -175,7 +175,7 @@ extension UIViewController {
             seasonField,
             ingredientField,
             alternativeField,
-            recipe.methodImg ?? "",
+            recipe.methodImage ?? "",
             recipe.methodLink ?? "",
             recipe.method ?? "",
             "\n"
@@ -270,6 +270,27 @@ extension UIViewController {
             K.context.delete(abandoned)
         }
         serveSizes = []
+        
+        var recipes: [Recipe] = []
+        loadRecipe(to: &recipes)
+        let imageFiles = recipes.compactMap({$0.methodImage})
+        recipes = []
+        
+        if let documentUrl = getFilePath(directory: true) {
+            
+            let contentUrls = try! FileManager.default.contentsOfDirectory(at: documentUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            
+            for imgUrl in contentUrls.filter({$0.lastPathComponent.starts(with: K.methodImagePrefix)}) {
+                if !imageFiles.contains(imgUrl.lastPathComponent) {
+                    do {
+                        try FileManager.default.removeItem(at: imgUrl)
+                    } catch {
+                        print("Error removing image: \(error)")
+                    }
+                }
+            }
+        }
+        
     }
     
     func deepCopy(from data: ServeSize) -> ServeSize {
@@ -313,7 +334,7 @@ extension UIViewController {
         let newData = Recipe(context: K.context)
         newData.featuredIngredients = data.featuredIngredients
         newData.method = data.method
-        newData.methodImg = data.methodImg
+        newData.methodImage = data.methodImage
         newData.title = data.title
         newData.portion = data.portion
 //        newData.currentMenu
@@ -486,7 +507,7 @@ extension UIViewController {
         }
         
         //method
-        recipe.methodImg = fields[6]
+        recipe.methodImage = fields[6]
         recipe.methodLink = fields[7]
         recipe.method = fields[8]
     }
@@ -664,6 +685,26 @@ extension UIViewController {
     //        }
     //    }
     
+    
+    func loadPlan(to array: inout [Plan], predicate: NSPredicate? = nil) {
+        
+        let request : NSFetchRequest<Plan> = Plan.fetchRequest()
+        let sortBy = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [sortBy]
+        
+        if predicate != nil {
+            //NSPredicate(format: "title ==[cd] %@", fields[0])
+            request.predicate = predicate
+        }
+        
+        do{
+            array = try K.context.fetch(request)
+        } catch {
+            print("Error loading SavedPlan \(error)")
+        }
+    }
+    
+    
     func loadPerson(to array: inout [Person]) {
         let request : NSFetchRequest<Person> = Person.fetchRequest()
 //        let sortBy = NSSortDescriptor(key: "dateOfBirth", ascending: true)
@@ -709,11 +750,12 @@ extension UIViewController {
         }
     }
     
-    func loadPlannedDish(to array: inout [PlannedDish], predicate: NSPredicate? = nil) {
-        let request : NSFetchRequest<PlannedDish> = PlannedDish.fetchRequest()
+    func loadDish(to array: inout [Dish], predicate: NSPredicate? = nil) {
+        let request : NSFetchRequest<Dish> = Dish.fetchRequest()
+        let sortByDay = NSSortDescriptor(key: "day", ascending: true)
         let sortByMeal = NSSortDescriptor(key: "meal.order", ascending: true)
         let sortByRecipe = NSSortDescriptor(key: "recipe.title", ascending: true)
-        request.sortDescriptors = [sortByMeal, sortByRecipe]
+        request.sortDescriptors = [sortByDay, sortByMeal, sortByRecipe]
         if predicate != nil {
             //NSPredicate(format: "title ==[cd] %@", fields[0])
             request.predicate = predicate
@@ -1014,17 +1056,17 @@ extension UIViewController {
     //    }
     //
     //
-    //    //MARK: - Image
-    //    func scaleImage(_ image: UIImage, within rect: CGRect) -> UIImage? {
-    //
-    //        let rect = AVMakeRect(aspectRatio: image.size, insideRect: rect)
-    //        let renderer = UIGraphicsImageRenderer(size: rect.size)
-    //        return renderer.image { (context) in
-    //            image.draw(in: CGRect(origin: .zero, size: rect.size))
-    //        }
-    //    }
-    //
-    //
+        //MARK: - Image
+        func scaleImage(_ image: UIImage, within rect: CGRect) -> UIImage? {
+    
+            let rect = AVMakeRect(aspectRatio: image.size, insideRect: rect)
+            let renderer = UIGraphicsImageRenderer(size: rect.size)
+            return renderer.image { (context) in
+                image.draw(in: CGRect(origin: .zero, size: rect.size))
+            }
+        }
+    
+    
         //MARK: - Calculate daily serves
         func yearsBeforeToday(_ years: Int) -> Date {
             let calendar = Calendar.current

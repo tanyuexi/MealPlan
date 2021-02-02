@@ -15,19 +15,47 @@ class ViewRecipeTVC: UITableViewController {
     var methodArray: [String] = []
     var alternativeArray: [Alternative] = []
     
-    var selectedDish: PlannedDish?
+    var selectedDish: Dish?
     var portionMultiplier: Double = 1
 
+    var imageView: UIImageView!
+    var scrollView: UIScrollView!
+//
+//    var imageView: UIImageView = {
+//        let img = UIImageView()
+//        img.contentMode = .scaleAspectFit
+//        img.isUserInteractionEnabled = true
+//        return img
+//    }()
+//
+//
+//    var scrollView: UIScrollView = {
+//        let scroll = UIScrollView()
+//        scroll.maximumZoomScale = 4.0
+//        scroll.minimumZoomScale = 0.25
+//        scroll.clipsToBounds = true
+//        return scroll
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "ButtonCell")
+        
         if let dish = selectedDish {
             selectedRecipe = dish.recipe
         }
         
-        loadDataToForm()
     }
+    
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadDataToForm()
+        tableView.reloadData()
+    }
+
 
     //MARK: - IBAction
 
@@ -57,6 +85,29 @@ class ViewRecipeTVC: UITableViewController {
         }
     }
     
+    func openUrl(_ string: String){
+        if let url = URL(string: string) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    
+
+//    func setupGestureRecognizer() {
+//        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(ViewRecipeTVC.handleDoubleTap(_:)))
+//        doubleTap.numberOfTapsRequired = 2
+//        scrollView.addGestureRecognizer(doubleTap)
+//    }
+//
+//    @objc func handleDoubleTap(_ recognizer: UITapGestureRecognizer) {
+//        if (scrollView.zoomScale > scrollView.minimumZoomScale)
+//        {
+//            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+//        } else {
+//            scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
+//        }
+//    }
+    
     //MARK: - TableView
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -76,7 +127,7 @@ class ViewRecipeTVC: UITableViewController {
         case 3: //ingredients
             return ingredientArray.count
         default: //method
-            return methodArray.count
+            return methodArray.count + 2
         }
     }
     
@@ -142,10 +193,73 @@ class ViewRecipeTVC: UITableViewController {
             
         default: //method
             
-            let method = methodArray[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MethodCell", for: indexPath)
-            cell.textLabel?.text = method
-            return cell
+            if indexPath.row < methodArray.count { //method text
+                
+                let method = methodArray[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MethodCell", for: indexPath)
+                cell.textLabel?.text = method
+                return cell
+                
+            } else if indexPath.row == methodArray.count { //method link
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
+                if selectedRecipe.methodLink != "" {
+                    cell.titleButton.isEnabled = true
+                    cell.titleButton.setTitle(selectedRecipe.methodLink, for: .normal)
+                    cell.onButtonPressed = {
+                        self.openUrl(self.selectedRecipe.methodLink!)
+                    }
+                } else {
+                    cell.titleButton.isEnabled = false
+                    cell.titleButton.setTitle(NSLocalizedString("No link", comment: "button"), for: .normal)
+                }
+                return cell
+                
+            } else { //method image
+                
+                if selectedRecipe.methodImage != "",
+                    let imgUrl = getFilePath(selectedRecipe.methodImage),
+                    let image = UIImage(contentsOfFile: imgUrl.path) {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyCell", for: indexPath)
+                    let minHeight = image.size.height * cell.bounds.width / image.size.width
+                    cell.heightAnchor.constraint(greaterThanOrEqualToConstant: minHeight).isActive = true
+
+                    imageView = UIImageView(image: image)
+//                    imageView.sizeThatFits(image.size)
+                    imageView.contentMode = .scaleAspectFill
+                    
+                    scrollView = UIScrollView(frame: cell.bounds)
+                    scrollView.backgroundColor = .systemBackground
+                    scrollView.minimumZoomScale = cell.bounds.width / image.size.width
+                    scrollView.maximumZoomScale = 2.0
+                    scrollView.delegate = self
+                    scrollView.contentSize = imageView.bounds.size
+                    scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                    
+                    scrollView.addSubview(imageView)
+                    
+                    cell.addSubview(scrollView)
+             
+                    scrollView.zoomScale = scrollView.minimumZoomScale
+                    scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+
+
+
+//                    setupGestureRecognizer()
+
+
+                    return cell
+                    
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
+
+                    cell.titleButton.isEnabled = false
+                    cell.titleButton.setTitle(NSLocalizedString("No image", comment: "button"), for: .normal)
+                    return cell
+                }
+            }
+            
         
         }
     }
@@ -154,14 +268,23 @@ class ViewRecipeTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section >= 3,  //ingredient and method
+            indexPath.row < methodArray.count,
             let cell = tableView.cellForRow(at: indexPath) {
             
             cell.accessoryType = (cell.accessoryType == .none ? .checkmark : .none)
+            
         }
             
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    
+    //MARK: - Scroll View
+    
+    override func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+       
+        return imageView
+    }
   
     // MARK: - Navigation
 

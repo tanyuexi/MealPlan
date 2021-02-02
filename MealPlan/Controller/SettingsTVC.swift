@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsTVC: UITableViewController, UITextFieldDelegate {
 
-
+    var mealPlanVC: MealPlanVC?
     
     @IBOutlet weak var dayTextField: UITextField!
     @IBOutlet weak var firstDateTextField: UITextField!
@@ -83,10 +83,12 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
         
         switch indexPath {
         case [0,0]:
-            performSegue(withIdentifier: "GoToPreferredFood", sender: self)
-        case [0,1]:
             navigationController?.popViewController(animated: true)
+        case [0,1]:
+            performSegue(withIdentifier: "GoToPreferredFood", sender: self)
         case [0,2]:
+            performSegue(withIdentifier: "GoToChoosePlan", sender: self)
+        case [0,3]:
             performSegue(withIdentifier: "GoToShoppingList", sender: self)
         case [2,0]:
             performSegue(withIdentifier: "GoToChoosePerson", sender: self)
@@ -133,6 +135,13 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
             
             vc.existingRecipeSeclectedHandler = { recipe in
                 vc.performSegue(withIdentifier: "GoToViewRecipe", sender: self)
+            }
+        } else if segue.identifier == "GoToChoosePlan",
+            let vc = segue.destination as? ChoosePlanTVC {
+            
+            vc.onCellSelected = { plan in
+                self.mealPlanVC?.selectedPlan = plan
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     var selectedRecipe: Recipe?
     var completionHandler: ((Recipe, String) -> Void)?
@@ -17,7 +17,12 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
     var mealsButton: [UIButton] = []
     var seasons: Set<Season> = Set()
     var alternativeArray: [Alternative] = []
+    var methodLink = ""
+    var methodImageFile = ""
+    var methodImage: UIImage?
     
+    var imagePicker = UIImagePickerController()
+
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
@@ -30,6 +35,8 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var peopleTextField: UITextField!
     @IBOutlet weak var ingredientCollectionView: UICollectionView!
     @IBOutlet weak var seasonLabel: UILabel!
+    @IBOutlet weak var methodLinkButton: UIButton!
+    @IBOutlet weak var methodImageButton: UIButton!
     @IBOutlet weak var methodTextView: UITextView!
     
     
@@ -42,6 +49,8 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
         ingredientCollectionView.delegate = self
         ingredientCollectionView.dataSource = self
         ingredientCollectionView.register(UINib(nibName: K.collectionCellID, bundle: nil), forCellWithReuseIdentifier: K.collectionCellID)
+        
+        imagePicker.delegate = self
         
         if let recipe = selectedRecipe {
             loadDataToForm(recipe)
@@ -61,13 +70,15 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
             mealsButton[Int(i.order)].isSelected = true
         }
         
-        peopleTextField.text = String(data.portion)
+        peopleTextField.text = limitDigits(data.portion)
         
         let ingredients = data.ingredients?.allObjects as! [Ingredient]
         ingredientsByTitle = ingredients.sorted{$0.food!.title! < $1.food!.title!}
         onIngredientUpdated()
         
         methodTextView.text = convertMultiLineToDisplay(from: data.method!)
+        setMethodLink(data.methodLink)
+        loadMethodImage(fileName: data.methodImage)
     }
     
     
@@ -95,7 +106,7 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
             message += NSLocalizedString("Missing meal. ", comment: "alert")
         }
         
-        if Int16(peopleTextField.text!) == nil {
+        if Double(peopleTextField.text!) == nil {
             message += NSLocalizedString("Invalid number of people. ", comment: "alert")
         }
         
@@ -103,8 +114,47 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
     }
     
     
+    func choosePhoto(_ type: UIImagePickerController.SourceType){
+
+        if UIImagePickerController.isSourceTypeAvailable(type){
+
+            imagePicker.sourceType = type
+            imagePicker.allowsEditing = false
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
     
     
+    func setMethodLink(_ link: String?){
+        if link == nil {
+            methodLink = ""
+            methodLinkButton.setTitle("", for: .normal)
+        } else {
+            methodLink = link!
+            methodLinkButton.setTitle(link, for: .normal)
+        }
+    }
+    
+    
+    func loadMethodImage(fileName: String?){
+
+        if let imgUrl = getFilePath(fileName),
+            let image = UIImage(contentsOfFile: imgUrl.path),
+            fileName != "" {
+            
+            methodImageFile = fileName!
+            methodImage = image
+            let smallImage = scaleImage(image, within: methodImageButton.imageView!.bounds)
+            methodImageButton.setImage(smallImage, for: .normal)
+            
+        } else {
+            
+            methodImageButton.setImage(UIImage(systemName: "photo"), for: .normal)
+            methodImage = nil
+            methodImageFile = ""
+        }
+    }
+        
     
     //MARK: - IBAction
     
@@ -116,6 +166,45 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
     @IBAction func mealButtonPressed(_ sender: UIButton) {
         sender.isSelected.toggle()
     }
+    
+    @IBAction func methodLinkButtonPressed(_ sender: UIButton) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: NSLocalizedString("Add link to method", comment: "alert"), message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: NSLocalizedString("Done", comment: "alert"), style: .default) { (action) in
+            //what will happen once the user clicks the Add Item button on our UIAlert
+            self.setMethodLink(textField.text)
+        }
+        
+        alert.addTextField { (alertTextField) in
+            if let recipe = self.selectedRecipe {
+                alertTextField.text = recipe.methodLink
+            }
+            alertTextField.clearButtonMode = .always
+            alertTextField.placeholder = "http(s)://"
+            alertTextField.keyboardType = .URL
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func methodImageButtonPressed(_ sender: UIButton) {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Take a photo", comment: "image picker"), style: .default, handler: {action in self.choosePhoto(.camera)}))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Choose from Library", comment: "image picker"), style: .default, handler: {action in self.choosePhoto(.photoLibrary)}))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Delete", comment: "image picker"), style: .destructive, handler: {action in self.loadMethodImage(fileName: nil) }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "image picker"), style: .cancel, handler: nil))
+
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     @IBAction func addIngredientButtonPressed(_ sender: UIButton) {
         
@@ -142,6 +231,21 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
         }
         recipe.title = titleTextField.text
         recipe.method = convertMultiLineToData(from: methodTextView.text)
+        recipe.methodLink = methodLink
+        if let imgUrl = getFilePath(methodImageFile),
+            let data = methodImage?.pngData() {
+
+            do {
+                try data.write(to: imgUrl)
+            } catch {
+                print("Error saving image \(error)")
+            }
+            recipe.methodImage = methodImageFile
+        } else {
+            recipe.methodImage = ""
+        }
+
+        
         recipe.portion = Double(peopleTextField.text!)!
         recipe.ingredients = NSSet(array: ingredientsByTitle)
         recipe.alternatives = NSSet(array: alternativeArray)
@@ -215,6 +319,29 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
         ingredientCollectionView.deselectItem(at: indexPath, animated: true)
     }
 
+    
+    //MARK: - Image picker
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+
+            methodImageFile = "\(K.methodImagePrefix)\(Date().timeIntervalSince1970).png"
+            methodImage = pickedImage
+
+            let smallImage = scaleImage(pickedImage, within: methodImageButton.imageView!.bounds)
+            methodImageButton.setImage(smallImage, for: .normal)
+            
+            print(methodImageFile)
+        }
+
+        dismiss(animated: true)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
 
 //MARK: - navigation
     

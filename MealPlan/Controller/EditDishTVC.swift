@@ -11,7 +11,8 @@ import CoreData
 
 class EditDishTVC: UITableViewController {
     
-    var selectedDish: PlannedDish?
+    var selectedPlan: Plan!
+    var selectedDish: Dish?
     var selectedRecipe: Recipe?
     var titleButton: UIButton?
     var portionButton: UIButton?
@@ -98,12 +99,14 @@ class EditDishTVC: UITableViewController {
             return
         }
         
-        let dish: PlannedDish!
+        let dish: Dish!
         if selectedDish == nil {
-            dish = PlannedDish(context: K.context)
+            dish = Dish(context: K.context)
         } else {
             dish = selectedDish
         }
+        let oldPlans = dish.plans?.allObjects as! [Plan]
+        dish.plans = NSSet(array: oldPlans + [selectedPlan!])
         dish.recipe = selectedRecipe!
         dish.day = Int16(dayRow)
         dish.meal = S.data.mealArray[mealRow]
@@ -114,8 +117,7 @@ class EditDishTVC: UITableViewController {
                 selectedIngredients.append(alternativeIngredients[i]![alternativeRow[i]])
             }
         }
-//        let allIngredients = selectedRecipe!.ingredients?.allObjects as! [Ingredient]
-//        let ingredientsInDish = allIngredients.filter({$0.alternative == nil || selectedIngredients.contains($0)})
+
         dish.alternativeIngredients = NSSet(array: selectedIngredients)
         
         saveContext()
@@ -129,7 +131,13 @@ class EditDishTVC: UITableViewController {
         if let dish = selectedDish {
             askToConfirmMessage(NSLocalizedString("Delete dish?", comment: "alert"), confirmHandler: { action in
                 
-                K.context.delete(dish)
+                let plans = dish.plans?.allObjects as! [Plan]
+                if plans.count > 1 {
+                    dish.plans = NSSet(array: plans.filter({$0 != self.selectedPlan}))
+                } else {
+                    K.context.delete(dish)
+                }
+
                 self.saveContext()
                 self.navigationController?.popViewController(animated: true)
             })

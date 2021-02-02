@@ -1,5 +1,5 @@
 //
-//  MenuVC.swift
+//  MealPlanVC.swift
 //  MealPlan
 //
 //  Created by Yuexi Tan on 2021/1/29.
@@ -9,10 +9,11 @@
 import UIKit
 import CoreData
 
-class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    var selectedPlan: Plan?
     
-    var dishDict: [Int:[PlannedDish]] = [:]
+    var dishArray: [Dish] = []
     var editMode = false
     
     var personArray: [Person] = []
@@ -50,41 +51,71 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
         calculatorCollectionView.delegate = self
         calculatorCollectionView.dataSource = self
         calculatorCollectionView.register(UINib(nibName: "CalculatorCell", bundle: nil), forCellWithReuseIdentifier: "CalculatorCell")
+        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        for day in 0..<Int(S.data.days) {
-            var dishes: [PlannedDish] = []
-            loadPlannedDish(to: &dishes, predicate: NSPredicate(format: "day == %d", day))
-            dishDict[day] = dishes
-        }
-        
-        serveSum = [:]
-//        for i in 0..<6 {
-//            let foodGroup = S.data.foodGroupArray[i]
-            for dish in dishDict.values.joined() {
-                let multiplier = dish.portion / dish.recipe!.portion
-                var ingredients = (dish.recipe?.ingredients?.allObjects as! [Ingredient]).filter({$0.alternative == nil})
-                ingredients += dish.alternativeIngredients?.allObjects as! [Ingredient]
-                for ingredient in ingredients {
-                    for serveSize in (ingredient.food!.serveSizes?.allObjects as! [ServeSize]).filter({$0.unit == ingredient.unit}) {
-                        
-                        if serveSum[serveSize.foodGroup!.title!] == nil {
-                            serveSum[serveSize.foodGroup!.title!] = 0
-                        }
-                        serveSum[serveSize.foodGroup!.title!]! += ingredient.quantity * multiplier / serveSize.quantity
-                    }
-                    
-                }
-            }
-//        }
-        
-        tableView.reloadData()
+        onPlanUpdated()
     }
     
+    
+    //MARK: - Custom functions
+
+    func onPlanUpdated() {
+        
+        if selectedPlan == nil {
+            var plans: [Plan] = []
+            loadPlan(to: &plans, predicate: NSPredicate(format: "title == %@", NSLocalizedString("[Current Plan]", comment: "plan")))
+            if plans.first == nil {
+                let newPlan = Plan(context: K.context)
+                newPlan.title = "[Current Plan]"
+                selectedPlan = newPlan
+            } else {
+                selectedPlan = plans.first
+            }
+        }
+        
+        dishArray = (selectedPlan!.dishes?.allObjects as! [Dish]).sorted(by: {
+            if $0.day == $1.day {
+                if $0.meal!.order == $1.meal!.order {
+                    return $0.recipe!.title! < $1.recipe!.title!
+                } else {
+                    return $0.meal!.order < $1.meal!.order
+                }
+            } else {
+                return $0.day < $1.day
+            }
+        })
+        onDishUpdated()
+    }
+    
+    
+    func onDishUpdated(){
+        
+        serveSum = [:]
+        
+        for dish in dishArray {
+            let multiplier = dish.portion / dish.recipe!.portion
+            var ingredients = (dish.recipe?.ingredients?.allObjects as! [Ingredient]).filter({$0.alternative == nil})
+            ingredients += dish.alternativeIngredients?.allObjects as! [Ingredient]
+            for ingredient in ingredients {
+                for serveSize in (ingredient.food!.serveSizes?.allObjects as! [ServeSize]).filter({$0.unit == ingredient.unit}) {
+                    
+                    if serveSum[serveSize.foodGroup!.title!] == nil {
+                        serveSum[serveSize.foodGroup!.title!] = 0
+                    }
+                    serveSum[serveSize.foodGroup!.title!]! += ingredient.quantity * multiplier / serveSize.quantity
+                }
+                
+            }
+        }
+        
+        tableView.reloadData()
+        calculatorCollectionView.reloadData()
+    }
     
     //MARK: - IBAction
     
@@ -100,7 +131,28 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
     }
     
     
-    //MARK: - Custom functions
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: NSLocalizedString("Enter a name to save plan", comment: "alert"), message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: NSLocalizedString("Done", comment: "alert"), style: .default) { (action) in
+            //what will happen once the user clicks the Add Item button on our UIAlert
+            let newPlan = Plan(context: K.context)
+            newPlan.title = textField.text
+            newPlan.dishes = NSSet(array: self.dishArray)
+            self.saveContext()
+        }
+        
+        alert.addTextField { (alertTextField) in
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     
@@ -118,7 +170,7 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
             return editMode ? 1 : 0
         default:
             let day = section - 1
-            return dishDict[day]?.count ?? 0
+            return dishArray.filter({$0.day == day}).count
         }
     }
     
@@ -158,8 +210,9 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishCell", for: indexPath) as! DishCell
             
             let day = indexPath.section - 1
-            if dishDict[day] != nil {
-                let dish = dishDict[day]![indexPath.row]
+            let dishes = dishArray.filter({$0.day == day})
+            if dishes.count >= indexPath.row {
+                let dish = dishes[indexPath.row]
                 cell.mealLabel.text = K.mealIcon[Int(dish.meal!.order)]
                 cell.recipeLabel.text = dish.recipe?.title
                 cell.ingredientLabel.text = (dish.alternativeIngredients?.allObjects as! [Ingredient]).map({$0.food!.title!}).sorted().joined(separator: "\n")
@@ -167,6 +220,7 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
                 cell.onStepperValueChanged = { value in
                     dish.portion = value
                     self.saveContext()
+                    self.onDishUpdated()
                 }
             }
             
@@ -193,54 +247,27 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
     }
     
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        
+        if editingStyle == .delete {
+            
+            let day = indexPath.section - 1
+            let dish = dishArray.filter({$0.day == day})[indexPath.row]
+            let plans = dish.plans?.allObjects as! [Plan]
+            if plans.count > 1 {
+                dish.plans = NSSet(array: plans.filter({$0 != selectedPlan}))
+            } else {
+                K.context.delete(dish)
+            }
+
+            saveContext()
+            dishArray = dishArray.filter({$0 != dish})
+            onDishUpdated()
+        }
+        
+    }
     
-    //    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //
-    //        return UITableView.automaticDimension
-    //    }
-    //
-    //
-    //    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-    //
-    //        return UITableView.automaticDimension
-    //    }
-    
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
     
     
     //MARK: - UICollectionView
@@ -292,22 +319,31 @@ class MenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICo
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
-        if segue.identifier == "GoToEditDish",
-            let indexPath = tableView.indexPathForSelectedRow,
-            indexPath.section > 0 {
+        if segue.identifier == "GoToEditDish" {
             
             let vc = segue.destination as! EditDishTVC
-            vc.selectedDish = dishDict[indexPath.section - 1]?[indexPath.row]
+            vc.selectedPlan = selectedPlan!
+
+            if let indexPath = tableView.indexPathForSelectedRow,
+                indexPath.section > 0 {
+            
+                vc.selectedDish = dishArray.filter({$0.day == indexPath.section - 1})[indexPath.row]
+            }
             
         } else if segue.identifier == "GoToViewRecipe",
             let indexPath = tableView.indexPathForSelectedRow {
             
             let vc = segue.destination as! ViewRecipeTVC
-            vc.selectedDish = dishDict[indexPath.section - 1]?[indexPath.row]
+            vc.selectedDish = dishArray.filter({$0.day == indexPath.section - 1})[indexPath.row]
+            
+        } else if segue.identifier == "GoToSettings" {
+            
+            let vc = segue.destination as! SettingsTVC
+            vc.mealPlanVC = self
+            
         }
     }
     
