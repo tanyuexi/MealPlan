@@ -17,25 +17,10 @@ class ViewRecipeTVC: UITableViewController {
     
     var selectedDish: Dish?
     var portionMultiplier: Double = 1
-
+    
     var imageView: UIImageView!
     var scrollView: UIScrollView!
-//
-//    var imageView: UIImageView = {
-//        let img = UIImageView()
-//        img.contentMode = .scaleAspectFit
-//        img.isUserInteractionEnabled = true
-//        return img
-//    }()
-//
-//
-//    var scrollView: UIScrollView = {
-//        let scroll = UIScrollView()
-//        scroll.maximumZoomScale = 4.0
-//        scroll.minimumZoomScale = 0.25
-//        scroll.clipsToBounds = true
-//        return scroll
-//    }()
+    var methodImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +33,6 @@ class ViewRecipeTVC: UITableViewController {
         
     }
     
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -76,6 +60,15 @@ class ViewRecipeTVC: UITableViewController {
         let method = selectedRecipe.method!.replacingOccurrences(of: "\(K.lineBreakReplaceString)\(K.lineBreakReplaceString)", with: "\n\(K.lineBreakReplaceString)")
         methodArray = method.components(separatedBy: K.lineBreakReplaceString)
         
+        if selectedRecipe.methodImage != "",
+            let imgUrl = getFilePath(selectedRecipe.methodImage),
+            let image = UIImage(contentsOfFile: imgUrl.path) {
+            
+            methodImage = image
+        } else {
+            methodImage = nil
+        }
+        
         if let dish = selectedDish {
             portionMultiplier = dish.portion / selectedRecipe.portion
             let selectedIngredients = dish.alternativeIngredients?.allObjects as! [Ingredient]
@@ -93,20 +86,31 @@ class ViewRecipeTVC: UITableViewController {
     
     
 
-//    func setupGestureRecognizer() {
-//        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(ViewRecipeTVC.handleDoubleTap(_:)))
-//        doubleTap.numberOfTapsRequired = 2
-//        scrollView.addGestureRecognizer(doubleTap)
-//    }
-//
-//    @objc func handleDoubleTap(_ recognizer: UITapGestureRecognizer) {
-//        if (scrollView.zoomScale > scrollView.minimumZoomScale)
-//        {
-//            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
-//        } else {
-//            scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
-//        }
-//    }
+    func setupGestureRecognizer() {
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(ViewRecipeTVC.handleDoubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        scrollView.addGestureRecognizer(doubleTap)
+    }
+
+    @objc func handleDoubleTap(_ recognizer: UITapGestureRecognizer) {
+        if (scrollView.zoomScale > scrollView.minimumZoomScale) { //zoom out
+            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+        } else { //zoom in
+            let zoomRect = zoomRectForScale(scale: scrollView.maximumZoomScale, center: recognizer.location(in: recognizer.view))
+            scrollView.zoom(to: zoomRect, animated: true)
+        }
+    }
+    
+
+    func zoomRectForScale(scale: CGFloat, center: CGPoint) -> CGRect {
+        var zoomRect = CGRect.zero
+        zoomRect.size.height = imageView.frame.size.height / scale
+        zoomRect.size.width  = imageView.frame.size.width  / scale
+        let newCenter = imageView.convert(center, from: scrollView)
+        zoomRect.origin.x = newCenter.x - (zoomRect.size.width / 2.0)
+        zoomRect.origin.y = newCenter.y - (zoomRect.size.height / 2.0)
+        return zoomRect
+    }
     
     //MARK: - TableView
     
@@ -217,38 +221,33 @@ class ViewRecipeTVC: UITableViewController {
                 
             } else { //method image
                 
-                if selectedRecipe.methodImage != "",
-                    let imgUrl = getFilePath(selectedRecipe.methodImage),
-                    let image = UIImage(contentsOfFile: imgUrl.path) {
+                if let image = methodImage {
                     
                     let cell = tableView.dequeueReusableCell(withIdentifier: "EmptyCell", for: indexPath)
-                    let minHeight = image.size.height * cell.bounds.width / image.size.width
-                    cell.heightAnchor.constraint(greaterThanOrEqualToConstant: minHeight).isActive = true
 
-                    imageView = UIImageView(image: image)
-//                    imageView.sizeThatFits(image.size)
-                    imageView.contentMode = .scaleAspectFill
-                    
                     scrollView = UIScrollView(frame: cell.bounds)
+                    imageView = UIImageView(image: image)
+                    scrollView.addSubview(imageView)
+                    cell.addSubview(scrollView)
+                    
+                    cell.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height ).isActive = true
+
+//                    let aspect = image.size.height / image.size.width
+//                    imageView.widthAnchor.constraint(greaterThanOrEqualTo: cell.widthAnchor).isActive = true
+//                    imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: aspect).isActive = true
+                    imageView.contentMode = .scaleAspectFill
+
+                    
+                    scrollView.contentSize = imageView.intrinsicContentSize
                     scrollView.backgroundColor = .systemBackground
                     scrollView.minimumZoomScale = cell.bounds.width / image.size.width
-                    scrollView.maximumZoomScale = 2.0
+                    scrollView.maximumZoomScale = 1.0
                     scrollView.delegate = self
-                    scrollView.contentSize = imageView.bounds.size
                     scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                     
-                    scrollView.addSubview(imageView)
-                    
-                    cell.addSubview(scrollView)
-             
                     scrollView.zoomScale = scrollView.minimumZoomScale
-                    scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
-
-
-
-//                    setupGestureRecognizer()
-
-
+                    setupGestureRecognizer()
+                    
                     return cell
                     
                 } else {
