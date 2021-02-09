@@ -140,7 +140,7 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
             let vc = segue.destination as? ChoosePlanTVC {
             
             vc.onCellSelected = { plan in
-                self.mealPlanVC?.selectedPlan = plan
+                S.data.selectedPlan = plan
                 self.navigationController?.popViewController(animated: true)
             }
         }

@@ -12,7 +12,7 @@
             <objects>
                 <tableViewController id="jKX-Qn-vHJ" customClass="ChooseFoodTVC" customModule="MealPlan" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="yIX-XH-jEV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -339,7 +339,7 @@
                         <outlet property="alternativeCollectionView" destination="S0p-b2-two" id="x9F-FR-em4"/>
                         <outlet property="chooseFoodButton" destination="XDP-sw-nVs" id="kfs-oS-Rrg"/>
                         <outlet property="deleteButton" destination="riw-rV-clx" id="ddC-Wr-r5a"/>
-                        <outlet property="foodGroupLabel" destination="lAa-xs-Nwy" id="Nrg-p6-jR0"/>
+                        <outlet property="foodgroupLabel" destination="lAa-xs-Nwy" id="Nrg-p6-jR0"/>
                         <outlet property="optionalSwitch" destination="9MQ-H1-og8" id="UvC-sk-yky"/>
                         <outlet property="quantityTextField" destination="VVP-xW-5Uq" id="vis-Lh-8gy"/>
                         <outlet property="saveButton" destination="Qtt-Ud-Iv2" id="XGa-0E-NRU"/>
@@ -747,7 +747,7 @@
             <objects>
                 <tableViewController id="fkv-2T-dNH" customClass="ViewRecipeTVC" customModule="MealPlan" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gNz-6B-4T2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -885,7 +885,7 @@
             <objects>
                 <tableViewController id="J4y-OT-yD0" customClass="ChooseRecipeTVC" customModule="MealPlan" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1iN-Fs-Oda">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -958,12 +958,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" textLabel="Y23-Ar-iNj" style="IBUITableViewCellStyleDefault" id="LLd-i0-GXk">
+                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LLd-i0-GXk" id="KhF-eg-bZ6">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y23-Ar-iNj">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="1s7-Me-SAe" id="7uc-RO-aaL"/>
                             <outlet property="delegate" destination="1s7-Me-SAe" id="GLA-bm-y25"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Shopping List" id="nVl-9M-93o"/>
+                    <navigationItem key="navigationItem" title="Shopping List" id="nVl-9M-93o">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Add" image="plus" catalog="system" id="wM5-wf-8W6">
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="1s7-Me-SAe" id="Gra-VR-9v4"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Export" image="doc.on.clipboard" catalog="system" id="uks-KF-eOV">
+                                <connections>
+                                    <action selector="copyButtonPressed:" destination="1s7-Me-SAe" id="DMu-nA-UxN"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IfB-wS-4I2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1239,11 +1271,11 @@
                                         <rect key="frame" x="0.0" y="674.5" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FYV-MJ-Bzg" id="5QH-gm-Ota">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Export database to csv" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qSN-m8-fLm">
-                                                    <rect key="frame" x="15" y="0.0" width="352" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="577" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1256,7 +1288,7 @@
                                         <rect key="frame" x="0.0" y="718" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hms-eF-vmS" id="9Et-sy-QwR">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1264,7 +1296,7 @@
                                         <rect key="frame" x="0.0" y="761.5" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cfi-bp-kNJ" id="tjo-b4-HDR">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1671,7 +1703,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="bM4-mi-AKx">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="150" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
@@ -1785,13 +1817,22 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zPM-sH-e43">
-                                                            <rect key="frame" x="48" y="0.0" width="295" height="28"/>
+                                                            <rect key="frame" x="48" y="0.0" width="210" height="28"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="doneAccessory" value="YES"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </textField>
+                                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JlQ-eV-Jik">
+                                                            <rect key="frame" x="268" y="5" width="75" height="18"/>
+                                                            <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                                                            <state key="normal" title="&lt; Label &gt;"/>
+                                                            <connections>
+                                                                <action selector="shoppingLabelButtonPressed:" destination="2AI-vJ-8cB" eventType="touchUpInside" id="aEH-w1-1xy"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
@@ -2023,11 +2064,12 @@
                     <connections>
                         <outlet property="autumnButton" destination="D98-xF-YZu" id="Abn-hq-kZC"/>
                         <outlet property="deleteButton" destination="k6i-ml-foY" id="V3i-1R-AB0"/>
-                        <outlet property="foodGroupLabel" destination="ldM-yc-XVS" id="vaD-F6-m20"/>
+                        <outlet property="foodgroupLabel" destination="ldM-yc-XVS" id="vaD-F6-m20"/>
                         <outlet property="quickFillButton" destination="L9B-0d-Jyp" id="F2r-jb-vLL"/>
                         <outlet property="recipeCollectionView" destination="ng4-Ai-vPH" id="3Va-7z-jtW"/>
                         <outlet property="saveButton" destination="nIP-k6-G6J" id="pXM-fS-Bj8"/>
                         <outlet property="serveSizeCollectionView" destination="ZpT-uu-jhb" id="ckF-yu-YDK"/>
+                        <outlet property="shoppingLabelButton" destination="JlQ-eV-Jik" id="GYE-Xy-IHH"/>
                         <outlet property="springButton" destination="X8q-nX-lqR" id="3es-rm-IRa"/>
                         <outlet property="summerButton" destination="cvk-BV-hEt" id="mjX-b5-dul"/>
                         <outlet property="titleTextField" destination="zPM-sH-e43" id="CwG-Rt-d54"/>
@@ -2080,7 +2122,7 @@
                                                     <rect key="frame" x="153" y="7" width="69" height="30"/>
                                                     <state key="normal" title="Vegetable"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="EpT-Ke-G11"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="EpT-Ke-G11"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2101,7 +2143,7 @@
                                                     <rect key="frame" x="171.5" y="7" width="32" height="30"/>
                                                     <state key="normal" title="Fruit"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="2op-Ii-Via"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="2op-Ii-Via"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2122,7 +2164,7 @@
                                                     <rect key="frame" x="163" y="7" width="49" height="30"/>
                                                     <state key="normal" title="Protein"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="Zwo-41-ILw"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="Zwo-41-ILw"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2143,7 +2185,7 @@
                                                     <rect key="frame" x="169" y="7" width="37" height="30"/>
                                                     <state key="normal" title="Grain"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="aKK-X5-5Hv"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="aKK-X5-5Hv"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2164,7 +2206,7 @@
                                                     <rect key="frame" x="159.5" y="7" width="56" height="30"/>
                                                     <state key="normal" title="Calcium"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="vAh-kn-Mrc"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="vAh-kn-Mrc"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2185,7 +2227,7 @@
                                                     <rect key="frame" x="172.5" y="7" width="30" height="30"/>
                                                     <state key="normal" title="Oil"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="Hl4-YE-Gf8"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="Hl4-YE-Gf8"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2206,7 +2248,7 @@
                                                     <rect key="frame" x="167.5" y="7" width="40" height="30"/>
                                                     <state key="normal" title="Other"/>
                                                     <connections>
-                                                        <action selector="foodGroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="aG4-1O-feJ"/>
+                                                        <action selector="foodgroupButtonsPressed:" destination="jB4-o9-cnP" eventType="touchUpInside" id="aG4-1O-feJ"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2515,13 +2557,14 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ZTh-2U-V2X"/>
-        <segue reference="AwS-PZ-voq"/>
+        <segue reference="1xc-v6-scU"/>
         <segue reference="jEo-S6-Lbk"/>
-        <segue reference="mtI-nc-EGN"/>
-        <segue reference="xeh-dY-esg"/>
+        <segue reference="gom-Tl-Wcg"/>
+        <segue reference="XYU-kO-LaI"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="doc.on.clipboard" catalog="system" width="117" height="128"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="link" catalog="system" width="128" height="116"/>
         <image name="photo" catalog="system" width="128" height="93"/>

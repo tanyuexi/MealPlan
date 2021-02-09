@@ -21,7 +21,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var chooseFoodButton: UIButton!
-    @IBOutlet weak var foodGroupLabel: UILabel!
+    @IBOutlet weak var foodgroupLabel: UILabel!
     @IBOutlet weak var seasonLabel: UILabel!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var unitCollectionView: UICollectionView!
@@ -61,7 +61,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         selectedFood = data.food
         onSelectedFoodUpdated()
         quantityTextField.text = limitDigits(data.quantity)
-        optionalSwitch.isOn = data.optional
+        optionalSwitch.isOn = data.isOptional
         addedIngredients.removeAll(where: {$0 == data})
         alternativeCollectionView.reloadData()
 //        selectAlternativeIngredients(of: data)
@@ -81,7 +81,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         if let food = selectedFood {
             chooseFoodButton.setTitle(food.title, for: .normal)
             let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
-            foodGroupLabel.text = getFoodGroupInfo(from: serveSizes)
+            foodgroupLabel.text = getFoodGroupInfo(from: serveSizes)
             seasonLabel.text = getSeasonIcon(from: food.seasons!.allObjects as! [Season])
             unitArray = Array(Set(serveSizes.map({$0.unit!})))
             unitArray.sort()
@@ -160,7 +160,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
         ingredient.food = selectedFood
         ingredient.unit = unit
         ingredient.quantity = ingredientQuantity
-        ingredient.optional = optionalSwitch.isOn
+        ingredient.isOptional = optionalSwitch.isOn
         
         let serveSizes = selectedFood?.serveSizes?.allObjects as! [ServeSize]
         let minServeSize = serveSizes.filter({$0.unit! == unit}).sorted(by: {$0.quantity < $1.quantity}).first!
@@ -184,7 +184,7 @@ class EditIngredientTVC: UITableViewController, UICollectionViewDataSource, UICo
             newAlternative.ingredients = NSSet(array: alternativeIngredients)
             
             for i in alternativeIngredients {
-                i.optional = optionalSwitch.isOn
+                i.isOptional = optionalSwitch.isOn
             }
         }
 

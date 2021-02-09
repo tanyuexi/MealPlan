@@ -66,9 +66,9 @@ class ChoosePersonTVC: UITableViewController {
                                           person.name!)
             cell.detailTextLabel?.text = String(
                 format: "%@%@%@ %d %@",
-                person.pregnant ? "🤰": "",
-                person.breastfeeding ? "🤱": "",
-                person.additional ? "🏃": "",
+                person.isPregnant ? "🤰": "",
+                person.isBreastfeeding ? "🤱": "",
+                person.needsAdditional ? "🏃": "",
                 Calendar.current.dateComponents([.year], from: person.dateOfBirth!, to: Date()).year!,
                 NSLocalizedString("yrs", comment: "person list")
             )

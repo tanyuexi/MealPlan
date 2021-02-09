@@ -11,7 +11,6 @@ import CoreData
 
 class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var selectedPlan: Plan?
     
     var dishArray: [Dish] = []
     var editMode = false
@@ -66,19 +65,19 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
 
     func onPlanUpdated() {
         
-        if selectedPlan == nil {
+        if S.data.selectedPlan == nil {
             var plans: [Plan] = []
             loadPlan(to: &plans, predicate: NSPredicate(format: "title == %@", NSLocalizedString("[Current Plan]", comment: "plan")))
             if plans.first == nil {
                 let newPlan = Plan(context: K.context)
                 newPlan.title = "[Current Plan]"
-                selectedPlan = newPlan
+                S.data.selectedPlan = newPlan
             } else {
-                selectedPlan = plans.first
+                S.data.selectedPlan = plans.first
             }
         }
         
-        dishArray = (selectedPlan!.dishes?.allObjects as! [Dish]).sorted(by: {
+        dishArray = (S.data.selectedPlan!.dishes?.allObjects as! [Dish]).sorted(by: {
             if $0.day == $1.day {
                 if $0.meal!.order == $1.meal!.order {
                     return $0.recipe!.title! < $1.recipe!.title!
@@ -99,15 +98,13 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         for dish in dishArray {
             let multiplier = dish.portion / dish.recipe!.portion
-            var ingredients = (dish.recipe?.ingredients?.allObjects as! [Ingredient]).filter({$0.alternative == nil})
-            ingredients += dish.alternativeIngredients?.allObjects as! [Ingredient]
-            for ingredient in ingredients {
+            for ingredient in dish.ingredients?.allObjects as! [Ingredient] {
                 for serveSize in (ingredient.food!.serveSizes?.allObjects as! [ServeSize]).filter({$0.unit == ingredient.unit}) {
                     
-                    if serveSum[serveSize.foodGroup!.title!] == nil {
-                        serveSum[serveSize.foodGroup!.title!] = 0
+                    if serveSum[serveSize.foodgroup!.title!] == nil {
+                        serveSum[serveSize.foodgroup!.title!] = 0
                     }
-                    serveSum[serveSize.foodGroup!.title!]! += ingredient.quantity * multiplier / serveSize.quantity
+                    serveSum[serveSize.foodgroup!.title!]! += ingredient.quantity * multiplier / serveSize.quantity
                 }
                 
             }
@@ -133,25 +130,13 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         
-        var textField = UITextField()
-        
-        let alert = UIAlertController(title: NSLocalizedString("Enter a name to save plan", comment: "alert"), message: "", preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: NSLocalizedString("Done", comment: "alert"), style: .default) { (action) in
-            //what will happen once the user clicks the Add Item button on our UIAlert
+        dataEntryByAlert(title: NSLocalizedString("Enter a name to save plan", comment: "alert"), presenter: self) { text in
+            
             let newPlan = Plan(context: K.context)
-            newPlan.title = textField.text
+            newPlan.title = text
             newPlan.dishes = NSSet(array: self.dishArray)
             self.saveContext()
         }
-        
-        alert.addTextField { (alertTextField) in
-            textField = alertTextField
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -215,7 +200,8 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 let dish = dishes[indexPath.row]
                 cell.mealLabel.text = K.mealIcon[Int(dish.meal!.order)]
                 cell.recipeLabel.text = dish.recipe?.title
-                cell.ingredientLabel.text = (dish.alternativeIngredients?.allObjects as! [Ingredient]).map({$0.food!.title!}).sorted().joined(separator: "\n")
+                let alternativeIngredients = (dish.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional || $0.alternative != nil})
+                cell.ingredientLabel.text = alternativeIngredients.map({$0.food!.title!}).sorted().joined(separator: "\n")
                 cell.onStepperValueChangedUpdateCell(dish.portion)
                 cell.onStepperValueChanged = { value in
                     dish.portion = value
@@ -256,7 +242,7 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             let dish = dishArray.filter({$0.day == day})[indexPath.row]
             let plans = dish.plans?.allObjects as! [Plan]
             if plans.count > 1 {
-                dish.plans = NSSet(array: plans.filter({$0 != selectedPlan}))
+                dish.plans = NSSet(array: plans.filter({$0 != S.data.selectedPlan}))
             } else {
                 K.context.delete(dish)
             }
@@ -274,7 +260,7 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return S.data.foodGroupArray.count - 1 //except 'Other'
+        return S.data.foodgroupArray.count - 1 //except 'Other'
     }
     
     
@@ -283,15 +269,15 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         let cell = calculatorCollectionView.dequeueReusableCell(withReuseIdentifier: "CalculatorCell", for: indexPath) as! CalculatorCell
         
-        let foodGroup = S.data.foodGroupArray[indexPath.row].title!
-        let targetServes = dailyTotal[foodGroup]! * S.data.days
-        let sum = serveSum[foodGroup] ?? 0
+        let foodgroup = S.data.foodgroupArray[indexPath.row].title!
+        let targetServes = dailyTotal[foodgroup]! * S.data.days
+        let sum = serveSum[foodgroup] ?? 0
         
-        cell.titleLabel.text = foodGroup
+        cell.titleLabel.text = foodgroup
         
         cell.sumLabel.text = NSLocalizedString("Now: ", comment: "calculator") + limitDigits(sum)
 
-        if foodGroup == NSLocalizedString("Oil", comment: "food group") {
+        if foodgroup == NSLocalizedString("Oil", comment: "food group") {
             cell.targetLabel.text = NSLocalizedString("Less than: ", comment: "calculator") + limitDigits(targetServes)
             cell.sumLabel.textColor = (sum <= targetServes ? .label : warningColor)
         } else {
@@ -325,7 +311,6 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         if segue.identifier == "GoToEditDish" {
             
             let vc = segue.destination as! EditDishTVC
-            vc.selectedPlan = selectedPlan!
 
             if let indexPath = tableView.indexPathForSelectedRow,
                 indexPath.section > 0 {

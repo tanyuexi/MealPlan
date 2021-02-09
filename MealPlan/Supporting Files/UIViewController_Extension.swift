@@ -77,6 +77,31 @@ extension UIViewController {
     }
     
     
+    func dataEntryByAlert(title: String, message: String = "", preloadText: String = "", placeHolder: String = "", keyboardType: UIKeyboardType = .default, presenter: UIViewController, completionHandler: @escaping ((String) -> Void) ) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        
+        let action = UIAlertAction(title: NSLocalizedString("Done", comment: "alert"), style: .default) { (action) in
+
+            completionHandler(textField.text!)
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.text = preloadText
+            alertTextField.clearButtonMode = .always
+            alertTextField.placeholder = placeHolder
+            alertTextField.keyboardType = keyboardType
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        
+        presenter.present(alert, animated: true, completion: nil)
+    }
+    
     //MARK: - Time and Date
     
     func dateAfter(_ days: Int, from startDate: Date) -> Date {
@@ -123,10 +148,10 @@ extension UIViewController {
         let line = [
             person.name!,
             S.data.dateFormatter.string(from: person.dateOfBirth!),
-            person.additional ? "Additional" : "None",
-            person.female ? "Female" : "Male",
-            person.pregnant ? "Pregnant" : "None",
-            person.breastfeeding ? "Breastfeeding" : "None",
+            person.needsAdditional ? "Additional" : "None",
+            person.isFemale ? "Female" : "Male",
+            person.isPregnant ? "Pregnant" : "None",
+            person.isBreastfeeding ? "Breastfeeding" : "None",
             "\n"
         ].joined(separator: K.level1Separator)
         return line
@@ -134,8 +159,8 @@ extension UIViewController {
     
     func convertDataToStringLine(from food: Food) -> String {
         let seasonField = (food.seasons?.allObjects as! [Season]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: K.level2Separator)
-        let serveSizeField = (food.serveSizes?.allObjects as! [ServeSize]).sorted(by: {$0.foodGroup!.title! < $1.foodGroup!.title!}).map({
-            [$0.foodGroup!.title!, limitDigits($0.quantity), $0.unit!].joined(separator: K.level3Separator)
+        let serveSizeField = (food.serveSizes?.allObjects as! [ServeSize]).sorted(by: {$0.foodgroup!.title! < $1.foodgroup!.title!}).map({
+            [$0.foodgroup!.title!, limitDigits($0.quantity), $0.unit!].joined(separator: K.level3Separator)
         }).joined(separator: K.level2Separator)
         let line = [
             food.title!,
@@ -157,7 +182,7 @@ extension UIViewController {
             [
                 $0.food!.title!,
                 limitDigits($0.maxServes),
-                ($0.optional ? "Optional" : "Essential"),
+                ($0.isOptional ? "Optional" : "Essential"),
                 limitDigits($0.quantity),
                 $0.unit!
             ].joined(separator: K.level3Separator)
@@ -251,8 +276,9 @@ extension UIViewController {
     
     func cleanUp(){
         var ingredients: [Ingredient] = []
-        loadIngredient(to: &ingredients)
-        for abandoned in ingredients.filter({$0.recipe == nil}) {
+        let orPredicates = NSCompoundPredicate(orPredicateWithSubpredicates: [NSPredicate(format: "recipe == nil"), NSPredicate(format: "food == nil")])
+        loadIngredient(to: &ingredients, predicate: orPredicates )
+        for abandoned in ingredients {
             K.context.delete(abandoned)
         }
         ingredients = []
@@ -298,7 +324,7 @@ extension UIViewController {
         newData.quantity = data.quantity
         newData.unit = data.unit
         //newData.food
-        newData.foodGroup = data.foodGroup
+        newData.foodgroup = data.foodgroup
         
         return newData
         
@@ -364,7 +390,7 @@ extension UIViewController {
             var alternativeSeason: Set<Season> = Set()
             if let alternativeIngredients = alternative.ingredients?.allObjects as? [Ingredient],
                 alternativeIngredients.count > 0,
-                alternativeIngredients.allSatisfy({$0.optional == false}) {
+                alternativeIngredients.allSatisfy({$0.isOptional == false}) {
                 
                 for i in alternativeIngredients {
                     alternativeSeason = alternativeSeason.union(i.food?.seasons as! Set<Season>)
@@ -375,7 +401,7 @@ extension UIViewController {
         
         //intersection for all ingredients
         for i in ingredients {
-            if i.alternative == nil, i.optional == false {
+            if i.alternative == nil, i.isOptional == false {
                 seasonSet = seasonSet.intersection(i.food?.seasons as! Set<Season>)
             }
         }
@@ -420,12 +446,12 @@ extension UIViewController {
             if info.count != 3 {
                 continue
             }
-            if let foodGroup = S.data.foodGroupArray.first(where: {$0.title == info[0]}),
+            if let foodgroup = S.data.foodgroupArray.first(where: {$0.title == info[0]}),
                 let quantity = Double(info[1]),
                 info[2] != "" {
                 
                 let serveSize = ServeSize(context: K.context)
-                serveSize.foodGroup = foodGroup
+                serveSize.foodgroup = foodgroup
                 serveSize.quantity = quantity
                 serveSize.unit = info[2]
                 serveSize.food = food
@@ -433,7 +459,7 @@ extension UIViewController {
             }
         }
         let serveSizes = food.serveSizes?.allObjects as! [ServeSize]
-        food.foodGroupLabel = getFoodGroupInfo(from: serveSizes)
+        food.foodgroupLabel = getFoodGroupInfo(from: serveSizes)
     }
     
     
@@ -484,7 +510,7 @@ extension UIViewController {
                 let i = Ingredient(context: K.context)
                 i.food = food
                 i.maxServes = maxServes
-                i.optional = (info[2] == "Optional")
+                i.isOptional = (info[2] == "Optional")
                 i.quantity = quantity
                 i.unit = info[4]
                 i.recipe = recipe
@@ -603,10 +629,10 @@ extension UIViewController {
                 let person = Person(context: K.context)
                 person.name = fields[0]
                 person.dateOfBirth = S.data.dateFormatter.date(from: fields[1])
-                person.additional = (fields[2] == "Additional")
-                person.female = (fields[3] == "Female")
-                person.pregnant = (fields[4] == "Pregnant")
-                person.breastfeeding = (fields[5] == "Breastfeeding")
+                person.needsAdditional = (fields[2] == "Additional")
+                person.isFemale = (fields[3] == "Female")
+                person.isPregnant = (fields[4] == "Pregnant")
+                person.isBreastfeeding = (fields[5] == "Breastfeeding")
                 personArray.append(person)
             }
             fclose(stdin)
@@ -633,8 +659,8 @@ extension UIViewController {
 
         
         // foodgroup
-        loadFoodGroup(to: &S.data.foodGroupArray)
-        if S.data.foodGroupArray.count == 0 {
+        loadFoodGroup(to: &S.data.foodgroupArray)
+        if S.data.foodgroupArray.count == 0 {
             let filePath = Bundle.main.path(forResource: "FoodGroup", ofType: "tsv")
             
             if freopen(filePath, "r", stdin) == nil {
@@ -646,7 +672,7 @@ extension UIViewController {
                 let newData = FoodGroup(context: K.context)
                 newData.order = Int16(fields[0]) ?? 0
                 newData.title = fields[1]
-                S.data.foodGroupArray.append(newData)
+                S.data.foodgroupArray.append(newData)
             }
             fclose(stdin)
         }
@@ -841,10 +867,10 @@ extension UIViewController {
         }
     }
     
-    func loadItem(to array: inout [OtherItem]) {
-        let request : NSFetchRequest<OtherItem> = OtherItem.fetchRequest()
-        let sortByDate = NSSortDescriptor(key: "date", ascending: true)
-        request.sortDescriptors = [sortByDate]
+    func loadItem(to array: inout [Item]) {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        let sortBy = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [sortBy]
         do{
             array = try K.context.fetch(request)
         } catch {
@@ -953,7 +979,7 @@ extension UIViewController {
     //    }
     //
     //    func loadFood(to foodDict: inout [String: [Food]]) {
-    //        for category in K.foodGroups {
+    //        for category in K.foodgroups {
     //            var foodByCategory: [Food] = []
     //            let request : NSFetchRequest<Food> = Food.fetchRequest()
     //            let categoryPredicate = NSPredicate(format: "category == %@", category)
@@ -1007,8 +1033,8 @@ extension UIViewController {
     //MARK: - undefined
     
     func getFoodGroupInfo(from serveSizes: [ServeSize]) -> String {
-        let foodGroups = Array(Set(serveSizes.map({$0.foodGroup!})))
-        return foodGroups.sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: ", ")
+        let foodgroups = Array(Set(serveSizes.map({$0.foodgroup!})))
+        return foodgroups.sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: ", ")
     }
     
 //    func getSeasonInfo(from seasons: [Season]) -> String {
@@ -1099,7 +1125,7 @@ extension UIViewController {
             for person in personArray {
                 var ageZone = 0
                 let olderRange = isOlderRangeInAgeZone(person.dateOfBirth!, by: &ageThreshold)
-                if person.pregnant || person.breastfeeding {
+                if person.isPregnant || person.isBreastfeeding {
                     if person.dateOfBirth! <= ageThreshold[19]! {
                         ageZone = 19
                     } else {
@@ -1117,19 +1143,19 @@ extension UIViewController {
                 if ageZone == 0 {continue}
     
                 var key = "\(ageZone) "
-                key += person.female ? "F": "M"
-                if person.pregnant {key += "P"}
-                if person.breastfeeding {key += "B"}
+                key += person.isFemale ? "F": "M"
+                if person.isPregnant {key += "P"}
+                if person.isBreastfeeding {key += "B"}
     
                 for i in 0..<6 {
-                    let group = S.data.foodGroupArray[i].title!
+                    let group = S.data.foodgroupArray[i].title!
                     if totalDict[group] == nil {
                         totalDict[group] = 0.0
                     }
     
                     totalDict[group]! += S.data.dailyServes[group]![key]!
     
-                    if (person.additional || olderRange),
+                    if (person.needsAdditional || olderRange),
                     group != NSLocalizedString("Oil", comment: "food group") {   //oil
     
                         totalDict[group]! += S.data.dailyServes[NSLocalizedString("Additional", comment: "food group")]![key]!/5

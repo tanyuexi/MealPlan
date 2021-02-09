@@ -49,6 +49,8 @@
 		E7B64F3A25C2724500C5A926 /* CalculatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F3825C2724500C5A926 /* CalculatorCell.xib */; };
 		E7B64F3C25C382BF00C5A926 /* MealPlanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F3B25C382BF00C5A926 /* MealPlanVC.swift */; };
 		E7B64F3E25C3D42400C5A926 /* ChoosePlanTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F3D25C3D42400C5A926 /* ChoosePlanTVC.swift */; };
+		E7B64F6B25C92E5600C5A926 /* ShopFoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F6925C92E5500C5A926 /* ShopFoodCell.swift */; };
+		E7B64F6C25C92E5600C5A926 /* ShopFoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F6A25C92E5600C5A926 /* ShopFoodCell.xib */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
 		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
@@ -98,6 +100,8 @@
 		E7B64F3825C2724500C5A926 /* CalculatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalculatorCell.xib; sourceTree = "<group>"; };
 		E7B64F3B25C382BF00C5A926 /* MealPlanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanVC.swift; sourceTree = "<group>"; };
 		E7B64F3D25C3D42400C5A926 /* ChoosePlanTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlanTVC.swift; sourceTree = "<group>"; };
+		E7B64F6925C92E5500C5A926 /* ShopFoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFoodCell.swift; sourceTree = "<group>"; };
+		E7B64F6A25C92E5600C5A926 /* ShopFoodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopFoodCell.xib; sourceTree = "<group>"; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
 		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -183,6 +187,8 @@
 				E7B64F2E25C048E500C5A926 /* ButtonCell.xib */,
 				E7B64F3725C2724500C5A926 /* CalculatorCell.swift */,
 				E7B64F3825C2724500C5A926 /* CalculatorCell.xib */,
+				E7B64F6925C92E5500C5A926 /* ShopFoodCell.swift */,
+				E7B64F6A25C92E5600C5A926 /* ShopFoodCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,6 +280,7 @@
 				E7177B1A2579A79900C3C8A0 /* CollectionCell.xib in Resources */,
 				E7B64F3025C048E500C5A926 /* ButtonCell.xib in Resources */,
 				E7B64F2625B6F24B00C5A926 /* Person.tsv in Resources */,
+				E7B64F6C25C92E5600C5A926 /* ShopFoodCell.xib in Resources */,
 				E7177B1F257DD1A400C3C8A0 /* FoodGroup.tsv in Resources */,
 				E745E645256CC6DF0059196B /* LaunchScreen.storyboard in Resources */,
 				E7C6EF2B25A429230009B952 /* Food.tsv in Resources */,
@@ -299,6 +306,7 @@
 				E745E636256CC6D80059196B /* AppDelegate.swift in Sources */,
 				E7B64F1E25B5AFE200C5A926 /* ChoosePersonTVC.swift in Sources */,
 				E745E65F25707DE80059196B /* PreferredFoodTVC.swift in Sources */,
+				E7B64F6B25C92E5600C5A926 /* ShopFoodCell.swift in Sources */,
 				E745E65925707D9D0059196B /* EditRecipeTVC.swift in Sources */,
 				E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */,
 				E745E66325707E280059196B /* EditFoodTVC.swift in Sources */,

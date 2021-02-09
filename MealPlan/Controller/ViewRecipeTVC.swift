@@ -71,10 +71,7 @@ class ViewRecipeTVC: UITableViewController {
         
         if let dish = selectedDish {
             portionMultiplier = dish.portion / selectedRecipe.portion
-            let selectedIngredients = dish.alternativeIngredients?.allObjects as! [Ingredient]
-//            selectedIngredients += ingredientArray.filter({$0.alternative == nil})
-            ingredientArray = ingredientArray.filter({$0.alternative == nil || selectedIngredients.contains($0)})
-
+            ingredientArray = dish.ingredients?.allObjects as! [Ingredient]
         }
     }
     
@@ -181,7 +178,7 @@ class ViewRecipeTVC: UITableViewController {
             let i = ingredientArray[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientCell", for: indexPath)
             cell.textLabel?.text = "\(limitDigits(i.quantity * portionMultiplier)) \(i.unit!)"
-            if i.optional {
+            if i.isOptional {
                 cell.detailTextLabel?.text = "*" + i.food!.title!
             } else {
                 cell.detailTextLabel?.text = i.food!.title

@@ -13,7 +13,7 @@ class EditServeSizeTVC: UITableViewController {
     var selectedServeSize: ServeSize?
     var completionHandler: ((ServeSize, String) -> Void)?
     
-    var foodGroupButtons: [UIButton] = []
+    var foodgroupButtons: [UIButton] = []
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
@@ -31,7 +31,7 @@ class EditServeSizeTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        foodGroupButtons = [vegetableButton, fruitButton, proteinButton, grainButton, calciumButton, oilButton, otherButton]
+        foodgroupButtons = [vegetableButton, fruitButton, proteinButton, grainButton, calciumButton, oilButton, otherButton]
         
         if let serveSize = selectedServeSize {
             loadDataToForm(serveSize)
@@ -46,11 +46,11 @@ class EditServeSizeTVC: UITableViewController {
     
     //MARK: - IBAction
     
-    @IBAction func foodGroupButtonsPressed(_ sender: UIButton) {
+    @IBAction func foodgroupButtonsPressed(_ sender: UIButton) {
         if sender.isSelected {
             sender.isSelected = false
         } else {
-            for i in foodGroupButtons {
+            for i in foodgroupButtons {
                 i.isSelected = false
             }
             sender.isSelected = true
@@ -70,7 +70,7 @@ class EditServeSizeTVC: UITableViewController {
             return
         }
         
-        let foodGroupIndex = foodGroupButtons.firstIndex(where: {$0.isSelected == true})
+        let foodgroupIndex = foodgroupButtons.firstIndex(where: {$0.isSelected == true})
         var operationString = ""
         
         var serveSize: ServeSize!
@@ -81,7 +81,7 @@ class EditServeSizeTVC: UITableViewController {
             serveSize = ServeSize(context: K.context)
             operationString = K.operationAdd
         }
-        serveSize.foodGroup = S.data.foodGroupArray[foodGroupIndex!]
+        serveSize.foodgroup = S.data.foodgroupArray[foodgroupIndex!]
         serveSize.quantity = Double(quantityTextField.text!)!
         serveSize.unit = unitTextField.text
         
@@ -110,7 +110,7 @@ class EditServeSizeTVC: UITableViewController {
     
     func loadDataToForm(_ data: ServeSize){
         
-        foodGroupButtons[Int(data.foodGroup!.order)].isSelected = true
+        foodgroupButtons[Int(data.foodgroup!.order)].isSelected = true
         quantityTextField.text = limitDigits(data.quantity)
         unitTextField.text = data.unit
     }
@@ -120,7 +120,7 @@ class EditServeSizeTVC: UITableViewController {
         
         var message = ""
         
-        if foodGroupButtons.allSatisfy({$0.isSelected == false}) {
+        if foodgroupButtons.allSatisfy({$0.isSelected == false}) {
             message += NSLocalizedString("Missing Food Group. ", comment: "alert")
         }
         

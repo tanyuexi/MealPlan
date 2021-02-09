@@ -18,7 +18,7 @@ class ChooseFoodTVC: UITableViewController, UISearchControllerDelegate, UISearch
     var filteredByText: [Food] = []
     var filteredFinal: [Food] = []
     let searchController = UISearchController(searchResultsController: nil)
-    let scopeTitles = [NSLocalizedString("All", comment: "search scope")] + S.data.foodGroupArray.map({$0.title}) as! [String]
+    let scopeTitles = [NSLocalizedString("All", comment: "search scope")] + S.data.foodgroupArray.map({$0.title}) as! [String]
 
 
     override func viewDidLoad() {
@@ -54,7 +54,7 @@ class ChooseFoodTVC: UITableViewController, UISearchControllerDelegate, UISearch
             filteredFinal = filteredByText
         } else {
             filteredFinal = filteredByText.filter({
-                ($0.serveSizes?.allObjects as! [ServeSize]).map({$0.foodGroup!.title!}).contains(scopeTitles[selectedScope])
+                ($0.serveSizes?.allObjects as! [ServeSize]).map({$0.foodgroup!.title!}).contains(scopeTitles[selectedScope])
             })
         }
     }
@@ -86,7 +86,7 @@ class ChooseFoodTVC: UITableViewController, UISearchControllerDelegate, UISearch
             let cell = tableView.dequeueReusableCell(withIdentifier: "FoodCell", for: indexPath)
             let food = filteredFinal[indexPath.row]
             cell.textLabel?.text = food.title
-            cell.detailTextLabel?.text = "    \(food.seasonLabel ?? "") \(food.foodGroupLabel ?? "")"
+            cell.detailTextLabel?.text = "    \(food.seasonLabel ?? "") \(food.foodgroupLabel ?? "")"
             
             return cell
         }

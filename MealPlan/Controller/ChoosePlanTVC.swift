@@ -57,9 +57,12 @@ class ChoosePlanTVC: UITableViewController {
             
             askToConfirmMessage("Delete plan?", confirmHandler: { action in
                 let plan = self.planArray[indexPath.row]
-                K.context.delete(plan)
+                if plan == S.data.selectedPlan {
+                    S.data.selectedPlan = nil
+                }
                 self.planArray.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .none)
+                K.context.delete(plan)
                 self.saveContext()
             })
             

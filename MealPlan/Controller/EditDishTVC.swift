@@ -11,7 +11,7 @@ import CoreData
 
 class EditDishTVC: UITableViewController {
     
-    var selectedPlan: Plan!
+//    var selectedPlan: Plan!
     var selectedDish: Dish?
     var selectedRecipe: Recipe?
     var titleButton: UIButton?
@@ -32,15 +32,18 @@ class EditDishTVC: UITableViewController {
         tableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "ButtonCell")
         
         if let dish = selectedDish {
+            if dish.recipe == nil {
+                deleteDish(dish)
+            }
             selectedRecipe = dish.recipe
             onRecipeSelected(dish.recipe!)
             dayRow = Int(dish.day)
             mealRow = S.data.mealArray.firstIndex(of: dish.meal!) ?? 0
             portion = dish.portion
 
-            for i in 0..<alternativeArray.count {
+            for i in 0..<alternativeIngredients.count {
                 if let ingredients = alternativeIngredients[i],
-                    let selectedIngredients = dish.alternativeIngredients {
+                    let selectedIngredients = dish.ingredients {
                     
                     if let selectedIndex = ingredients.firstIndex(where: {selectedIngredients.contains($0)}) {
                         
@@ -62,13 +65,29 @@ class EditDishTVC: UITableViewController {
     
     //MARK: - Custom functions
     
+    func deleteDish(_ dish: Dish) {
+        let plans = dish.plans?.allObjects as! [Plan]
+        if plans.count > 1 {
+            dish.plans = NSSet(array: plans.filter({$0 != S.data.selectedPlan}))
+        } else {
+            K.context.delete(dish)
+        }
+
+        self.saveContext()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func onRecipeSelected(_ recipe: Recipe){
         titleButton?.setTitle(recipe.title, for: .normal)
         alternativeArray = recipe.alternatives?.allObjects as! [Alternative]
         for i in 0..<alternativeArray.count {
             alternativeIngredients[i] = (alternativeArray[i].ingredients?.allObjects as! [Ingredient]).sorted(by: {$0.food!.title! < $1.food!.title!})
         }
-        alternativeRow = Array(repeating: 0, count: alternativeArray.count)
+        let optionalIngredients = (recipe.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional && $0.alternative == nil})
+        for i in optionalIngredients {
+            alternativeIngredients[alternativeIngredients.count] = [i]
+        }
+        alternativeRow = Array(repeating: 0, count: alternativeIngredients.count)
     }
     
     
@@ -106,19 +125,19 @@ class EditDishTVC: UITableViewController {
             dish = selectedDish
         }
         let oldPlans = dish.plans?.allObjects as! [Plan]
-        dish.plans = NSSet(array: oldPlans + [selectedPlan!])
+        dish.plans = NSSet(array: oldPlans + [S.data.selectedPlan!])
         dish.recipe = selectedRecipe!
         dish.day = Int16(dayRow)
         dish.meal = S.data.mealArray[mealRow]
         dish.portion = portion
-        var selectedIngredients: [Ingredient] = []
+        var selectedIngredients = (selectedRecipe!.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional == false && $0.alternative == nil})
         for i in 0..<alternativeRow.count {
             if alternativeRow[i] < alternativeIngredients[i]!.count {
                 selectedIngredients.append(alternativeIngredients[i]![alternativeRow[i]])
             }
         }
 
-        dish.alternativeIngredients = NSSet(array: selectedIngredients)
+        dish.ingredients = NSSet(array: selectedIngredients)
         
         saveContext()
         navigationController?.popViewController(animated: true)
@@ -131,19 +150,13 @@ class EditDishTVC: UITableViewController {
         if let dish = selectedDish {
             askToConfirmMessage(NSLocalizedString("Delete dish?", comment: "alert"), confirmHandler: { action in
                 
-                let plans = dish.plans?.allObjects as! [Plan]
-                if plans.count > 1 {
-                    dish.plans = NSSet(array: plans.filter({$0 != self.selectedPlan}))
-                } else {
-                    K.context.delete(dish)
-                }
-
-                self.saveContext()
-                self.navigationController?.popViewController(animated: true)
+                self.deleteDish(dish)
             })
         }
     }
     
+    
+
 
     // MARK: - Table view data source
 
@@ -161,7 +174,7 @@ class EditDishTVC: UITableViewController {
         case 0..<4:
             return 1
         case 4:
-            return alternativeArray.count
+            return alternativeIngredients.count
         default: // method
             return 1
         }
@@ -174,7 +187,7 @@ class EditDishTVC: UITableViewController {
         case 0..<4:
             return nil
         case 4:
-            return alternativeArray.count == 0 ? nil : NSLocalizedString("Alternative ingredients", comment: "header")
+            return alternativeIngredients.count == 0 ? nil : NSLocalizedString("Alternative ingredients", comment: "header")
         default:
             return NSLocalizedString("Method", comment: "header")
         }
@@ -244,27 +257,15 @@ class EditDishTVC: UITableViewController {
             }
             portionButton = cell.titleButton
             cell.onButtonPressed = {
-                var textField = UITextField()
                 
-                let alert = UIAlertController(title: NSLocalizedString("Enter the portions", comment: "alert"), message: "", preferredStyle: .alert)
-                
-                let action = UIAlertAction(title: NSLocalizedString("Done", comment: "alert"), style: .default) { (action) in
-                    //what will happen once the user clicks the Add Item button on our UIAlert
-                    if let number = Double(textField.text!) {
+                self.dataEntryByAlert(title: NSLocalizedString("Enter the portions", comment: "alert"), keyboardType: .decimalPad, presenter: self) { text in
+                    
+                    if let number = Double(text) {
                         self.portion = number
                         self.portionButton?.setTitle(String(format: NSLocalizedString("Portions", comment: "button") + ": %@", self.limitDigits(self.portion)), for: .normal)
                     }
                 }
                 
-                alert.addTextField { (alertTextField) in
-                    alertTextField.placeholder = "Number"
-                    alertTextField.keyboardType = .decimalPad
-                    textField = alertTextField
-                }
-                
-                alert.addAction(action)
-                
-                self.present(alert, animated: true, completion: nil)
             }
             return cell
             
@@ -276,7 +277,7 @@ class EditDishTVC: UITableViewController {
             
             if let ingredients = alternativeIngredients[indexPath.row] {
                 cell.pickerTitles = ingredients.map({$0.food!.title!})
-                if ingredients.first!.optional {
+                if ingredients.first!.isOptional {
                     cell.pickerTitles.append(NSLocalizedString("< None >", comment: "picker"))
                 }
                 cell.selectRow(at: alternativeRow[indexPath.row] )

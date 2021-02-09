@@ -53,10 +53,10 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
         DOBTextField.text = S.data.dateFormatter.string(from: data.dateOfBirth!)
         DOBConfirmLabel.text = confirmFormatter.string(from: data.dateOfBirth!)
         validDOB = true
-        additionalSwitch.isOn = data.additional
-        pregnantSwitch.isOn = data.pregnant
-        breastfeedingSwitch.isOn = data.breastfeeding
-        enableFemaleOptions(data.female)
+        additionalSwitch.isOn = data.needsAdditional
+        pregnantSwitch.isOn = data.isPregnant
+        breastfeedingSwitch.isOn = data.isBreastfeeding
+        enableFemaleOptions(data.isFemale)
     }
     
     
@@ -141,10 +141,10 @@ class EditPersonTVC: UITableViewController, UITextFieldDelegate {
         
         person.name = nameTextField.text!
         person.dateOfBirth = S.data.dateFormatter.date(from: DOBTextField.text!)
-        person.additional = additionalSwitch.isOn
-        person.female = (genderSegmentedControl.selectedSegmentIndex == 0)
-        person.pregnant = pregnantSwitch.isOn
-        person.breastfeeding = breastfeedingSwitch.isOn
+        person.needsAdditional = additionalSwitch.isOn
+        person.isFemale = (genderSegmentedControl.selectedSegmentIndex == 0)
+        person.isPregnant = pregnantSwitch.isOn
+        person.isBreastfeeding = breastfeedingSwitch.isOn
         
         saveContext()
         navigationController?.popViewController(animated: true)

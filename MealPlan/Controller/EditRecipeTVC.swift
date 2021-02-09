@@ -169,28 +169,10 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
     
     @IBAction func methodLinkButtonPressed(_ sender: UIButton) {
         
-        var textField = UITextField()
-        
-        let alert = UIAlertController(title: NSLocalizedString("Add link to method", comment: "alert"), message: "", preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: NSLocalizedString("Done", comment: "alert"), style: .default) { (action) in
-            //what will happen once the user clicks the Add Item button on our UIAlert
-            self.setMethodLink(textField.text)
+        dataEntryByAlert(title: NSLocalizedString("Add link to method", comment: "alert"), preloadText: (selectedRecipe == nil ? "" : selectedRecipe!.methodLink!), placeHolder: "http(s)://", keyboardType: .URL, presenter: self) { text in
+            
+            self.setMethodLink(text)
         }
-        
-        alert.addTextField { (alertTextField) in
-            if let recipe = self.selectedRecipe {
-                alertTextField.text = recipe.methodLink
-            }
-            alertTextField.clearButtonMode = .always
-            alertTextField.placeholder = "http(s)://"
-            alertTextField.keyboardType = .URL
-            textField = alertTextField
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -291,7 +273,7 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
         let cell = ingredientCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
         
         let ingredient = ingredientsByTitle[indexPath.row]
-        if ingredient.optional {
+        if ingredient.isOptional {
             cell.titleLabel.text = "*" + ingredient.food!.title!
         } else {
             cell.titleLabel.text = ingredient.food!.title

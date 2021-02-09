@@ -12,11 +12,12 @@ class S {
     static let data = S()
     var mealArray: [Meal] = []
     var seasonArray: [Season] = []
-    var foodGroupArray: [FoodGroup] = []
+    var foodgroupArray: [FoodGroup] = []
     var northHemisphere: Bool = true
     var days: Double = 0
     var firstDate: Date?
     let dateFormatter = DateFormatter()
     let weekdayFormatter = DateFormatter()
     var dailyServes: [String:[String:Double]] = [:]
+    var selectedPlan: Plan?
 }

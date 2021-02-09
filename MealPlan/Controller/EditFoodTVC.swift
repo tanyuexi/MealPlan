@@ -17,17 +17,19 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     var seasonButtons: [UIButton] = []
     var serveSizeArray: [ServeSize] = []
     var recipeArray: [Recipe] = []
+    var shopLabel = ""
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var quickFillButton: UIButton!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var shoppingLabelButton: UIButton!
     @IBOutlet weak var springButton: UIButton!
     @IBOutlet weak var summerButton: UIButton!
     @IBOutlet weak var autumnButton: UIButton!
     @IBOutlet weak var winterButton: UIButton!
     @IBOutlet weak var serveSizeCollectionView: UICollectionView!
-    @IBOutlet weak var foodGroupLabel: UILabel!
+    @IBOutlet weak var foodgroupLabel: UILabel!
     @IBOutlet weak var recipeCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -61,6 +63,18 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         performSegue(withIdentifier: "GoToChooseFood", sender: nil)
     }
     
+    @IBAction func shoppingLabelButtonPressed(_ sender: UIButton) {
+        dataEntryByAlert(
+            title: NSLocalizedString("Enter the label", comment: "alert"),
+            message: NSLocalizedString("For easier shopping, e.g. market name (Woolworths, Aldi etc.), food section (fresh, frozen etc.)", comment: "alert"),
+            preloadText: (selectedFood == nil ? "" : selectedFood!.shoppingLabel!),
+            placeHolder: "",
+            keyboardType: .default,
+            presenter: self,
+            completionHandler: { text in
+                self.onShoppingLabelUpdated(text)
+        })
+    }
     
     @IBAction func seasonButtonPressed(_ sender: UIButton) {
         sender.isSelected.toggle()
@@ -127,7 +141,8 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         }
         
         food.serveSizes = NSSet(array: serveSizeArray)
-        food.foodGroupLabel = foodGroupLabel.text
+        food.foodgroupLabel = foodgroupLabel.text
+        food.shoppingLabel = shopLabel
         
         saveContext()
         completionHandler?(food, operationString)
@@ -163,7 +178,7 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
             let cell = serveSizeCollectionView.dequeueReusableCell(withReuseIdentifier: K.collectionCellID, for: indexPath) as! CollectionCell
             
             let serveSize = serveSizeArray[indexPath.row]
-            cell.titleLabel.text = serveSize.unit! + " (\(serveSize.foodGroup!.title!))"
+            cell.titleLabel.text = serveSize.unit! + " (\(serveSize.foodgroup!.title!))"
             cell.detailLabel.text = limitDigits(serveSize.quantity)
             cell.isSelected = false
             return cell
@@ -203,6 +218,8 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
     
     func loadDataToForm(_ data: Food){
         titleTextField.text = data.title
+        onShoppingLabelUpdated(data.shoppingLabel!)
+        
         for i in data.seasons!.allObjects as! [Season] {
             seasonButtons[Int(i.order)].isSelected = true
         }
@@ -212,11 +229,19 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         updateRecipe(of: data)
     }
     
-    
+    func onShoppingLabelUpdated(_ text: String){
+        shopLabel = text
+        
+        if text == "" {
+            shoppingLabelButton.setTitle(NSLocalizedString("< Label >", comment: "button"), for: .normal)
+        } else {
+            shoppingLabelButton.setTitle(text, for: .normal)
+        }
+    }
     
     func onServeSizeUpdated(){
         serveSizeCollectionView.reloadData()
-        foodGroupLabel.text = getFoodGroupInfo(from: serveSizeArray)
+        foodgroupLabel.text = getFoodGroupInfo(from: serveSizeArray)
     }
     
     func updateRecipe(of data: Food){

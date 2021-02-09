@@ -19,7 +19,7 @@ struct K {
         
     static let collectionCellID = "CollectionCell"
     
-//    static let foodGroup = ["Vegetable", "Fruit", "Protein", "Grain", "Calcium", "Oil", "Other"]
+//    static let foodgroup = ["Vegetable", "Fruit", "Protein", "Grain", "Calcium", "Oil", "Other"]
 //    static let meals = [
 //        "1 breakfast": NSLocalizedString("Breakfast", comment: "meals"),
 //        "2 morningTea": NSLocalizedString("Morning Tea", comment: "meals"),
