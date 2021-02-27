@@ -148,11 +148,20 @@ class ChooseRecipeTVC: UITableViewController, UISearchControllerDelegate, UISear
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "GoToViewRecipe",
+        if segue.identifier == "GoToEditRecipe",
+            let vc = segue.destination as? EditRecipeTVC,
+            let indexPath = tableView.indexPathForSelectedRow {
+            
+            if indexPath.section > 0 {
+                vc.selectedRecipe = filteredFinal[indexPath.row]
+            }
+
+        } else if segue.identifier == "GoToViewRecipe",
             let vc = segue.destination as? ViewRecipeTVC,
             let indexPath = tableView.indexPathForSelectedRow {
             
             vc.selectedRecipe = filteredFinal[indexPath.row]
+            vc.chooseRecipeVC = self
         }
         
     }

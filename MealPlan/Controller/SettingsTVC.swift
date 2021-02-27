@@ -25,6 +25,8 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
         if let firstDate = S.data.firstDate {
             firstDateTextField.text = S.data.dateFormatter.string(from: firstDate)
         }
+        
+        hemisphereSegControl.selectedSegmentIndex = (getPlistHemisphere() == "North" ? 0 : 1)
     }
     
     
@@ -63,6 +65,8 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
     @IBAction func hemisphereSegControlValueChanged(_ sender: UISegmentedControl) {
         
         S.data.northHemisphere = (hemisphereSegControl.selectedSegmentIndex == 0)
+        setPlistHemisphere(S.data.northHemisphere ? "North" : "South")
+        
     }
     
 
@@ -83,7 +87,16 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
         
         switch indexPath {
         case [0,0]:
-            navigationController?.popViewController(animated: true)
+            if let season = mealPlanVC?.autoGeneratePlan() {
+                notifyMessage(String(
+                    format: "%@ (%@) %@",
+                    NSLocalizedString("Meal plan", comment: "alert"),
+                    season,
+                    NSLocalizedString("generated", comment: "alert")
+                )) { action in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
         case [0,1]:
             performSegue(withIdentifier: "GoToPreferredFood", sender: self)
         case [0,2]:
@@ -105,7 +118,7 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
             exportToCsv()
             notifyMessage("Database exported")
         default:
-            print()
+            print(indexPath)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -134,7 +147,7 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
             }
             
             vc.existingRecipeSeclectedHandler = { recipe in
-                vc.performSegue(withIdentifier: "GoToViewRecipe", sender: self)
+                vc.performSegue(withIdentifier: "GoToEditRecipe", sender: self)
             }
         } else if segue.identifier == "GoToChoosePlan",
             let vc = segue.destination as? ChoosePlanTVC {

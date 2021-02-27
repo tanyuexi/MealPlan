@@ -54,6 +54,11 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
         
         if let recipe = selectedRecipe {
             loadDataToForm(recipe)
+            if (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).compactMap({$0.recipe}).contains(recipe) {
+                deleteButton.isEnabled = false
+            } else {
+                deleteButton.isEnabled = true
+            }
         } else {
             deleteButton.isEnabled = false
         }

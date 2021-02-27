@@ -33,7 +33,6 @@
 		E745E66325707E280059196B /* EditFoodTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E66225707E280059196B /* EditFoodTVC.swift */; };
 		E745E667257081490059196B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E666257081490059196B /* Constants.swift */; };
 		E745E669257083910059196B /* UIViewController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745E668257083910059196B /* UIViewController_Extension.swift */; };
-		E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F1B25AB253E00C5A926 /* Recipe.tsv */; };
 		E7B64F1E25B5AFE200C5A926 /* ChoosePersonTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */; };
 		E7B64F2025B5AFFC00C5A926 /* EditPersonTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */; };
 		E7B64F2325B6B62D00C5A926 /* DishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F2125B6B62D00C5A926 /* DishCell.swift */; };
@@ -51,8 +50,9 @@
 		E7B64F3E25C3D42400C5A926 /* ChoosePlanTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F3D25C3D42400C5A926 /* ChoosePlanTVC.swift */; };
 		E7B64F6B25C92E5600C5A926 /* ShopFoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B64F6925C92E5500C5A926 /* ShopFoodCell.swift */; };
 		E7B64F6C25C92E5600C5A926 /* ShopFoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F6A25C92E5600C5A926 /* ShopFoodCell.xib */; };
+		E7B64F7325DF9D0C00C5A926 /* Recipe.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F7125DF9D0C00C5A926 /* Recipe.tsv */; };
+		E7B64F7425DF9D0C00C5A926 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7B64F7225DF9D0C00C5A926 /* Food.tsv */; };
 		E7C45B80259C3A2600CECE0B /* EditServeSizeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */; };
-		E7C6EF2B25A429230009B952 /* Food.tsv in Resources */ = {isa = PBXBuildFile; fileRef = E7C6EF2A25A429230009B952 /* Food.tsv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,7 +84,6 @@
 		E745E66225707E280059196B /* EditFoodTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFoodTVC.swift; sourceTree = "<group>"; };
 		E745E666257081490059196B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E745E668257083910059196B /* UIViewController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController_Extension.swift; sourceTree = "<group>"; };
-		E7B64F1B25AB253E00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
 		E7B64F1D25B5AFE200C5A926 /* ChoosePersonTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePersonTVC.swift; sourceTree = "<group>"; };
 		E7B64F1F25B5AFFC00C5A926 /* EditPersonTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPersonTVC.swift; sourceTree = "<group>"; };
 		E7B64F2125B6B62D00C5A926 /* DishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCell.swift; sourceTree = "<group>"; };
@@ -102,8 +101,9 @@
 		E7B64F3D25C3D42400C5A926 /* ChoosePlanTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlanTVC.swift; sourceTree = "<group>"; };
 		E7B64F6925C92E5500C5A926 /* ShopFoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFoodCell.swift; sourceTree = "<group>"; };
 		E7B64F6A25C92E5600C5A926 /* ShopFoodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopFoodCell.xib; sourceTree = "<group>"; };
+		E7B64F7125DF9D0C00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F7225DF9D0C00C5A926 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
-		E7C6EF2A25A429230009B952 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,10 +206,10 @@
 		E745E66D2570841D0059196B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E7B64F7225DF9D0C00C5A926 /* Food.tsv */,
+				E7B64F7125DF9D0C00C5A926 /* Recipe.tsv */,
 				E7B64F3125C1918000C5A926 /* DailyServes.tsv */,
 				E7B64F2525B6F24B00C5A926 /* Person.tsv */,
-				E7C6EF2A25A429230009B952 /* Food.tsv */,
-				E7B64F1B25AB253E00C5A926 /* Recipe.tsv */,
 				E7177B1B257DC7C300C3C8A0 /* Meal.tsv */,
 				E7177B1D257DD1A400C3C8A0 /* FoodGroup.tsv */,
 				E7177B1E257DD1A400C3C8A0 /* Season.tsv */,
@@ -283,12 +283,12 @@
 				E7B64F6C25C92E5600C5A926 /* ShopFoodCell.xib in Resources */,
 				E7177B1F257DD1A400C3C8A0 /* FoodGroup.tsv in Resources */,
 				E745E645256CC6DF0059196B /* LaunchScreen.storyboard in Resources */,
-				E7C6EF2B25A429230009B952 /* Food.tsv in Resources */,
 				E745E642256CC6DF0059196B /* Assets.xcassets in Resources */,
-				E7B64F1C25AB253F00C5A926 /* Recipe.tsv in Resources */,
 				E745E63D256CC6D80059196B /* Main.storyboard in Resources */,
+				E7B64F7325DF9D0C00C5A926 /* Recipe.tsv in Resources */,
 				E7B64F2425B6B62D00C5A926 /* DishCell.xib in Resources */,
 				E7B64F2A25B856BE00C5A926 /* PickerCell.xib in Resources */,
+				E7B64F7425DF9D0C00C5A926 /* Food.tsv in Resources */,
 				E7177B1C257DC7C300C3C8A0 /* Meal.tsv in Resources */,
 				E7B64F3A25C2724500C5A926 /* CalculatorCell.xib in Resources */,
 				E7177B20257DD1A400C3C8A0 /* Season.tsv in Resources */,

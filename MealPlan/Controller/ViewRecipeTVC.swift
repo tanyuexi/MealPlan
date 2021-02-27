@@ -10,17 +10,21 @@ import UIKit
 
 class ViewRecipeTVC: UITableViewController {
 
+    var chooseRecipeVC: ChooseRecipeTVC?
     var selectedRecipe: Recipe!
     var ingredientArray: [Ingredient] = []
     var methodArray: [String] = []
     var alternativeArray: [Alternative] = []
     
     var selectedDish: Dish?
+    var isBatchMode = false
     var portionMultiplier: Double = 1
     
     var imageView: UIImageView!
     var scrollView: UIScrollView!
     var methodImage: UIImage?
+    
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +47,11 @@ class ViewRecipeTVC: UITableViewController {
 
     //MARK: - IBAction
 
-    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
         
-        performSegue(withIdentifier: "GoToEditRecipe", sender: nil)
+//        performSegue(withIdentifier: "GoToEditDish", sender: nil)
+        navigationController?.popViewController(animated: false)
+        chooseRecipeVC?.navigationController?.popViewController(animated: false)
     }
     
     
@@ -70,8 +76,15 @@ class ViewRecipeTVC: UITableViewController {
         }
         
         if let dish = selectedDish {
-            portionMultiplier = dish.portion / selectedRecipe.portion
             ingredientArray = dish.ingredients?.allObjects as! [Ingredient]
+            portionMultiplier = dish.portion / selectedRecipe.portion
+
+            if isBatchMode,
+                let plan = S.data.selectedPlan {
+                
+                let portionSum = (plan.dishes?.allObjects as! [Dish]).filter({$0.recipe == dish.recipe}).reduce(0, {$0 + $1.portion})
+                portionMultiplier = portionSum / selectedRecipe.portion
+            }
         }
     }
     
@@ -123,7 +136,7 @@ class ViewRecipeTVC: UITableViewController {
             return 1
         case 1: //meal
             return 1
-        case 2: //portion and season
+        case 2: //season & portion
             return 1
         case 3: //ingredients
             return ingredientArray.count
@@ -140,7 +153,7 @@ class ViewRecipeTVC: UITableViewController {
             return nil
         case 1: //meal
             return nil
-        case 2: //portion and season
+        case 2: //season & portion
             return nil
         case 3: //ingredients
             return NSLocalizedString("Ingredients", comment: "header")
@@ -165,12 +178,16 @@ class ViewRecipeTVC: UITableViewController {
             cell.textLabel?.text = (selectedRecipe.meals?.allObjects as! [Meal]).sorted(by: {$0.order < $1.order}).map({$0.title!}).joined(separator: ", ")
             return cell
             
-        case 2: //portion and season
+        case 2: //season & portion
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "PortionSeasonCell", for: indexPath)
             cell.textLabel?.text = selectedRecipe.seasonLabel
-            cell.detailTextLabel?.text =  "\(limitDigits(selectedRecipe.portion * portionMultiplier)) \(K.portionIcon)"
-            cell.accessoryType = .none
+            cell.detailTextLabel?.text = String(
+                format: "%@: %@ %@",
+                (isBatchMode ? NSLocalizedString("Batch cook", comment: "mode") : NSLocalizedString("Single meal", comment: "mode")),
+                limitDigits(selectedRecipe.portion * portionMultiplier),
+                K.portionIcon)
+            cell.accessoryType = (selectedDish == nil ? .none : .detailButton)
             return cell
             
         case 3: //ingredients
@@ -275,6 +292,39 @@ class ViewRecipeTVC: UITableViewController {
     }
     
     
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        if indexPath.section == 2 {
+            
+            let alert = UIAlertController(
+                title: NSLocalizedString("Calculate portions", comment: "alert"),
+                message: NSLocalizedString("Single meal: cook only for this meal.\nBatch cook: sum up same dishes through the whole plan for meal preparation or frozen meals.", comment: "alert"),
+                preferredStyle: .alert)
+            
+            let singleDishAction = UIAlertAction(title: NSLocalizedString("Single meal", comment: "alert"), style: .default) { (action) in
+
+                self.isBatchMode = false
+                self.loadDataToForm()
+                self.tableView.reloadData()
+            }
+            
+            let batchAction = UIAlertAction(title: NSLocalizedString("Batch cook", comment: "alert"), style: .default) { (action) in
+                
+                self.isBatchMode = true
+                self.loadDataToForm()
+                self.tableView.reloadData()
+            }
+            
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "alert"), style: .cancel, handler: nil)
+            
+            alert.addAction(singleDishAction)
+            alert.addAction(batchAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: - Scroll View
     
     override func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -283,24 +333,24 @@ class ViewRecipeTVC: UITableViewController {
     }
   
     // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "GoToEditRecipe",
-            let vc = segue.destination as? EditRecipeTVC {
-            
-            vc.selectedRecipe = selectedRecipe
-            vc.completionHandler = { recipe, operationString in
-                
-                switch operationString {
-                case K.operationDelete:
-                    self.navigationController?.popViewController(animated: true)
-                default:
-                    self.loadDataToForm()
-                }
-            }
-        }
-    }
+//
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//        if segue.identifier == "GoToEditRecipe",
+//            let vc = segue.destination as? EditRecipeTVC {
+//
+//            vc.selectedRecipe = selectedRecipe
+//            vc.completionHandler = { recipe, operationString in
+//
+//                switch operationString {
+//                case K.operationDelete:
+//                    self.navigationController?.popViewController(animated: true)
+//                default:
+//                    self.loadDataToForm()
+//                }
+//            }
+//        }
+//    }
     
 
 }

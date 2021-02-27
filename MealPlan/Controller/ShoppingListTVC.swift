@@ -98,7 +98,7 @@ class ShoppingListTVC: UITableViewController, UISearchControllerDelegate, UISear
                 }
                 let foodArray = groupFoodChain[foodgroup]!.keys.sorted(by: {
                     if $0.shoppingLabel == $1.shoppingLabel {
-                        return $0.title! < $0.title!
+                        return $0.title! < $1.title!
                     } else {
                         return $0.shoppingLabel! < $1.shoppingLabel!
                     }

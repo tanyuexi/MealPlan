@@ -44,6 +44,15 @@ extension UIViewController {
         return K.defaults.integer(forKey: "Days")
     }
     
+    func setPlistHemisphere(_ hemisphere: String){
+        K.defaults.set(hemisphere, forKey: "Hemisphere")
+    }
+    
+    
+    func getPlistHemisphere() -> String {
+        return K.defaults.string(forKey: "Hemisphere") ?? ""
+    }
+    
     func setPlistFirstDate(_ firstDate: String){
         K.defaults.set(firstDate, forKey: "First date")
     }
@@ -55,11 +64,11 @@ extension UIViewController {
     
     //MARK: - alert
     
-    func notifyMessage(_ message: String){
+    func notifyMessage(_ message: String, handler: ((UIAlertAction) -> Void)? = nil){
         
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "alert"), style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "alert"), style: .cancel, handler: handler))
         
         present(alert, animated: true, completion: nil)
         
@@ -105,7 +114,7 @@ extension UIViewController {
     //MARK: - Time and Date
     
     func dateAfter(_ days: Int, from startDate: Date) -> Date {
-        let calendar = Calendar.current
+        let calendar = Calendar(identifier: .gregorian)
         let component = DateComponents(day: days)
         return calendar.date(byAdding: component, to: startDate)!
     }
@@ -574,6 +583,12 @@ extension UIViewController {
             setPlistDays(7)
         }
         S.data.days = Double(getPlistDays())
+        
+        // hemisphere
+        if getPlistHemisphere() == "" {
+            setPlistHemisphere("North")
+        }
+        S.data.northHemisphere = (getPlistHemisphere() == "North")
         
         // first date
         S.data.firstDate = S.data.dateFormatter.date(from: getPlistFirstDate())
@@ -1095,7 +1110,7 @@ extension UIViewController {
     
         //MARK: - Calculate daily serves
         func yearsBeforeToday(_ years: Int) -> Date {
-            let calendar = Calendar.current
+            let calendar = Calendar(identifier: .gregorian)
             let today = Date()
             let component = DateComponents(year: -years)
             return calendar.date(byAdding: component, to: today)!
@@ -1103,7 +1118,7 @@ extension UIViewController {
     
         func isOlderRangeInAgeZone(_ date: Date, by ageThreshold: inout [Int: Date]) -> Bool {
             for i in [4, 9, 12, 14, 19] {
-                let diff = Calendar.current.dateComponents([.year], from: date, to: ageThreshold[i]!)
+                let diff = Calendar(identifier: .gregorian).dateComponents([.year], from: date, to: ageThreshold[i]!)
                 if diff.year! == 0 {
                     return true
                 }

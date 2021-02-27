@@ -18,9 +18,11 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     var personArray: [Person] = []
     var dailyTotal: [String:Double] = [:]
     var serveSum: [String:Double] = [:]
+    var estimatedPortions: Double = 0
     
     let warningColor = UIColor.systemRed
     
+    @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var calculatorCollectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -40,10 +42,6 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             importDemoDatabase()
         }
         foodArray = []
-        
-        loadPerson(to: &personArray)
-        
-        calculateDailyTotalServes(from: personArray, to: &dailyTotal)
 
         tableView.register(UINib(nibName: "DishCell", bundle: nil), forCellReuseIdentifier: "DishCell")
         
@@ -57,12 +55,112 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        onPersonUpdated()
+        
         onPlanUpdated()
+        
     }
     
     
     //MARK: - Custom functions
+    
+    func autoGeneratePlan() -> String {
+        
+        S.data.selectedPlan?.dishes = nil
+        
+        var seasonIndex = 0
+        
+        // get season
+        let monthOfToday =  Calendar(identifier: .gregorian).dateComponents([.month], from: Date()).month!
+        switch monthOfToday {
+        case 0..<3:  // north winter, south summer
+            seasonIndex = S.data.northHemisphere ? 3 : 1
+        case 3..<6:  // north spring, south autumn
+            seasonIndex = S.data.northHemisphere ? 0 : 2
+        case 6..<9:  // north summer, south winter
+            seasonIndex = S.data.northHemisphere ? 1 : 3
+        case 9..<12: // north autumn, south spring
+            seasonIndex = S.data.northHemisphere ? 2 : 0
+        default:     // north winter, south summer
+            seasonIndex = S.data.northHemisphere ? 3 : 1
+        }
+        
+        let seasonOfToday = S.data.seasonArray[seasonIndex]
+        
+        for meal in S.data.mealArray {
+            //load recipes of the meal & season
+            var recipeCandidates: [Recipe] = []
+            let mealPredicate = NSPredicate(format: "ANY meals.title == %@", meal.title!)
+            let seasonPredicate = NSPredicate(format: "ANY seasons.title == %@", seasonOfToday.title!)
+            let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mealPredicate, seasonPredicate])
+            loadRecipe(to: &recipeCandidates, predicate: predicate)
+            
+            for day in 0..<Int(S.data.days) {
+                
+                if let randomRecipe = recipeCandidates.randomElement() {
+                    
+                    //create dish from random recipe
+                    let dish = Dish(context: K.context)
+                    let oldPlans = dish.plans?.allObjects as! [Plan]
+                    dish.plans = NSSet(array: oldPlans + [S.data.selectedPlan!])
+                    dish.recipe = randomRecipe
+                    dish.day = Int16(day)
+                    dish.meal = meal
+                    dish.portion = estimatedPortions
+                    var selectedIngredients = (randomRecipe.ingredients?.allObjects as! [Ingredient]).filter({$0.alternative == nil})
+                    
+                    if let alters = randomRecipe.alternatives {
+                        for alt in alters.allObjects as! [Alternative] {
+                            let ingredients = alt.ingredients?.allObjects as! [Ingredient]
+                            if let randomIngredient = ingredients.randomElement() {
+                                selectedIngredients.append(randomIngredient)
+                            }
+                        }
+                    }
+                    
+                    dish.ingredients = NSSet(array: selectedIngredients)
+                    
+                    saveContext()
+                }
+            }
+        }
+        
+        onPlanUpdated()
+        
+        let foodgroup = S.data.foodgroupArray[2].title!  //protein
+        let multiplier = dailyTotal[foodgroup]! * S.data.days / serveSum[foodgroup]!
+        if let dishes = S.data.selectedPlan?.dishes?.allObjects as? [Dish] {
+            for dish in dishes {
+                dish.portion = roundToHalf(dish.portion * multiplier)
+            }
+        }
 
+        onPlanUpdated()
+        saveContext()
+        
+        return seasonOfToday.title!
+    }
+
+    
+    func onPersonUpdated(){
+        loadPerson(to: &personArray)
+        estimatedPortions = 0
+        for person in personArray {
+            if Calendar(identifier: .gregorian).dateComponents([.year], from: person.dateOfBirth!, to: Date()).year! < 9 {
+                estimatedPortions += 0.5
+            } else {
+                estimatedPortions += 1
+            }
+        }
+        headerLabel.text = String(
+            format: "%@ %d %@",
+            NSLocalizedString("Recommended serves for", comment: "header"),
+            personArray.count,
+            NSLocalizedString("person(s)", comment: "header")
+        )
+        calculateDailyTotalServes(from: personArray, to: &dailyTotal)
+    }
+    
     func onPlanUpdated() {
         
         if S.data.selectedPlan == nil {
@@ -118,7 +216,9 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     @IBAction func modeButtonPressed(_ sender: UIBarButtonItem) {
         editMode = !editMode
-        sender.image = editMode ? UIImage(systemName: "eye") : UIImage(systemName: "square.and.pencil")
+//        sender.image = editMode ? UIImage(systemName: "eye") : UIImage(systemName: "square.and.pencil")
+        sender.title = editMode ? NSLocalizedString("Done", comment: "button") : NSLocalizedString("Click to edit", comment: "button")
+        sender.style = editMode ? .done : .plain
         tableView.reloadData()
     }
     

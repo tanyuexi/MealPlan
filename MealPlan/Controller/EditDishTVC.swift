@@ -321,8 +321,8 @@ class EditDishTVC: UITableViewController {
             vc.existingRecipeSeclectedHandler = { recipe in
                 self.selectedRecipe = recipe
                 self.onRecipeSelected(recipe)
-                vc.navigationController?.popViewController(animated: true)
                 self.tableView.reloadData()
+                vc.performSegue(withIdentifier: "GoToViewRecipe", sender: nil)
             }
         }
     }
