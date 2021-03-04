@@ -69,6 +69,15 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
         
     }
     
+    
+    //MARK: - Custom functions
+    
+    func openUrl(_ string: String){
+        if let url = URL(string: string) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
 
     // MARK: - Table view data source
 
@@ -94,7 +103,7 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
                     season,
                     NSLocalizedString("generated", comment: "alert")
                 )) { action in
-                    self.navigationController?.popViewController(animated: true)
+                    self.navigationController?.popViewController(animated: false)
                 }
             }
         case [0,1]:
@@ -114,6 +123,8 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
                 self.importDemoDatabase()
                 self.notifyMessage("Restored to demo")
             })
+        case [2,4]:
+            openUrl(K.dietaryGuidelineLink)
         case [3,0]:
             exportToCsv()
             notifyMessage("Database exported")
@@ -156,6 +167,11 @@ class SettingsTVC: UITableViewController, UITextFieldDelegate {
                 S.data.selectedPlan = plan
                 self.navigationController?.popViewController(animated: true)
             }
+        } else if segue.identifier == "GoToPreferredFood",
+            let vc = segue.destination as? PreferredFoodTVC {
+            
+            vc.settingsVC = self
+            vc.mealPlanVC = mealPlanVC
         }
     }
     

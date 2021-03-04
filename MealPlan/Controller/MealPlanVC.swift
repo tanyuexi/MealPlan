@@ -32,7 +32,7 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         print(getFilePath(directory: true)!)
         
         S.data.dateFormatter.dateFormat = NSLocalizedString("dd/MM/yyyy", comment: "date format")
-        S.data.weekdayFormatter.dateFormat = NSLocalizedString("EEE d MMM", comment: "date format")
+        S.data.weekdayFormatter.dateFormat = NSLocalizedString("d MMMM (EEEE)", comment: "date format")
                 
         initDatabase()
         
@@ -64,76 +64,208 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     //MARK: - Custom functions
     
-    func autoGeneratePlan() -> String {
-        
-        S.data.selectedPlan?.dishes = nil
-        
+    func getSeasonOfToday() -> Season {
         var seasonIndex = 0
         
         // get season
-        let monthOfToday =  Calendar(identifier: .gregorian).dateComponents([.month], from: Date()).month!
-        switch monthOfToday {
-        case 0..<3:  // north winter, south summer
+        let todayComponents = Calendar(identifier: .gregorian).dateComponents([.month, .day], from: Date())
+        let dateCode = todayComponents.month! * 100 + todayComponents.day!
+        switch dateCode {
+        case 0..<321:  // up to 20 March: north winter, south summer
             seasonIndex = S.data.northHemisphere ? 3 : 1
-        case 3..<6:  // north spring, south autumn
+        case 321..<621:  // north spring, south autumn
             seasonIndex = S.data.northHemisphere ? 0 : 2
-        case 6..<9:  // north summer, south winter
+        case 621..<921:  // north summer, south winter
             seasonIndex = S.data.northHemisphere ? 1 : 3
-        case 9..<12: // north autumn, south spring
+        case 921..<1221: // north autumn, south spring
             seasonIndex = S.data.northHemisphere ? 2 : 0
         default:     // north winter, south summer
             seasonIndex = S.data.northHemisphere ? 3 : 1
         }
         
-        let seasonOfToday = S.data.seasonArray[seasonIndex]
+        return S.data.seasonArray[seasonIndex]
+    }
+    
+    func createDish(from recipe: Recipe, season: Season, preferredFoodGroup: FoodGroup? = nil) -> Dish {
+        let dish = Dish(context: K.context)
+        let oldPlans = dish.plans?.allObjects as! [Plan]
+        dish.plans = NSSet(array: oldPlans + [S.data.selectedPlan!])
+        dish.recipe = recipe
+        dish.portion = estimatedPortions
+        var selectedIngredients = (recipe.ingredients?.allObjects as! [Ingredient]).filter({$0.alternative == nil})
         
-        for meal in S.data.mealArray {
-            //load recipes of the meal & season
-            var recipeCandidates: [Recipe] = []
-            let mealPredicate = NSPredicate(format: "ANY meals.title == %@", meal.title!)
-            let seasonPredicate = NSPredicate(format: "ANY seasons.title == %@", seasonOfToday.title!)
-            let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mealPredicate, seasonPredicate])
-            loadRecipe(to: &recipeCandidates, predicate: predicate)
-            
-            for day in 0..<Int(S.data.days) {
+        if let alters = recipe.alternatives {
+            for alt in alters.allObjects as! [Alternative] {
+                var ingredients = (alt.ingredients?.allObjects as! [Ingredient]).filter({
+                    ($0.food?.seasons?.allObjects as! [Season]).contains(season)
+                })
                 
-                if let randomRecipe = recipeCandidates.randomElement() {
+                if preferredFoodGroup != nil,
+                    let foodgroupTitle = preferredFoodGroup!.title {
+                    let preferredIngredients = ingredients.filter({ ingredient in
+                        ingredient.food?.foodgroupLabel?.contains(foodgroupTitle) ?? false
+                    })
+                    if preferredIngredients.count > 0 {
+                        ingredients = preferredIngredients
+                    }
+                }
+                
+                if let randomIngredient = ingredients.randomElement() {
+                    selectedIngredients.append(randomIngredient)
+                }
+            }
+        }
+        
+        dish.ingredients = NSSet(array: selectedIngredients)
+        
+        return dish
+    }
+    
+    
+    func ingredientFoodgroupIndice(_ ingredients: [Ingredient]) -> [Int16] {
+        // only look at healthy 5 food groups
+        let foodgroupIndice = ingredients.compactMap({$0.food}).flatMap({$0.serveSizes?.allObjects as! [ServeSize]}).compactMap({$0.foodgroup?.order}).filter({$0 < 5})
+        return Array(Set(foodgroupIndice))
+    }
+    
+    
+    func filterRecipeByFoodGroup(_ recipes: [Recipe], meal: Meal) -> [Recipe] {
+        return recipes.filter({ recipe in
+            
+            let foodgroupIndexArray = ingredientFoodgroupIndice(recipe.ingredients?.allObjects as! [Ingredient])
+            
+            /* foodgroup index:
+            0    Vegetable    蔬菜
+            1    Fruit    水果
+            2    Protein    蛋白质
+            3    Grain    谷物
+            4    Calcium    钙质
+            5    Oil    油脂
+            6    Other    其他
+            */
+            switch meal.order {
+            case 0: //breakfast must have grains
+                return [3].allSatisfy({foodgroupIndexArray.contains($0)})
+            case 2: //lunch must have vegetable, protein
+                return [0,2].allSatisfy({foodgroupIndexArray.contains($0)})
+            case 4: //dinner must have vegetable, protein
+                return [0,2].allSatisfy({foodgroupIndexArray.contains($0)})
+            default:
+                return true
+            }
+        })
+    }
+    
+    
+    func getRecipeCandidates(with foods: [Food] = [], season: Season, meal: Meal) -> [Recipe] {
+        
+        var recipeCandidates: [Recipe] = []
+        let mealPredicate = NSPredicate(format: "ANY meals == %@", meal)
+        let seasonPredicate = NSPredicate(format: "ANY seasons == %@", season)
+        let mealSeasonPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mealPredicate, seasonPredicate])
+        
+        //load recipes of the meal & season
+        if foods.count == 0 {
+            loadRecipe(to: &recipeCandidates, predicate: mealSeasonPredicate)
+        } else {
+
+            let foodPredicate = NSPredicate(format: "ANY ingredients.food IN %@", foods)
+            let foodMealSeasonPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [foodPredicate, mealPredicate, seasonPredicate])
+            loadRecipe(to: &recipeCandidates, predicate: foodMealSeasonPredicate)
+            if recipeCandidates.count == 0 {
+                loadRecipe(to: &recipeCandidates, predicate: mealSeasonPredicate)
+            }
+        }
+        
+        recipeCandidates = filterRecipeByFoodGroup(recipeCandidates, meal: meal)
+        
+        return recipeCandidates
+    }
+    
+    func complexity(of recipe: Recipe) -> Int {
+        let alternatives = (recipe.alternatives?.allObjects as! [Alternative]).count
+        let essentialIngredients = (recipe.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional == false && $0.alternative == nil})
+        let essentialFoodgroups = ingredientFoodgroupIndice(essentialIngredients).count
+        return alternatives + essentialFoodgroups
+    }
+    
+    
+    func addSideDishIfUnbalanced(season: Season){
+        var recipeInSeason: [Recipe] = []
+        loadRecipe(to: &recipeInSeason, predicate: NSPredicate(format: "ANY seasons == %@", season))
+        
+        for day in 0..<Int(S.data.days) {
+            
+            //check if diet unbalanced. Add side dish for less-than-target food group
+            for foodgroup in S.data.foodgroupArray.prefix(5).reversed() {
+                var dishesOfDay = (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).filter({$0.day == day})
+                let oneDayServeSum = calculateServeSum(from: dishesOfDay)
+                if let currentSum = oneDayServeSum[foodgroup.title!],
+                    let targetSum = dailyTotal[foodgroup.title!],
+                    currentSum < targetSum * 0.8,
+                    let foodgroupIndex = S.data.foodgroupArray.firstIndex(of: foodgroup) {
                     
-                    //create dish from random recipe
-                    let dish = Dish(context: K.context)
-                    let oldPlans = dish.plans?.allObjects as! [Plan]
-                    dish.plans = NSSet(array: oldPlans + [S.data.selectedPlan!])
-                    dish.recipe = randomRecipe
-                    dish.day = Int16(day)
-                    dish.meal = meal
-                    dish.portion = estimatedPortions
-                    var selectedIngredients = (randomRecipe.ingredients?.allObjects as! [Ingredient]).filter({$0.alternative == nil})
+                    var sideRecipeCandidates = recipeInSeason.filter({ recipe in
+                        let indexArray = self.ingredientFoodgroupIndice(recipe.ingredients?.allObjects as! [Ingredient])
+                        return indexArray.contains(Int16(foodgroupIndex))
+                    })
                     
-                    if let alters = randomRecipe.alternatives {
-                        for alt in alters.allObjects as! [Alternative] {
-                            let ingredients = alt.ingredients?.allObjects as! [Ingredient]
-                            if let randomIngredient = ingredients.randomElement() {
-                                selectedIngredients.append(randomIngredient)
-                            }
+                    sideRecipeCandidates.sort(by: {
+                        self.complexity(of: $0) < self.complexity(of: $1)
+                    })
+                    sideRecipeCandidates = sideRecipeCandidates.prefix(5).shuffled()
+                    
+                    for randomRecipe in sideRecipeCandidates {
+                        
+                        let dish = createDish(from: randomRecipe, season: season, preferredFoodGroup: foodgroup)
+                        dish.day = Int16(day)
+                        dish.meal = (randomRecipe.meals?.allObjects as! [Meal]).randomElement()
+                        
+                        print("foodgroup: \(foodgroup.title!)")
+                        if dishesOfDay.contains(where: {$0.ingredients == dish.ingredients}) {
+                            print("delete day: \(day) dish: \(dish.recipe!.title!)")
+                            K.context.delete(dish)
+                        } else {
+                            print("save   day: \(day) dish: \(dish.recipe!.title!)")
+                            dishesOfDay = (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).filter({$0.day == day})
+                            break
                         }
                     }
-                    
-                    dish.ingredients = NSSet(array: selectedIngredients)
                     
                     saveContext()
                 }
             }
         }
+    }
+    
+    
+    func autoGeneratePlan(with foods: [Food] = []) -> String {
+        
+        S.data.selectedPlan?.dishes = nil
+        
+        let seasonOfToday = getSeasonOfToday()
+        
+        for meal in S.data.mealArray {
+            
+            let recipeCandidates = getRecipeCandidates(season: seasonOfToday, meal: meal)
+            
+            for day in 0..<Int(S.data.days) {
+                
+                if let randomRecipe = recipeCandidates.randomElement() {
+                    
+                    let dish = createDish(from: randomRecipe, season: seasonOfToday)
+                    dish.day = Int16(day)
+                    dish.meal = meal
+                    saveContext()
+                }
+            }
+        }
+        
+        addSideDishIfUnbalanced(season: seasonOfToday)
         
         onPlanUpdated()
         
-        let foodgroup = S.data.foodgroupArray[2].title!  //protein
-        let multiplier = dailyTotal[foodgroup]! * S.data.days / serveSum[foodgroup]!
-        if let dishes = S.data.selectedPlan?.dishes?.allObjects as? [Dish] {
-            for dish in dishes {
-                dish.portion = roundToHalf(dish.portion * multiplier)
-            }
-        }
+        normalizePortions()
 
         onPlanUpdated()
         saveContext()
@@ -141,6 +273,20 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         return seasonOfToday.title!
     }
 
+    
+    func normalizePortions(){
+        // normalize portions by protein target serves
+        let foodgroup = S.data.foodgroupArray[2].title!  //protein
+        let multiplier = dailyTotal[foodgroup]! * S.data.days / serveSum[foodgroup]!
+        if let dishes = S.data.selectedPlan?.dishes?.allObjects as? [Dish] {
+            for dish in dishes {
+                if [0, 2, 4].contains(dish.meal?.order) {  //breakfast, lunch, dinner
+                    dish.portion = roundToHalf(dish.portion * multiplier)
+                }
+            }
+        }
+    }
+    
     
     func onPersonUpdated(){
         loadPerson(to: &personArray)
@@ -192,39 +338,48 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     func onDishUpdated(){
         
-        serveSum = [:]
-        
-        for dish in dishArray {
-            let multiplier = dish.portion / dish.recipe!.portion
-            for ingredient in dish.ingredients?.allObjects as! [Ingredient] {
-                for serveSize in (ingredient.food!.serveSizes?.allObjects as! [ServeSize]).filter({$0.unit == ingredient.unit}) {
-                    
-                    if serveSum[serveSize.foodgroup!.title!] == nil {
-                        serveSum[serveSize.foodgroup!.title!] = 0
-                    }
-                    serveSum[serveSize.foodgroup!.title!]! += ingredient.quantity * multiplier / serveSize.quantity
-                }
-                
-            }
-        }
+        serveSum = calculateServeSum(from: dishArray)
         
         tableView.reloadData()
         calculatorCollectionView.reloadData()
     }
     
+    
+    func calculateServeSum(from dishes: [Dish]) -> [String:Double]{
+        var result: [String:Double] = [:]
+        
+        for dish in dishes {
+            let multiplier = dish.portion / dish.recipe!.portion
+            for ingredient in dish.ingredients?.allObjects as! [Ingredient] {
+                for serveSize in (ingredient.food!.serveSizes?.allObjects as! [ServeSize]).filter({$0.unit == ingredient.unit}) {
+                    
+                    if result[serveSize.foodgroup!.title!] == nil {
+                        result[serveSize.foodgroup!.title!] = 0
+                    }
+                    result[serveSize.foodgroup!.title!]! += ingredient.quantity * multiplier / serveSize.quantity
+                }
+                
+            }
+        }
+        return result
+    }
+    
     //MARK: - IBAction
+    
+    @IBAction func addButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "GoToEditDish", sender: nil)
+    }
     
     @IBAction func modeButtonPressed(_ sender: UIBarButtonItem) {
         editMode = !editMode
-//        sender.image = editMode ? UIImage(systemName: "eye") : UIImage(systemName: "square.and.pencil")
-        sender.title = editMode ? NSLocalizedString("Done", comment: "button") : NSLocalizedString("Click to edit", comment: "button")
+        sender.title = editMode ? NSLocalizedString("Done", comment: "button") : NSLocalizedString("Edit", comment: "button")
         sender.style = editMode ? .done : .plain
         tableView.reloadData()
     }
     
+    
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: "GoToSettings", sender: nil)
-
     }
     
     
@@ -245,81 +400,56 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Int(S.data.days) + 1 //add dish cell
+        return Int(S.data.days)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
-        case 0:
-            return editMode ? 1 : 0
-        default:
-            let day = section - 1
-            return dishArray.filter({$0.day == day}).count
-        }
+        return dishArray.filter({$0.day == section}).count
     }
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        switch section {
+        if let firstDate = S.data.firstDate {
             
-        case 0:
-            return nil
+            let dateString = S.data.weekdayFormatter.string(from: dateAfter(section - 1, from: firstDate))
+            return String(format: NSLocalizedString("Day %d - %@", comment: "picker format"), section + 1, dateString)
             
-        default:
-            
-            if let firstDate = S.data.firstDate {
-                
-                let dateString = S.data.weekdayFormatter.string(from: dateAfter(section - 1, from: firstDate))
-                return String(format: NSLocalizedString("Day %d - %@", comment: "picker format"), section, dateString)
-                
-            } else {
-                return String(format: NSLocalizedString("Day %d", comment: "picker format"), section)
-            }
-            
+        } else {
+            return String(format: NSLocalizedString("Day %d", comment: "picker format"), section + 1)
         }
+        
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.section {
-        case 0:
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddDishCell", for: indexPath)
-            return cell
-            
-        default:
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DishCell", for: indexPath) as! DishCell
-            
-            let day = indexPath.section - 1
-            let dishes = dishArray.filter({$0.day == day})
-            if dishes.count >= indexPath.row {
-                let dish = dishes[indexPath.row]
-                cell.mealLabel.text = K.mealIcon[Int(dish.meal!.order)]
-                cell.recipeLabel.text = dish.recipe?.title
-                let alternativeIngredients = (dish.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional || $0.alternative != nil})
-                cell.ingredientLabel.text = alternativeIngredients.map({$0.food!.title!}).sorted().joined(separator: "\n")
-                cell.onStepperValueChangedUpdateCell(dish.portion)
-                cell.onStepperValueChanged = { value in
-                    dish.portion = value
-                    self.saveContext()
-                    self.onDishUpdated()
-                }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DishCell", for: indexPath) as! DishCell
+        
+        let day = indexPath.section
+        let dishes = dishArray.filter({$0.day == day})
+        if dishes.count >= indexPath.row {
+            let dish = dishes[indexPath.row]
+            cell.mealLabel.text = K.mealIcon[Int(dish.meal!.order)]
+            cell.recipeLabel.text = dish.recipe?.title
+            let alternativeIngredients = (dish.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional || $0.alternative != nil})
+            cell.ingredientLabel.text = alternativeIngredients.map({$0.food!.title!}).sorted().joined(separator: "\n")
+            cell.onStepperValueChangedUpdateCell(dish.portion)
+            cell.onStepperValueChanged = { value in
+                dish.portion = value
+                self.saveContext()
+                self.onDishUpdated()
             }
-            
-            if editMode {
-                cell.portionStepper.isHidden = false
-            } else {
-                cell.portionStepper.isHidden = true
-            }
-            
-            return cell
         }
         
+        if editMode {
+            cell.portionStepper.isHidden = false
+        } else {
+            cell.portionStepper.isHidden = true
+        }
         
+        return cell
     }
     
     
@@ -331,14 +461,14 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             performSegue(withIdentifier: "GoToViewRecipe", sender: nil)
         }
     }
-    
+
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         
         if editingStyle == .delete {
             
-            let day = indexPath.section - 1
+            let day = indexPath.section
             let dish = dishArray.filter({$0.day == day})[indexPath.row]
             let plans = dish.plans?.allObjects as! [Plan]
             if plans.count > 1 {
@@ -382,7 +512,11 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             cell.sumLabel.textColor = (sum <= targetServes ? .label : warningColor)
         } else {
             cell.targetLabel.text = NSLocalizedString("Target: ", comment: "calculator") + limitDigits(targetServes)
-            cell.sumLabel.textColor = (sum >= targetServes ? .label : warningColor)
+            cell.sumLabel.textColor = (
+                (sum >= targetServes * 0.9 && sum <= targetServes * 1.1) ?
+                    .label :
+                warningColor
+            )
         }
         
         
@@ -412,23 +546,21 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             
             let vc = segue.destination as! EditDishTVC
 
-            if let indexPath = tableView.indexPathForSelectedRow,
-                indexPath.section > 0 {
+            if let indexPath = tableView.indexPathForSelectedRow {
             
-                vc.selectedDish = dishArray.filter({$0.day == indexPath.section - 1})[indexPath.row]
+                vc.selectedDish = dishArray.filter({$0.day == indexPath.section})[indexPath.row]
             }
             
         } else if segue.identifier == "GoToViewRecipe",
             let indexPath = tableView.indexPathForSelectedRow {
             
             let vc = segue.destination as! ViewRecipeTVC
-            vc.selectedDish = dishArray.filter({$0.day == indexPath.section - 1})[indexPath.row]
+            vc.selectedDish = dishArray.filter({$0.day == indexPath.section})[indexPath.row]
             
         } else if segue.identifier == "GoToSettings" {
             
             let vc = segue.destination as! SettingsTVC
             vc.mealPlanVC = self
-            
         }
     }
     

@@ -893,6 +893,17 @@ extension UIViewController {
         }
     }
     
+    func loadPreferredFood(to array: inout [PreferredFood]) {
+        let request : NSFetchRequest<PreferredFood> = PreferredFood.fetchRequest()
+        let sortBy = NSSortDescriptor(key: "food.title", ascending: true)
+        request.sortDescriptors = [sortBy]
+        do{
+            array = try K.context.fetch(request)
+        } catch {
+            print("Error loading PreferredFood \(error)")
+        }
+    }
+    
     //    func sortPeopleArray(_ peopleArray: inout [People]){
     //        peopleArray.sort {
     //            if $0.dateOfBirth! != $1.dateOfBirth! {

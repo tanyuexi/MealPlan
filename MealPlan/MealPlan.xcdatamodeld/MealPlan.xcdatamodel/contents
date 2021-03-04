@@ -18,6 +18,7 @@
         <attribute name="shoppingLabel" attributeType="String" defaultValueString=""/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="food" inverseEntity="Ingredient"/>
+        <relationship name="preferred" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PreferredFood" inverseName="food" inverseEntity="PreferredFood"/>
         <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="foods" inverseEntity="Season"/>
         <relationship name="serveSizes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ServeSize" inverseName="food" inverseEntity="ServeSize"/>
     </entity>
@@ -57,6 +58,9 @@
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="dishes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Dish" inverseName="plans" inverseEntity="Dish"/>
     </entity>
+    <entity name="PreferredFood" representedClassName="PreferredFood" syncable="YES" codeGenerationType="class">
+        <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Food" inverseName="preferred" inverseEntity="Food"/>
+    </entity>
     <entity name="Recipe" representedClassName=".Recipe" syncable="YES" codeGenerationType="class">
         <attribute name="featuredIngredients" attributeType="String" defaultValueString=""/>
         <attribute name="method" attributeType="String" defaultValueString=""/>
@@ -84,17 +88,18 @@
         <relationship name="foodgroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FoodGroup" inverseName="serveSizes" inverseEntity="FoodGroup"/>
     </entity>
     <elements>
-        <element name="Alternative" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Dish" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Food" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="FoodGroup" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Ingredient" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Meal" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Person" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Plan" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Recipe" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Season" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ServeSize" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Alternative" positionX="0" positionY="0" width="128" height="73"/>
+        <element name="Dish" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Food" positionX="0" positionY="0" width="128" height="163"/>
+        <element name="FoodGroup" positionX="0" positionY="0" width="128" height="88"/>
+        <element name="Ingredient" positionX="0" positionY="0" width="128" height="163"/>
+        <element name="Item" positionX="0" positionY="0" width="128" height="58"/>
+        <element name="Meal" positionX="0" positionY="0" width="128" height="103"/>
+        <element name="Person" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Plan" positionX="0" positionY="0" width="128" height="73"/>
+        <element name="Recipe" positionX="0" positionY="0" width="128" height="223"/>
+        <element name="Season" positionX="0" positionY="0" width="128" height="103"/>
+        <element name="ServeSize" positionX="0" positionY="0" width="128" height="103"/>
+        <element name="PreferredFood" positionX="27" positionY="117" width="128" height="58"/>
     </elements>
 </model>
