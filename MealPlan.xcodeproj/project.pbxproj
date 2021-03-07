@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		654F4665ABC3D7CA0E6CE8FF /* Pods_MealPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33668F0C960B7BF77E3E6161 /* Pods_MealPlan.framework */; };
 		E7177B152577AD1600C3C8A0 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7177B132577AD1600C3C8A0 /* UITextView_Extension.swift */; };
 		E7177B162577AD1700C3C8A0 /* UITextField_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7177B142577AD1600C3C8A0 /* UITextField_Extension.swift */; };
 		E7177B192579A79900C3C8A0 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7177B172579A79900C3C8A0 /* CollectionCell.swift */; };
@@ -56,6 +57,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33668F0C960B7BF77E3E6161 /* Pods_MealPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MealPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B0DB3D0FA34D070D191DB33 /* Pods-MealPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MealPlan.debug.xcconfig"; path = "Target Support Files/Pods-MealPlan/Pods-MealPlan.debug.xcconfig"; sourceTree = "<group>"; };
+		934F7DD83DA122339CF57CD7 /* Pods-MealPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MealPlan.release.xcconfig"; path = "Target Support Files/Pods-MealPlan/Pods-MealPlan.release.xcconfig"; sourceTree = "<group>"; };
 		E7177B132577AD1600C3C8A0 /* UITextView_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView_Extension.swift; sourceTree = "<group>"; };
 		E7177B142577AD1600C3C8A0 /* UITextField_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField_Extension.swift; sourceTree = "<group>"; };
 		E7177B172579A79900C3C8A0 /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
@@ -101,8 +105,8 @@
 		E7B64F3D25C3D42400C5A926 /* ChoosePlanTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlanTVC.swift; sourceTree = "<group>"; };
 		E7B64F6925C92E5500C5A926 /* ShopFoodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopFoodCell.swift; sourceTree = "<group>"; };
 		E7B64F6A25C92E5600C5A926 /* ShopFoodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopFoodCell.xib; sourceTree = "<group>"; };
-		E7B64F7125DF9D0C00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
-		E7B64F7225DF9D0C00C5A926 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = file; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F7125DF9D0C00C5A926 /* Recipe.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Recipe.tsv; path = MealPlan/Recipe.tsv; sourceTree = SOURCE_ROOT; };
+		E7B64F7225DF9D0C00C5A926 /* Food.tsv */ = {isa = PBXFileReference; lastKnownFileType = text; name = Food.tsv; path = MealPlan/Food.tsv; sourceTree = SOURCE_ROOT; };
 		E7C45B7F259C3A2600CECE0B /* EditServeSizeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServeSizeTVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,17 +115,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				654F4665ABC3D7CA0E6CE8FF /* Pods_MealPlan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA54D32F49DD97C61C53EBBA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				33668F0C960B7BF77E3E6161 /* Pods_MealPlan.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B9BB7206C29706255E30C353 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3B0DB3D0FA34D070D191DB33 /* Pods-MealPlan.debug.xcconfig */,
+				934F7DD83DA122339CF57CD7 /* Pods-MealPlan.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E745E629256CC6D80059196B = {
 			isa = PBXGroup;
 			children = (
 				E745E634256CC6D80059196B /* MealPlan */,
 				E745E633256CC6D80059196B /* Products */,
+				B9BB7206C29706255E30C353 /* Pods */,
+				AA54D32F49DD97C61C53EBBA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -226,9 +250,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E745E649256CC6DF0059196B /* Build configuration list for PBXNativeTarget "MealPlan" */;
 			buildPhases = (
+				5EDE435B6CE80AD8AFDCF7F2 /* [CP] Check Pods Manifest.lock */,
 				E745E62E256CC6D80059196B /* Sources */,
 				E745E62F256CC6D80059196B /* Frameworks */,
 				E745E630256CC6D80059196B /* Resources */,
+				D9A4F0D506C616C13205CB4D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -297,6 +323,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5EDE435B6CE80AD8AFDCF7F2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MealPlan-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D9A4F0D506C616C13205CB4D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MealPlan/Pods-MealPlan-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MealPlan/Pods-MealPlan-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MealPlan/Pods-MealPlan-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E745E62E256CC6D80059196B /* Sources */ = {
@@ -392,6 +460,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -452,6 +521,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -474,10 +544,12 @@
 		};
 		E745E64A256CC6DF0059196B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B0DB3D0FA34D070D191DB33 /* Pods-MealPlan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V8S86Y4XT5;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MealPlan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -492,10 +564,12 @@
 		};
 		E745E64B256CC6DF0059196B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 934F7DD83DA122339CF57CD7 /* Pods-MealPlan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V8S86Y4XT5;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MealPlan/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

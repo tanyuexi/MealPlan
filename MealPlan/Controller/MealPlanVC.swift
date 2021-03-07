@@ -8,8 +8,10 @@
 
 import UIKit
 import CoreData
+import GoogleMobileAds
 
-class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+
+class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, GADBannerViewDelegate {
     
     
     var dishArray: [Dish] = []
@@ -22,6 +24,11 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     let warningColor = UIColor.systemRed
     
+    // Google AdMob
+    var bannerView: GADBannerView!
+    
+    
+    @IBOutlet weak var adView: UIView!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var calculatorCollectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
@@ -49,6 +56,17 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         calculatorCollectionView.dataSource = self
         calculatorCollectionView.register(UINib(nibName: "CalculatorCell", bundle: nil), forCellWithReuseIdentifier: "CalculatorCell")
         
+        // Google AdMob
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID = K.debugMode ? K.adUnitIDTest : K.adUnitID
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
+        addBannerView(bannerView, to: adView)
+//        tableView.tableHeaderView?.frame = bannerView.frame
+//        tableView.tableHeaderView = bannerView
+        
+        
     }
     
     
@@ -63,6 +81,27 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     
     
     //MARK: - Custom functions
+    
+    func addBannerView(_ bannerView: GADBannerView, to view: UIView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        view.addConstraints(
+            [NSLayoutConstraint(item: bannerView,
+                                attribute: .centerY,
+                                relatedBy: .equal,
+                                toItem: view,
+                                attribute: .centerY,
+                                multiplier: 1,
+                                constant: 0),
+             NSLayoutConstraint(item: bannerView,
+                                attribute: .centerX,
+                                relatedBy: .equal,
+                                toItem: view,
+                                attribute: .centerX,
+                                multiplier: 1,
+                                constant: 0)
+        ])
+    }
     
     func getSeasonOfToday() -> Season {
         var seasonIndex = 0
@@ -157,7 +196,7 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     
-    func getRecipeCandidates(with foods: [Food] = [], season: Season, meal: Meal) -> [Recipe] {
+    func getRecipeCandidates(with foods: [Food], season: Season, meal: Meal) -> [Recipe] {
         
         var recipeCandidates: [Recipe] = []
         let mealPredicate = NSPredicate(format: "ANY meals == %@", meal)
@@ -182,61 +221,61 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         return recipeCandidates
     }
     
-    func complexity(of recipe: Recipe) -> Int {
-        let alternatives = (recipe.alternatives?.allObjects as! [Alternative]).count
-        let essentialIngredients = (recipe.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional == false && $0.alternative == nil})
-        let essentialFoodgroups = ingredientFoodgroupIndice(essentialIngredients).count
-        return alternatives + essentialFoodgroups
-    }
-    
-    
-    func addSideDishIfUnbalanced(season: Season){
-        var recipeInSeason: [Recipe] = []
-        loadRecipe(to: &recipeInSeason, predicate: NSPredicate(format: "ANY seasons == %@", season))
-        
-        for day in 0..<Int(S.data.days) {
-            
-            //check if diet unbalanced. Add side dish for less-than-target food group
-            for foodgroup in S.data.foodgroupArray.prefix(5).reversed() {
-                var dishesOfDay = (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).filter({$0.day == day})
-                let oneDayServeSum = calculateServeSum(from: dishesOfDay)
-                if let currentSum = oneDayServeSum[foodgroup.title!],
-                    let targetSum = dailyTotal[foodgroup.title!],
-                    currentSum < targetSum * 0.8,
-                    let foodgroupIndex = S.data.foodgroupArray.firstIndex(of: foodgroup) {
-                    
-                    var sideRecipeCandidates = recipeInSeason.filter({ recipe in
-                        let indexArray = self.ingredientFoodgroupIndice(recipe.ingredients?.allObjects as! [Ingredient])
-                        return indexArray.contains(Int16(foodgroupIndex))
-                    })
-                    
-                    sideRecipeCandidates.sort(by: {
-                        self.complexity(of: $0) < self.complexity(of: $1)
-                    })
-                    sideRecipeCandidates = sideRecipeCandidates.prefix(5).shuffled()
-                    
-                    for randomRecipe in sideRecipeCandidates {
-                        
-                        let dish = createDish(from: randomRecipe, season: season, preferredFoodGroup: foodgroup)
-                        dish.day = Int16(day)
-                        dish.meal = (randomRecipe.meals?.allObjects as! [Meal]).randomElement()
-                        
-                        print("foodgroup: \(foodgroup.title!)")
-                        if dishesOfDay.contains(where: {$0.ingredients == dish.ingredients}) {
-                            print("delete day: \(day) dish: \(dish.recipe!.title!)")
-                            K.context.delete(dish)
-                        } else {
-                            print("save   day: \(day) dish: \(dish.recipe!.title!)")
-                            dishesOfDay = (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).filter({$0.day == day})
-                            break
-                        }
-                    }
-                    
-                    saveContext()
-                }
-            }
-        }
-    }
+//    func complexity(of recipe: Recipe) -> Int {
+//        let alternatives = (recipe.alternatives?.allObjects as! [Alternative]).count
+//        let essentialIngredients = (recipe.ingredients?.allObjects as! [Ingredient]).filter({$0.isOptional == false && $0.alternative == nil})
+//        let essentialFoodgroups = ingredientFoodgroupIndice(essentialIngredients).count
+//        return alternatives + essentialFoodgroups
+//    }
+//
+//
+//    func addSideDishIfUnbalanced(season: Season){
+//        var recipeInSeason: [Recipe] = []
+//        loadRecipe(to: &recipeInSeason, predicate: NSPredicate(format: "ANY seasons == %@", season))
+//
+//        for day in 0..<Int(S.data.days) {
+//
+//            //check if diet unbalanced. Add side dish for less-than-target food group
+//            for foodgroup in S.data.foodgroupArray.prefix(5) {
+//                var dishesOfDay = (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).filter({$0.day == day})
+//                let oneDayServeSum = calculateServeSum(from: dishesOfDay)
+//                if let currentSum = oneDayServeSum[foodgroup.title!],
+//                    let targetSum = dailyTotal[foodgroup.title!],
+//                    currentSum < targetSum * 0.8,
+//                    let foodgroupIndex = S.data.foodgroupArray.firstIndex(of: foodgroup) {
+//
+//                    var sideRecipeCandidates = recipeInSeason.filter({ recipe in
+//                        let indexArray = self.ingredientFoodgroupIndice(recipe.ingredients?.allObjects as! [Ingredient])
+//                        return indexArray.contains(Int16(foodgroupIndex))
+//                    })
+//
+//                    sideRecipeCandidates.sort(by: {
+//                        self.complexity(of: $0) < self.complexity(of: $1)
+//                    })
+//                    sideRecipeCandidates = sideRecipeCandidates.prefix(5).shuffled()
+//
+//                    for randomRecipe in sideRecipeCandidates {
+//
+//                        let dish = createDish(from: randomRecipe, season: season, preferredFoodGroup: foodgroup)
+//                        dish.day = Int16(day)
+//                        dish.meal = (randomRecipe.meals?.allObjects as! [Meal]).randomElement()
+//
+//                        print("foodgroup: \(foodgroup.title!)")
+//                        if dishesOfDay.contains(where: {$0.ingredients == dish.ingredients}) {
+//                            print("delete day: \(day) dish: \(dish.recipe!.title!)")
+//                            K.context.delete(dish)
+//                        } else {
+//                            print("save   day: \(day) dish: \(dish.recipe!.title!)")
+//                            dishesOfDay = (S.data.selectedPlan?.dishes?.allObjects as! [Dish]).filter({$0.day == day})
+//                            break
+//                        }
+//                    }
+//
+//                    saveContext()
+//                }
+//            }
+//        }
+//    }
     
     
     func autoGeneratePlan(with foods: [Food] = []) -> String {
@@ -247,7 +286,7 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         for meal in S.data.mealArray {
             
-            let recipeCandidates = getRecipeCandidates(season: seasonOfToday, meal: meal)
+            let recipeCandidates = getRecipeCandidates(with: foods, season: seasonOfToday, meal: meal)
             
             for day in 0..<Int(S.data.days) {
                 
@@ -261,31 +300,32 @@ class MealPlanVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             }
         }
         
-        addSideDishIfUnbalanced(season: seasonOfToday)
-        
-        onPlanUpdated()
-        
-        normalizePortions()
+//        addSideDishIfUnbalanced(season: seasonOfToday)
+//
+//        onPlanUpdated()
+//
+//        normalizePortions()
 
         onPlanUpdated()
+        
         saveContext()
         
         return seasonOfToday.title!
     }
 
     
-    func normalizePortions(){
-        // normalize portions by protein target serves
-        let foodgroup = S.data.foodgroupArray[2].title!  //protein
-        let multiplier = dailyTotal[foodgroup]! * S.data.days / serveSum[foodgroup]!
-        if let dishes = S.data.selectedPlan?.dishes?.allObjects as? [Dish] {
-            for dish in dishes {
-                if [0, 2, 4].contains(dish.meal?.order) {  //breakfast, lunch, dinner
-                    dish.portion = roundToHalf(dish.portion * multiplier)
-                }
-            }
-        }
-    }
+//    func normalizePortions(){
+//        // normalize portions by protein target serves
+//        let foodgroup = S.data.foodgroupArray[2].title!  //protein
+//        let multiplier = dailyTotal[foodgroup]! * S.data.days / serveSum[foodgroup]!
+//        if let dishes = S.data.selectedPlan?.dishes?.allObjects as? [Dish] {
+//            for dish in dishes {
+//                if [0, 2, 4].contains(dish.meal?.order) {  //breakfast, lunch, dinner
+//                    dish.portion = roundToHalf(dish.portion * multiplier)
+//                }
+//            }
+//        }
+//    }
     
     
     func onPersonUpdated(){

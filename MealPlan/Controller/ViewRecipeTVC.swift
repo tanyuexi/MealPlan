@@ -298,7 +298,7 @@ class ViewRecipeTVC: UITableViewController {
             
             let alert = UIAlertController(
                 title: NSLocalizedString("Calculate portions", comment: "alert"),
-                message: NSLocalizedString("Single meal: cook only for this meal.\nBatch cook: sum up same dishes through the whole plan for meal preparation or frozen meals.", comment: "alert"),
+                message: NSLocalizedString("Single meal: cook only for this meal.\n\nBatch cook: sum up same dishes through the whole plan for meal preparation or frozen meals.", comment: "alert"),
                 preferredStyle: .alert)
             
             let singleDishAction = UIAlertAction(title: NSLocalizedString("Single meal", comment: "alert"), style: .default) { (action) in

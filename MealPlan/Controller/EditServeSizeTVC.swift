@@ -136,6 +136,12 @@ class EditServeSizeTVC: UITableViewController {
     }
     
     
+    //MARK: - TableView
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        notifyMessage(NSLocalizedString("This is about how much 1 serve is as chosen Food Group, not the quantity used in recipe", comment: "alert"))
+    }
     
     
     /*

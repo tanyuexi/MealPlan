@@ -12,7 +12,7 @@ import CoreData
 struct K {
     static let debugMode = true
     static let adUnitIDTest = "ca-app-pub-3940256099942544/2934735716"
-    static let adUnitIDPlan = "ca-app-pub-1617129166971753/7193269207"
+    static let adUnitID = "ca-app-pub-1617129166971753/8906861385"
     
     static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static let defaults = UserDefaults.standard
@@ -54,8 +54,8 @@ struct K {
     static let cellBackgroundColors = [ #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0.5), #colorLiteral(red: 0.6679978967, green: 0.4751212597, blue: 0.2586010993, alpha: 0.5), #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 0.5), #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 0.5), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.3), #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 0.5), #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.6) ]
     
     static let dietaryGuidelineLink = "https://www.eatforhealth.gov.au"
-    static let servesForChildrenLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/recommended-number-serves-children-adolescents-and"
-    static let servesForAdultsLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/recommended-number-serves-adults"
-    static let serveSizesLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/serve-sizes"
+//    static let servesForChildrenLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/recommended-number-serves-children-adolescents-and"
+//    static let servesForAdultsLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/recommended-number-serves-adults"
+//    static let serveSizesLink = "https://www.eatforhealth.gov.au/food-essentials/how-much-do-we-need-each-day/serve-sizes"
     
 }

@@ -64,9 +64,9 @@ extension UIViewController {
     
     //MARK: - alert
     
-    func notifyMessage(_ message: String, handler: ((UIAlertAction) -> Void)? = nil){
+    func notifyMessage(_ title: String, message: String = "", handler: ((UIAlertAction) -> Void)? = nil){
         
-        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "alert"), style: .cancel, handler: handler))
         

@@ -264,6 +264,16 @@ class EditRecipeTVC: UITableViewController, UICollectionViewDelegate, UICollecti
     }
     
     
+    //MARK: - Table View
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        if indexPath.row == 2 {
+            
+            notifyMessage(NSLocalizedString("Considering work & school.", comment: "alert"), message: NSLocalizedString("Breakfast: should be simple but rich in energy for a rushing morning. Or, can be prepared in advance. \n\nLunch: should taste good even when cold. \n\nDinner: hot meal that sooth everyone's soul and fulfill their nutrition needs.\n\nMorning/Afternoon tea: easy-to-grab snacks. The less messy, the better.", comment: "alert"))
+        }
+    }
+    
 
 //MARK: - UICollectionViewDataSource
 

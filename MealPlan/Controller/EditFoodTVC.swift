@@ -270,7 +270,12 @@ class EditFoodTVC: UITableViewController, UICollectionViewDataSource, UICollecti
         
     }
     
+    //MARK: - TableView
     
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        notifyMessage(NSLocalizedString("Eating in-season food saves money.", comment: "alert"))
+    }
     
     // MARK: - Navigation
     
