@@ -1,24 +1,24 @@
 # Intro <br>简介
 
-MealPlan helps you plan healthy meals for the whole family with your favorite dishes!
+MealPlan helps you plan healthy meals for the whole family with your favorite dishes!  
 “吃啥”助你用自己最喜欢吃的菜，来为全家制定健康的饮食计划！
 
-● A calculator that helps you eat enough for the 5 Food Groups recommended by Australian Dietary Guideline: vegetables, fruits, proteins, grains and calcium. 
+● A calculator that helps you eat enough for the 5 Food Groups recommended by Australian Dietary Guideline: vegetables, fruits, proteins, grains and calcium.   
 份量计算器提醒你摄入足量的5大类健康食物：蔬菜，水果，蛋白质，谷物和钙质。
 
-● Personalized food serve recommendation, with the consideration of gender, age, activities, pregnancy and breastfeeding for each family member.
+● Personalized food serve recommendation, with the consideration of gender, age, activities, pregnancy and breastfeeding for each family member.  
 个性化食物推荐份量，考虑了全家人的性别、年龄、活跃程度、是否怀孕和哺乳。
 
-● Enter and show your favorite recipes!
+● Enter and show your favorite recipes!  
 输入并展示你的拿手好菜！
 
-● Generate a shopping list from your meal plan.
+● Generate a shopping list from your meal plan.  
 根据饮食计划，生成购物清单
 
-● Auto-generate a plan with your preferred foods. Keep your shopping within budget.
+● Auto-generate a plan with your preferred foods. Keep your shopping within budget.  
 自动生成包含了你指定食物的饮食计划。控制不必要的饮食支出。
 
-● Preset demo recipes to give you some inspiration.
+● Preset demo recipes to give you some inspiration.  
 预设的食谱样例，为你提供烹饪灵感。
 
 Contact: aliciatan4edu+mealplan@gmail.com  
